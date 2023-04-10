@@ -1,5 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+namespace Blog.Domain.Tests;
+
 using Blog.Domain;
 
 [TestClass]

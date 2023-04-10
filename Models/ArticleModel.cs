@@ -58,4 +58,10 @@ public class ArticleModel
             DeletedAt = DeletedAt
         };
     }
+    
+    public override bool Equals(object? obj)
+    {
+        var model = obj as ArticleModel;
+        return model.Id == Id;
+    }
 }

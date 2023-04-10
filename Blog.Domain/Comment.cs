@@ -1,3 +1,5 @@
+using Blog.Domain.Exceptions;
+
 namespace Blog.Domain;
 
 public class Comment
@@ -19,6 +21,11 @@ public class Comment
 
     public void ValidOrFail()
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(Content))
+            throw new InvalidResourceException("Content empty");
+
+        if (Author == null) throw new InvalidResourceException("Author empty");
+
+        if(Article == null) throw new InvalidResourceException("Article empty");
     }
 }

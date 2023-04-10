@@ -1,10 +1,11 @@
 using Blog.Domain;
 using Blog.IRepository;
+using Blog.IServices;
 using Blog.Services.Exceptions;
 
 namespace Blog.Services;
 
-public class CommentService
+public class CommentService : ICommentService
 {
     private readonly ICommentRepository _commentRepository;
 

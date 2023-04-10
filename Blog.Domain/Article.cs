@@ -1,4 +1,6 @@
-﻿namespace Blog.Domain;
+﻿using Blog.Domain.Exceptions;
+
+namespace Blog.Domain;
 
 public class Article
 {
@@ -26,7 +28,10 @@ public class Article
 
     public void ValidOrFail()
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Content))
+            throw new InvalidResourceException("Title or content empty");
+
+        if(Author == null) throw new InvalidResourceException("Author empty");
     }
 }
 

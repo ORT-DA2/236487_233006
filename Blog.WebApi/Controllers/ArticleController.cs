@@ -138,7 +138,7 @@ namespace Blog.WebApi.Controllers
             try
             {
                 await _articleService.DeleteAsync(articleId);
-                return Ok();
+                return NoContent();
             }
             catch (ResourceNotFoundException e)
             {
