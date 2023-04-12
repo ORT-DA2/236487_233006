@@ -7,9 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="In" />
+      <Folder Include="Out" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
-      <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
-      <ProjectReference Include="..\Blog.IServices\Blog.IServices.csproj" />
     </ItemGroup>
 
     <ItemGroup>

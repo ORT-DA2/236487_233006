@@ -1,3 +1,5 @@
+namespace Blog.Domain.Tests;
+
 using System.ComponentModel.DataAnnotations;
 using Blog.Domain;
 

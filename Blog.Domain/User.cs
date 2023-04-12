@@ -37,12 +37,11 @@ public class User
     [StringLength(100, MinimumLength = 8)]
     public string Password { get; set; }
 
-    /* public Articles[] articles {get; set;} */
+    public ICollection<Article> articles {get; set;}
 
 
     // Propiedad de navegación para establecer la relación con UserRole
     public ICollection<UserRole> Roles { get; set; }
-
 
     /*
     public byte[] PasswordHash { get; set; }
