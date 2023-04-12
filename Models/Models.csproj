@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="In" />
-      <Folder Include="Out" />
+      <Compile Remove="In\**" />
+      <Compile Remove="Out\**" />
+      <EmbeddedResource Remove="In\**" />
+      <EmbeddedResource Remove="Out\**" />
+      <None Remove="In\**" />
+      <None Remove="Out\**" />
     </ItemGroup>
 
     <ItemGroup>
