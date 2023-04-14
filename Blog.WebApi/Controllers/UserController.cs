@@ -1,4 +1,5 @@
 using Blog.Domain;
+using Blog.IServices;
 using Blog.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ namespace Blog.WebApi.Controllers;
 [Route("api/users")]
 public class UsersController : ControllerBase
 {
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
 
-    public UsersController(UserService userService)
+    public UsersController(IUserService userService)
     {
         _userService = userService;
     }

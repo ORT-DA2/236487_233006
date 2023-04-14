@@ -3,13 +3,13 @@ namespace Blog.Domain.Tests;
 using Blog.Domain;
 
 [TestClass]
-public class UserRoleTests
+public class RoleTests
 {
     [TestMethod]
     public void CreateUserRole_DefaultUserId_IsZero()
     {
         // Arrange
-        var userRole = new UserRole();
+        var userRole = new Role();
 
         // Act
         var userId = userRole.UserId;
@@ -24,7 +24,7 @@ public class UserRoleTests
     public void CreateUserRole_DefaultUser_IsNull()
     {
         // Arrange
-        var userRole = new UserRole();
+        var userRole = new Role();
 
         // Act
         var user = userRole.User;
@@ -37,7 +37,7 @@ public class UserRoleTests
     public void CreateUserRole_SetUserId_UserIdIsSet()
     {
         // Arrange
-        var userRole = new UserRole { UserId = 1 };
+        var userRole = new Role { UserId = 1 };
 
         // Act
         var userId = userRole.UserId;
@@ -50,10 +50,10 @@ public class UserRoleTests
     public void CreateUserRole_SetRole_RoleIsSet()
     {
         // Arrange
-        var userRole = new UserRole { Role = RoleType.Admin };
+        var userRole = new Role { RoleType = RoleType.Admin };
 
         // Act
-        var role = userRole.Role;
+        var role = userRole.RoleType;
 
         // Assert
         Assert.AreEqual(RoleType.Admin, role);
@@ -72,7 +72,7 @@ public class UserRoleTests
             Password = "password1234"
         };
 
-        var userRole = new UserRole { User = user };
+        var userRole = new Role { User = user };
 
         // Act
         var assignedUser = userRole.User;

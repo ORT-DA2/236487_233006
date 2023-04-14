@@ -4,7 +4,7 @@ namespace Blog.IServices;
 
 public interface ICommentService
 {
-    Task<Comment> AddAsync(Comment comment);
-    Task<Comment> GetByIdAsync(int id);
-    Task<IEnumerable<Comment>> GetAllByArticleAsync(int id);
+    // Comment Add(Comment comment);
+    // Comment GetById(int id);
+    // IEnumerable<Comment> GetAllByArticle(int id);
 }

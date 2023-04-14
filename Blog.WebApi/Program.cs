@@ -1,9 +1,12 @@
-using Blog.IRepository;
-using Blog.Services;
+
+using Blog.Factory;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var factory = new FactoryService();
+factory.RegisterServices(builder.Services);
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,16 +1,18 @@
 using Blog.Domain;
-using Blog.IRepository;
+using Blog.IDataAccess;
+using Blog.IServices;
 
 namespace Blog.Services;
 
-public class UserService
+public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IRepository<User> _repository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IRepository<User> repository)
     {
-        _userRepository = userRepository;
+        _repository = repository;
     }
+    /*
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
@@ -39,4 +41,5 @@ public class UserService
         // Aquí puedes agregar lógica adicional antes de eliminar el usuario
         return await _userRepository.DeleteAsync(id);
     }
+    */
 }

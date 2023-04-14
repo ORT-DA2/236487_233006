@@ -4,9 +4,9 @@ namespace Blog.IServices;
 
 public interface IArticleService
 {
-    Task<IEnumerable<Article>> GetAllAsync();
-    Task<Article> GetByIdAsync(int id);
-    Task<Article> AddAsync(Article article);
-    Task<Article> UpdateAsync(int id, Article updatedArticle);
-    Task<bool> DeleteAsync(int id);
+    // IEnumerable<Article> GetAll();
+    // Article GetById(int id);
+    // Article Add(Article article);
+    // Article Update(int id, Article updatedArticle);
+    // bool Delete(int id);
 }
