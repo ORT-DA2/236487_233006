@@ -1,31 +1,32 @@
 using Blog.Domain;
+using Blog.IServices;
 using Blog.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebApi.Controllers;
 
 [ApiController]
-[Route("api/user-roles")]
-public class UserRolesController : ControllerBase
+[Route("api/roles")]
+public class RoleController : ControllerBase
 {
-    private readonly UserRoleService _userRoleService;
+    private readonly IRoleService _roleService;
 
-    public UserRolesController(UserRoleService userRoleService)
+    public RoleController(IRoleService roleService)
     {
-        _userRoleService = userRoleService;
+        _roleService = roleService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var userRoles = await _userRoleService.GetAllAsync();
+        var userRoles = await _roleService.GetAllAsync();
         return Ok(userRoles);
     }
 
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetById(int userId)
     {
-        var userRole = await _userRoleService.GetByIdAsync(userId);
+        var userRole = await _roleService.GetByIdAsync(userId);
         if (userRole == null)
         {
             return NotFound();
@@ -35,28 +36,28 @@ public class UserRolesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(UserRole userRole)
+    public async Task<IActionResult> Add(Role role)
     {
-        var newUserRole = await _userRoleService.AddAsync(userRole);
+        var newUserRole = await _roleService.AddAsync(role);
         return CreatedAtAction(nameof(GetById), new { userId = newUserRole.UserId }, newUserRole);
     }
 
     [HttpPut("{userId}")]
-    public async Task<IActionResult> Update(int userId, UserRole userRole)
+    public async Task<IActionResult> Update(int userId, Role role)
     {
-        if (userId != userRole.UserId)
+        if (userId != role.UserId)
         {
             return BadRequest();
         }
 
-        var updatedUserRole = await _userRoleService.UpdateAsync(userRole);
+        var updatedUserRole = await _roleService.UpdateAsync(role);
         return Ok(updatedUserRole);
     }
 
     [HttpDelete("{userId}")]
     public async Task<IActionResult> Delete(int userId)
     {
-        var success = await _userRoleService.DeleteAsync(userId);
+        var success = await _roleService.DeleteAsync(userId);
         if (!success)
         {
             return NotFound();

@@ -12,8 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Blog.Factory\Blog.Factory.csproj" />
       <ProjectReference Include="..\Blog.Services\Blog.Services.csproj" />
-      <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\Blog.Models\Blog.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,19 +1,19 @@
 using Blog.Domain;
-using Blog.IRepository;
+using Blog.IDataAccess;
 using Blog.IServices;
-using Blog.Services.Exceptions;
 
 namespace Blog.Services;
 
 public class CommentService : ICommentService
 {
-    private readonly ICommentRepository _commentRepository;
+    private readonly IRepository<Comment> _repository;
 
-    public CommentService(ICommentRepository commentRepository)
+    public CommentService(IRepository<Comment> repository)
     {
-        _commentRepository = commentRepository;
+        _repository = repository;
     }
 
+    /*
     public async Task<Comment> AddAsync(Comment comment)
     {
         comment.ValidOrFail();
@@ -34,4 +34,5 @@ public class CommentService : ICommentService
     {
         return await _commentRepository.GetAllByArticleAsync(articleId);
     }
+    */
 }

@@ -1,32 +1,9 @@
+using Blog.DataAccess.Contexts;
 using Blog.Domain;
-using Blog.IRepository;
 
-namespace Blog.Repository;
+namespace Blog.DataAccess;
 
-public class ArticleRepository : IArticleRepository
+public class ArticleRepository : BaseRepository<Article>
 {
-    public Task<IEnumerable<Article>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Article> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Article> AddAsync(Article article)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Article> UpdateAsync(int id, Article updatedArticle)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public ArticleRepository(BlogContext context) : base(context){}
 }

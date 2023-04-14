@@ -1,5 +1,5 @@
 using Blog.Domain;
-using Blog.IRepository;
+using Blog.IDataAccess;
 using Blog.IServices;
 using Blog.Services.Exceptions;
 
@@ -7,27 +7,28 @@ namespace Blog.Services;
 
 public class ArticleService : IArticleService
 {
-    private readonly IArticleRepository _articleRepository;
+    private readonly IRepository<Article> _repository;
 
-    public ArticleService(IArticleRepository articleRepository)
+    public ArticleService(IRepository<Article> repository)
     {
-        _articleRepository = articleRepository;
+        _repository = repository;
     }
 
-    public async Task<IEnumerable<Article>> GetAllAsync()
+    /*
+    public List<Article> GetAllArticles()
     {
-        return await _articleRepository.GetAllAsync();
+        return _articleRepository.GetAllBy().ToList();
     }
     
-    public async Task<Article> GetByIdAsync(int id)
+    public Article GetById(int id)
     {
-        return await _articleRepository.GetByIdAsync(id);
+        return  _articleRepository.GetByIdAsync(id);
     }
 
-    public async Task<Article> AddAsync(Article article)
+    public Article Add(Article article)
     {
         article.ValidOrFail();
-        return await _articleRepository.AddAsync(article);
+        return _articleRepository.Add(article);
     }
 
     public async Task<Article> UpdateAsync(int id, Article updatedArticle)
@@ -50,4 +51,5 @@ public class ArticleService : IArticleService
 
         return await _articleRepository.DeleteAsync(id);
     }
+    */
 }

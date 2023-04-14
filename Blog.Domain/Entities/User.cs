@@ -40,8 +40,7 @@ public class User
     public ICollection<Article> articles {get; set;}
 
 
-    // Propiedad de navegación para establecer la relación con UserRole
-    public ICollection<UserRole> Roles { get; set; }
+    public ICollection<UserRole> UserRole {get;set;}
 
     /*
     public byte[] PasswordHash { get; set; }
