@@ -16,8 +16,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="In" />
-      <Folder Include="Out" />
+      <Compile Include="In\RoleSearchCriteriaModel.cs" />
+      <Compile Include="In\UserModel.cs" />
+      <Compile Include="In\UserSearchCriteriaModel.cs" />
+      <Compile Include="Out\UserDetailModel.cs" />
+      <Compile Include="Out\UserOutModel.cs" />
     </ItemGroup>
 
 </Project>

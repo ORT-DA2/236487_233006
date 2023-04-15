@@ -1,7 +1,9 @@
-using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.IServices;
 using Blog.Services;
 using Microsoft.AspNetCore.Mvc;
+using Models.In;
+using Models.Out;
 
 namespace Blog.WebApi.Controllers;
 
@@ -17,52 +19,77 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
+    // Index - Get all users (/api/users)
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
-        var users = await _userService.GetAllAsync();
-        return Ok(users);
+        var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
+        return Ok(retrievedUsers.Select(u => new UserOutModel(u)));
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    // Show - Get specific user (/api/users/{id})
+    [HttpGet("{id}", Name = "GetUser")]
+    public async Task<IActionResult> GetUserById(int id)
     {
-        var user = await _userService.GetByIdAsync(id);
-        if (user == null)
+        try
         {
-            return NotFound();
+            var retrievedUser = _userService.GetSpecificUser(id);
+            return Ok(new UserDetailModel(retrievedUser));
         }
-        return Ok(user);
+        catch (ResourceNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
+    // Create - Create new user (/api/users)
     [HttpPost]
-    public async Task<IActionResult> Add(User user)
+    public IActionResult CreateUser([FromBody] UserModel newUser)
     {
-        var newUser = await _userService.AddAsync(user);
-        return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, newUser);
+        try
+        {
+            var createdUser = _userService.CreateUser(newUser.ToEntity());
+            var userModel = new UserDetailModel(createdUser);
+            return CreatedAtRoute("GetUser", new { id = userModel.Id }, userModel);
+        }
+        catch (InvalidResourceException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
+    // Update - Update specific user (/api/users/{id})
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, User user)
+    public IActionResult Update(int id, [FromBody] UserModel updatedUser)
     {
-        if (id != user.Id)
+        try
         {
-            return BadRequest();
+            var retrievedUser = _userService.UpdateUser(id, updatedUser.ToEntity());
+            return Ok(new UserDetailModel(retrievedUser));
         }
-
-        var updatedUser = await _userService.UpdateAsync(user);
-        return Ok(updatedUser);
+        catch (InvalidResourceException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (ResourceNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
+    // Delete - Delete specific user (/api/users/{id})
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public IActionResult Delete(int id)
     {
-        var success = await _userService.DeleteAsync(id);
-        if (!success)
+        try
         {
-            return NotFound();
+            _userService.DeleteUser(id);
+            return Ok();
         }
-        return NoContent();
+        catch (ResourceNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
 }
