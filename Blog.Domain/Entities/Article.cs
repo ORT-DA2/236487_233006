@@ -2,6 +2,13 @@
 
 namespace Blog.Domain;
 
+public enum Template
+{
+    Left,
+    Right,
+    Center
+}
+
 public class Article
 {
     public int Id { get; set; }
@@ -12,19 +19,19 @@ public class Article
     
     public string Type { get; set; }
     
-    public ICollection<Comment> Comments { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
     
     public string Content { get; set; }
     
-    public string Image { get; set; }
+    public string? Image { get; set; }
     
     public Template Template { get; set; }
     
     public DateTime CreatedAt { get; set; }
     
-    public DateTime UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public void UpdateAttributes(Article article)
     {
@@ -42,11 +49,4 @@ public class Article
 
         if(Author == null) throw new InvalidResourceException("Author empty");
     }
-}
-
-public enum Template
-{
-    Left,
-    Right,
-    Center
 }

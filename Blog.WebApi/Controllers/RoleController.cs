@@ -10,7 +10,7 @@ namespace Blog.WebApi.Controllers;
 [Route("api/roles")]
 public class RoleController : ControllerBase
 {
-    private readonly IRoleService _roleService;
+    /*private readonly IRoleService _roleService;
 
     public RoleController(IRoleService roleService)
     {
@@ -66,5 +66,5 @@ public class RoleController : ControllerBase
         }
 
         return NoContent();
-    }
+    }*/
 }

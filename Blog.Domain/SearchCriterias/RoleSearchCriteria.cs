@@ -1,4 +1,4 @@
-namespace Blog.Domain.SearchCriteria;
+namespace Blog.Domain.SearchCriterias;
 using System.Linq.Expressions;
 
 public class RoleSearchCriteria

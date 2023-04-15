@@ -1,6 +1,6 @@
 using Blog.Domain;
 using Blog.Domain.Exceptions;
-using Blog.Domain.SearchCriteria;
+using Blog.Domain.SearchCriterias;
 using Blog.IDataAccess;
 using Blog.IServices;
 
