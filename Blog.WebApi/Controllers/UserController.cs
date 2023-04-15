@@ -29,7 +29,7 @@ public class UsersController : ControllerBase
 
     // Show - Get specific user (/api/users/{id})
     [HttpGet("{id}", Name = "GetUser")]
-    public async Task<IActionResult> GetUserById(int id)
+    public IActionResult GetUserById(int id)
     {
         try
         {
@@ -55,6 +55,10 @@ public class UsersController : ControllerBase
         catch (InvalidResourceException e)
         {
             return BadRequest(e.Message);
+        }
+        catch (DuplicateResourceException e)
+        {
+            return Conflict(e.Message);
         }
     }
 

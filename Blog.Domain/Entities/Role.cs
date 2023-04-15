@@ -9,7 +9,10 @@ public class Role
 
     public ICollection<UserRole> UserRole {get;set;}
 
-    public Role() { /* Requerido por EF */ }
+    public Role()
+    {
+        RoleType = RoleType.Blogger;
+    }
 
     public void UpdateAttributes(Role role)
     {
