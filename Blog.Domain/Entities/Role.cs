@@ -1,13 +1,22 @@
+using Blog.Domain.Exceptions;
+
 namespace Blog.Domain;
 
 public class Role
 {
-    public int UserId { get; set; }
+    public int Id { get; set; }
     public RoleType RoleType { get; set; }
 
     public ICollection<UserRole> UserRole {get;set;}
 
     public Role() { /* Requerido por EF */ }
+
+    public void UpdateAttributes(Role role)
+    {
+        RoleType = role.RoleType;
+        UserRole = role.UserRole;
+    }
+
 }
 
 public enum RoleType

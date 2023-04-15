@@ -2,6 +2,7 @@ using Blog.Domain;
 using Blog.IServices;
 using Blog.Services;
 using Microsoft.AspNetCore.Mvc;
+using Models.In;
 
 namespace Blog.WebApi.Controllers;
 
@@ -16,11 +17,12 @@ public class RoleController : ControllerBase
         _roleService = roleService;
     }
 
+    // Index - Get all roles (/api/roles)
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public IActionResult GetRoles([FromQuery] RoleSearchCriteriaModel searchCriteria)
     {
-        var userRoles = await _roleService.GetAllAsync();
-        return Ok(userRoles);
+        var retrievedRoles = _roleService.GetAllRoles(searchCriteria.ToEntity());
+        return Ok(retrievedRoles.Select(u => new RoleOutModel(u)));
     }
 
     [HttpGet("{userId}")]
