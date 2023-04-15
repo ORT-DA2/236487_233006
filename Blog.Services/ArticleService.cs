@@ -1,4 +1,5 @@
 using Blog.Domain;
+using Blog.Domain.SearchCriterias;
 using Blog.IDataAccess;
 using Blog.IServices;
 using Blog.Services.Exceptions;
@@ -13,43 +14,54 @@ public class ArticleService : IArticleService
     {
         _repository = repository;
     }
-
-    /*
-    public List<Article> GetAllArticles()
-    {
-        return _articleRepository.GetAllBy().ToList();
-    }
     
-    public Article GetById(int id)
+    public List<Article> GetAllArticles(ArticleSearchCriteria searchCriteria)
     {
-        return  _articleRepository.GetByIdAsync(id);
+        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
     }
 
-    public Article Add(Article article)
+    public Article GetSpecificArticle(int id)
+    {
+        var articleSaved = _repository.GetOneBy(a => a.Id == id);
+
+        if (articleSaved == null)
+            throw new ResourceNotFoundException($"Could not find specified article {id}");
+
+        return articleSaved;
+    }
+
+    public Article CreateArticle(Article article)
     {
         article.ValidOrFail();
-        return _articleRepository.Add(article);
+        _repository.Insert(article);
+        _repository.Save();
+        return article;
     }
 
-    public async Task<Article> UpdateAsync(int id, Article updatedArticle)
+    public Article UpdateArticle(int id, Article updatedArticle)
     {
         updatedArticle.ValidOrFail();
-        var articleSaved = await _articleRepository.GetByIdAsync(id);
+        var articleSaved = _repository.GetOneBy(a => a.Id == id);
 
         if (articleSaved == null)
             throw new ResourceNotFoundException($"Could not find specified article {id}");
 
-        return await _articleRepository.UpdateAsync(id, updatedArticle);
+        articleSaved.UpdateAttributes(updatedArticle);
+        _repository.Update(articleSaved);
+        _repository.Save();
+
+        return articleSaved;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public void DeleteArticle(int id)
     {
-        var articleSaved = await _articleRepository.GetByIdAsync(id);
+        var articleSaved = _repository.GetOneBy(a => a.Id == id);
 
         if (articleSaved == null)
             throw new ResourceNotFoundException($"Could not find specified article {id}");
 
-        return await _articleRepository.DeleteAsync(id);
+        _repository.Delete(articleSaved);
+        _repository.Save();
     }
-    */
+
 }

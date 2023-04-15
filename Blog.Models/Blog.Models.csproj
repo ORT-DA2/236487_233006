@@ -8,14 +8,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="In\**" />
+      <Compile Remove="Out\**" />
+      <EmbeddedResource Remove="In\**" />
+      <EmbeddedResource Remove="Out\**" />
+      <None Remove="In\**" />
+      <None Remove="Out\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Moq" Version="4.18.4" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Include="In\RoleSearchCriteriaModel.cs" />
       <Compile Include="In\UserModel.cs" />
       <Compile Include="In\UserSearchCriteriaModel.cs" />
