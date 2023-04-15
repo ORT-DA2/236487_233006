@@ -1,4 +1,6 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
+using Blog.Domain.SearchCriteria;
 using Blog.IDataAccess;
 using Blog.IServices;
 
@@ -12,57 +14,57 @@ public class RoleService : IRoleService
     {
         _repository = repository;
     }
-    /*
+
 
     public List<Role> GetAllRoles(RoleSearchCriteria searchCriteria)
     {
-        return _userRoleRepository.GetAllBy(searchCriteria.Criteria()).ToList();
+        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
     }
 
     public Role GetSpecificRole(int id)
     {
-        var RoleSaved = _repository.GetOneBy(m => m.Id == id);
+        var roleSaved = _repository.GetOneBy(r => r.Id == id);
 
-        if (RoleSaved == null)
+        if (roleSaved == null)
             throw new ResourceNotFoundException($"Could not find specified Role {id}");
 
-        return RoleSaved;
+        return roleSaved;
     }
 
-    public Role CreateRole(Role Role)
+    public Role CreateRole(Role role)
     {
-        Role.ValidOrFail();
-        _repository.Insert(Role);
+        //Role.ValidOrFail();
+        _repository.Insert(role);
         _repository.Save();
-        return Role;
+        return role;
     }
 
     public Role UpdateRole(int id, Role updatedRole)
     {
-        updatedRole.ValidOrFail();
-        var RoleSaved = _repository.GetOneBy(m => m.Id == id);
+        //updatedRole.ValidOrFail();
+        var roleSaved = _repository.GetOneBy(r => r.Id == id);
 
-        if (RoleSaved == null)
+        if (roleSaved == null)
             throw new ResourceNotFoundException($"Could not find specified Role {id}");
 
-        RoleSaved.UpdateAttributes(updatedRole);
-        _repository.Update(RoleSaved);
+        roleSaved.UpdateAttributes(updatedRole);
+        _repository.Update(roleSaved);
         _repository.Save();
 
-        return RoleSaved;
+        return roleSaved;
     }
 
     public void DeleteRole(int id)
     {
-        var RoleSaved = _repository.GetOneBy(m => m.Id == id);
+        var roleSaved = _repository.GetOneBy(r => r.Id == id);
 
-        if (RoleSaved == null)
+        if (roleSaved == null)
             throw new ResourceNotFoundException($"Could not find specified Role {id}");
 
-        _repository.Delete(RoleSaved);
+        _repository.Delete(roleSaved);
         _repository.Save();
     }
 }
-*/
-}
+
+
 

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Blog.Domain.Exceptions;
 
 namespace Blog.Domain;
 
@@ -49,4 +50,33 @@ public class User
     */
 
     public User() { /* Required by EF */ }
+
+
+    public void UpdateAttributes(User user)
+    {
+        FirstName = user.FirstName;
+        LastName = user.LastName;
+        Username = user.Username;
+        Email = user.Email;
+        Password = user.Password;
+        UserRole = user.UserRole;
+    }
+
+    public void ValidOrFail()
+    {
+        if (string.IsNullOrEmpty(Username))
+        {
+            throw new InvalidResourceException("Username is empty");
+        }
+
+        if (string.IsNullOrEmpty(Password))
+        {
+            throw new InvalidResourceException("Password is empty");
+        }
+
+        if (string.IsNullOrEmpty(Email))
+        {
+            throw new InvalidResourceException("Email is empty");
+        }
+    }
 }

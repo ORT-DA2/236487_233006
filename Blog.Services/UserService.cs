@@ -1,4 +1,6 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
+using Blog.Domain.SearchCriteria;
 using Blog.IDataAccess;
 using Blog.IServices;
 
@@ -8,38 +10,54 @@ public class UserService : IUserService
 {
     private readonly IRepository<User> _repository;
 
-    public UserService(IRepository<User> repository)
+    public List<User> GetAllUsers(UserSearchCriteria searchCriteria)
     {
-        _repository = repository;
-    }
-    /*
-
-    public async Task<IEnumerable<User>> GetAllAsync()
-    {
-        return await _userRepository.GetAllAsync();
+        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
     }
 
-    public async Task<User> GetByIdAsync(int id)
+    public User GetSpecificUser(int id)
     {
-        return await _userRepository.GetByIdAsync(id);
+        var userSaved = _repository.GetOneBy(u => u.Id == id);
+
+        if (userSaved == null)
+            throw new ResourceNotFoundException($"Could not find specified user {id}");
+
+        return userSaved;
     }
 
-    public async Task<User> AddAsync(User user)
+    public User CreateUser(User user)
     {
-        // Aditional logic antes de crear user
-        return await _userRepository.AddAsync(user);
+        user.ValidOrFail();
+        _repository.Insert(user);
+        _repository.Save();
+        return user;
     }
 
-    public async Task<User> UpdateAsync(User user)
+    public User UpdateUser(int id, User updatedUser)
     {
-        // Aditional logic antes de update user
-        return await _userRepository.UpdateAsync(user);
+        updatedUser.ValidOrFail();
+        var userSaved = _repository.GetOneBy(u => u.Id == id);
+
+        if (userSaved == null)
+            throw new ResourceNotFoundException($"Could not find specified user {id}");
+
+        userSaved.UpdateAttributes(updatedUser);
+        _repository.Update(userSaved);
+        _repository.Save();
+
+        return userSaved;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public void DeleteUser(int id)
     {
-        // Aquí puedes agregar lógica adicional antes de eliminar el usuario
-        return await _userRepository.DeleteAsync(id);
+        var userSaved = _repository.GetOneBy(u => u.Id == id);
+
+        if (userSaved == null)
+            throw new ResourceNotFoundException($"Could not find specified user {id}");
+
+        _repository.Delete(userSaved);
+        _repository.Save();
     }
-    */
+
+
 }
