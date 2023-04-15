@@ -18,9 +18,19 @@ namespace Blog.DataAccess.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<Article>()
-                .Property(a => a.Author)
-                .IsRequired();*/
+            // Configure the OnDelete behavior for Comment-Article relationship
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Article)
+                .WithMany(a => a.Comments)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            // Configure the OnDelete behavior for Comment-Author (User) relationship
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Author)
+                .WithMany(u => u.Comments)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

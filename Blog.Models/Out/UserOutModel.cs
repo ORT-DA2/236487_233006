@@ -11,6 +11,8 @@ public class UserOutModel
     public string Email { get; set; }
     public string Password { get; set; }
 
+    public List<Article> Articles {get; set;}
+    public List<Comment> Comments {get; set;}
     public List<UserRole> UserRole {get;set;}
 
     public UserOutModel(User user)
@@ -21,5 +23,7 @@ public class UserOutModel
         this.Email = user.Email;
         this.Password = user.Password;
         this.UserRole = user.UserRole.ToList();
+        this.Articles = user.Articles.ToList();
+        this.Comments = user.Comments.ToList();
     }
 }
