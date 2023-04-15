@@ -1,12 +1,13 @@
 ﻿using Blog.Domain;
+using Blog.Domain.SearchCriterias;
 
 namespace Blog.IServices;
 
 public interface IArticleService
 {
-    // IEnumerable<Article> GetAll();
-    // Article GetById(int id);
-    // Article Add(Article article);
-    // Article Update(int id, Article updatedArticle);
-    // bool Delete(int id);
+    List<Article> GetAllArticles(ArticleSearchCriteria searchCriteria);
+    Article GetSpecificArticle(int id);
+    Article CreateArticle(Article movie);
+    Article UpdateArticle(int id, Article updatedArticle);
+    void DeleteArticle(int id);
 }

@@ -1,6 +1,8 @@
 using Blog.Domain;
+using Blog.Domain.SearchCriterias;
 using Blog.IDataAccess;
 using Blog.IServices;
+using Blog.Services.Exceptions;
 
 namespace Blog.Services;
 
@@ -12,27 +14,26 @@ public class CommentService : ICommentService
     {
         _repository = repository;
     }
-
-    /*
-    public async Task<Comment> AddAsync(Comment comment)
+    public Comment CreateComment(Comment comment)
     {
         comment.ValidOrFail();
-        return await _commentRepository.AddAsync(comment);
-    }
-
-    public async Task<Comment> GetByIdAsync(int commentId)
-    {
-        var comment = await _commentRepository.GetByIdAsync(commentId);
-
-        if (comment == null)
-            throw new ResourceNotFoundException($"Could not find specified comment {commentId}");
-
+        _repository.Insert(comment);
+        _repository.Save();
         return comment;
     }
 
-    public async Task<IEnumerable<Comment>> GetAllByArticleAsync(int articleId)
+    public Comment GetSpecificComment(int id)
     {
-        return await _commentRepository.GetAllByArticleAsync(articleId);
+        var commentSaved = _repository.GetOneBy(c => c.Id == id);
+
+        if (commentSaved == null)
+            throw new ResourceNotFoundException($"Could not find specified comment {id}");
+
+        return commentSaved;
     }
-    */
+
+    public List<Comment> GetAllComments(CommentSearchCriteria searchCriteria)
+    {
+        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
+    }
 }

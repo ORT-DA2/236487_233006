@@ -26,6 +26,15 @@ public class Article
 
     public DateTime DeletedAt { get; set; }
 
+    public void UpdateAttributes(Article article)
+    {
+        Title = article.Title;
+        Content = article.Content;
+        Type = article.Type;
+        Image = article.Image;
+        Template = article.Template;    
+    }
+
     public void ValidOrFail()
     {
         if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Content))
