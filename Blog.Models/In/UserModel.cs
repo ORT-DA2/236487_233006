@@ -11,7 +11,6 @@ public class UserModel
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public List<UserRole> UserRole {get;set;}
 
     public User ToEntity()
     {
@@ -22,7 +21,6 @@ public class UserModel
             Username = this.Username,
             Email = this.Email,
             Password = this.Password,
-            UserRole = this.UserRole
         };
     }
 }

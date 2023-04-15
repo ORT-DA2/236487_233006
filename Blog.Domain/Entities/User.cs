@@ -7,12 +7,7 @@ public class User
 {
     public int Id { get; set; }
 
-    private DateTimeOffset? _createdAt;
-    public DateTimeOffset? CreatedAt
-    {
-        get => _createdAt;
-        set => _createdAt = value ?? DateTimeOffset.UtcNow;
-    }
+    public DateTimeOffset CreatedAt { get; }
 
     public DateTimeOffset? DeletedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
@@ -50,7 +45,13 @@ public class User
     public string RefreshToken { get; set; } = string.Empty;
     */
 
-    public User() { /* Required by EF */ }
+    public User()
+    {
+        Articles = new List<Article>();
+        Comments = new List<Comment>();
+        UserRole = new List<UserRole>();
+        CreatedAt= DateTimeOffset.UtcNow;
+    }
 
 
     public void UpdateAttributes(User user)

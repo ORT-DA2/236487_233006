@@ -31,6 +31,7 @@ namespace Blog.DataAccess.Contexts
                 .HasOne(c => c.Author)
                 .WithMany(u => u.Comments)
                 .OnDelete(DeleteBehavior.Restrict);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

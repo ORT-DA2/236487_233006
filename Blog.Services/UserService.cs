@@ -30,12 +30,29 @@ public class UserService : IUserService
         return userSaved;
     }
 
-    public User CreateUser(User user)
+    public User CreateUser(User newUser)
     {
-        user.ValidOrFail();
-        _repository.Insert(user);
+        newUser.ValidOrFail();
+
+        // Check if a user with the same email already exists
+        var emailAlreadyExists = _repository.GetOneBy(u => u.Email == newUser.Email);
+
+        if (emailAlreadyExists != null)
+        {
+            throw new DuplicateResourceException($"A user with the email '{newUser.Email}' already exists.");
+        }
+
+        // Check if a user with the same username already exists
+        var usernameAlreadyExists = _repository.GetOneBy(u => u.Username == newUser.Username);
+
+        if (usernameAlreadyExists != null)
+        {
+            throw new DuplicateResourceException($"A user with the username '{newUser.Username}' already exists.");
+        }
+
+        _repository.Insert(newUser);
         _repository.Save();
-        return user;
+        return newUser;
     }
 
     public User UpdateUser(int id, User updatedUser)
