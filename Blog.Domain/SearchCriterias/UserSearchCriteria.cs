@@ -1,4 +1,4 @@
-namespace Blog.Domain.SearchCriteria;
+namespace Blog.Domain.SearchCriterias;
 using System.Linq.Expressions;
 
 public class UserSearchCriteria
@@ -8,6 +8,6 @@ public class UserSearchCriteria
 
     public Expression<Func<User, bool>> Criteria()
     {
-        return u => String.IsNullOrEmpty(Username) && String.IsNullOrEmpty(Email) || u.Username == Username && u.Email == Email;
+        return u => string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(Email) || u.Username == Username && u.Email == Email;
     }
 }

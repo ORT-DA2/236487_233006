@@ -1,4 +1,4 @@
-using Blog.Domain.SearchCriteria;
+using Blog.Domain.SearchCriterias;
 
 namespace Models.In;
 

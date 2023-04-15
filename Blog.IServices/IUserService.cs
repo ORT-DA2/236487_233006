@@ -1,5 +1,5 @@
 using Blog.Domain;
-using Blog.Domain.SearchCriteria;
+using Blog.Domain.SearchCriterias;
 
 namespace Blog.IServices;
 
