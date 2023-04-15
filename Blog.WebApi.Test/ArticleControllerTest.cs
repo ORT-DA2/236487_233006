@@ -71,7 +71,7 @@ public class ArticleControllerTest
 
         var result = controller.GetArticles(criteria) as OkObjectResult;
 
-        var articlesResult = result.Value as IEnumerable<ArticleModel>;
+        var articlesResult = result.Value as IEnumerable<ArticleDetailModel>;
 
         Assert.IsNotNull(articlesResult);
         Assert.AreEqual(articles.Count, articlesResult.Count());
@@ -95,7 +95,7 @@ public class ArticleControllerTest
         Assert.AreEqual("GetArticle", createdResult.RouteName);
         Assert.AreEqual(newArticle.Id, createdResult.RouteValues["articleId"]);
 
-        var articleResult = createdResult.Value as ArticleModel;
+        var articleResult = createdResult.Value as ArticleDetailModel;
         Assert.AreEqual(newArticle.Id, articleResult.Id);
         Assert.AreEqual(newArticle.Title, articleResult.Title);
         Assert.AreEqual(newArticle.Content, articleResult.Content);

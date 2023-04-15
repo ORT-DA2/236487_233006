@@ -1,6 +1,7 @@
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.WebApi.Exceptions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ResourceNotFoundException = Blog.Services.Exceptions.ResourceNotFoundException;
@@ -12,10 +13,12 @@ namespace Blog.WebApi.Controllers
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;
+        private readonly IUserService _userService;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleController(IArticleService articleService, IUserService userService)
         {
             _articleService = articleService;
+            _userService = userService;
         }
 
         // Index - Get all articles (/api/articles)
@@ -23,17 +26,17 @@ namespace Blog.WebApi.Controllers
         public IActionResult GetArticles([FromQuery] ArticleSearchCriteria searchCriteria)
         {
             var result = _articleService.GetAllArticles(searchCriteria);
-            return Ok(result.Select(a => new ArticleModel(a)));
+            return Ok(result.Select(a => new ArticleDetailModel(a)));
         }
         
         // Show - Get specific article (/api/article/{id})
-        [HttpGet("{articleId}", Name = "GetById")]
+        [HttpGet("{articleId}", Name = "GetArticle")]
         public IActionResult GetArticle(int articleId)
         {
             try
             {
                 var retrievedArticle = _articleService.GetSpecificArticle(articleId);
-                return Ok(new ArticleModel(retrievedArticle));
+                return Ok(new ArticleDetailModel(retrievedArticle));
             }
             catch (ResourceNotFoundException e)
             {
@@ -47,8 +50,15 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
-                var createdArticle = _articleService.CreateArticle(newArticle.ToEntity());
-                var articleModel = new ArticleModel(createdArticle);
+                var author = _userService.GetSpecificUser(newArticle.AuthorId);
+                /* if (author == null) TODO: Add current user
+                {
+                    // If the author is not provided, set the current user as the author.
+                    var currentUser = await _userManager.GetUserAsync(User);
+                    author = new Author { Name = currentUser.UserName };
+                }*/
+                var createdArticle = _articleService.CreateArticle(newArticle.ToCreateEntity(author));
+                var articleModel = new ArticleDetailModel(createdArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
             }
             catch (InvalidResourceException e)
@@ -63,8 +73,10 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
-                var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToEntity());
-                return Ok(new ArticleModel(retrievedArticle));
+                var author = _userService.GetSpecificUser(updatedArticle.AuthorId);
+                var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToEntity(author));
+                var articleModel = new ArticleDetailModel(retrievedArticle);
+                return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
             }
             catch (InvalidResourceException e)
             {

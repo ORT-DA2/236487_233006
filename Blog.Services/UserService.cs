@@ -10,6 +10,11 @@ public class UserService : IUserService
 {
     private readonly IRepository<User> _repository;
 
+    public UserService(IRepository<User> repository)
+    {
+        _repository = repository;
+    }
+
     public List<User> GetAllUsers(UserSearchCriteria searchCriteria)
     {
         return _repository.GetAllBy(searchCriteria.Criteria()).ToList();

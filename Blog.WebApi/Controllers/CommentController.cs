@@ -71,39 +71,5 @@ namespace Blog.WebApi.Controllers
                 return NotFound(e.Message);
             }
         }
-
-        // Update - Update specific article (/api/articles/{id})
-        [HttpPut("{articleId}")]
-        public IActionResult Update(int articleId, [FromBody] ArticleModel updatedArticle)
-        {
-            try
-            {
-                var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToEntity());
-                return Ok(new ArticleModel(retrievedArticle));
-            }
-            catch (InvalidResourceException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (ResourceNotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
-
-        // Delete - Delete specific article (/api/articles/{id})
-        [HttpDelete("{articleId}")]
-        public IActionResult Delete(int articleId)
-        {
-            try
-            {
-                _articleService.DeleteArticle(articleId);
-                return NoContent();
-            }
-            catch (ResourceNotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
-        }
     }
 }
