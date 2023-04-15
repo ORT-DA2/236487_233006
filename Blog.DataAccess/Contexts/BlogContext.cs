@@ -1,6 +1,7 @@
 ﻿using Blog.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Drawing;
 
 namespace Blog.DataAccess.Contexts
 {

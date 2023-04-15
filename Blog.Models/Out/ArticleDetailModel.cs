@@ -2,21 +2,21 @@ using Blog.Domain;
 
 namespace Models;
 
-public class ArticleModel
+public class ArticleDetailModel
 {
     public int Id { get; set; }
 
-    public User Author { get; set; }
+    public int AuthorId { get; set; }
     
     public string Title { get; set; }
     
     public string Type { get; set; }
     
-    public ICollection<Comment> Comments { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
     
     public string Content { get; set; }
     
-    public string Image { get; set; }
+    public string? Image { get; set; }
     
     public Template Template { get; set; }
     
@@ -26,10 +26,10 @@ public class ArticleModel
 
     public DateTime? DeletedAt { get; set; }
 
-    public ArticleModel(Article article)
+    public ArticleDetailModel(Article article)
     {
         Id = article.Id;
-        Author = article.Author;
+        AuthorId = article.Author.Id;
         Title = article.Title;
         Content = article.Content;
         Type = article.Type;
@@ -41,12 +41,11 @@ public class ArticleModel
         DeletedAt = article.DeletedAt;
     }
     
-    public Article ToEntity()
+    public Article ToEntity(User author)
     {
         return new Article()
         {
             Id = Id,
-            Author = Author,
             Title = Title,
             Content = Content,
             Type = Type,
@@ -61,7 +60,7 @@ public class ArticleModel
     
     public override bool Equals(object? obj)
     {
-        var model = obj as ArticleModel;
+        var model = obj as ArticleDetailModel;
         return model.Id == Id;
     }
 }

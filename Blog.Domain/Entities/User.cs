@@ -34,8 +34,8 @@ public class User
     public string Password { get; set; }
 
     public ICollection<Article> Articles {get; set;}
-    public ICollection<Comment> Comments {get; set;}
 
+    public ICollection<Comment> Comments { get; set; }
 
     public ICollection<UserRole> UserRole {get;set;}
 
