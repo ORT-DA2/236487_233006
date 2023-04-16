@@ -5,9 +5,12 @@ namespace Blog.IServices;
 
 public interface IRoleService
 {
-    List<Role> GetAllRoles(RoleSearchCriteria searchCriteria);
-    Role GetSpecificRole(int id);
+    List<Role> GetAllRoles();
+    Role GetSpecificRole(int value);
+    /*
+
     Role CreateRole(Role user);
     Role UpdateRole(int id, Role updatedRole);
     void DeleteRole(int id);
+    */
 }

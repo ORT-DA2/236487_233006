@@ -15,17 +15,13 @@ public class UserRepository : BaseRepository<User>
     public override IEnumerable<User> GetAllBy(Expression<Func<User, bool>> expression)
     {
         return _context.Set<User>().Where(expression)
-            .Include(u => u.UserRole).ThenInclude(r => r.Role)
-            .Include(u => u.Articles)
-            .Include(u => u.Comments);
+            .Include(u => u.UserRole).ThenInclude(r => r.Role);
     }
 
     public override User GetOneBy(Expression<Func<User, bool>> expression)
     {
        return _context.Set<User>()
             .Include(u => u.UserRole).ThenInclude(r => r.Role)
-            .Include(u => u.Articles)
-            .Include(u => u.Comments)
             .FirstOrDefault(expression);
     }
 }

@@ -8,18 +8,19 @@ namespace Blog.Services;
 
 public class RoleService : IRoleService
 {
-    private readonly IRepository<Role> _repository;
+    private readonly IRoleRepository _repository;
 
-    public RoleService(IRepository<Role> repository)
+    public RoleService(IRoleRepository repository)
     {
         _repository = repository;
     }
 
 
-    public List<Role> GetAllRoles(RoleSearchCriteria searchCriteria)
+    public List<Role> GetAllRoles()
     {
-        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
+        return _repository.GetAllRoles();
     }
+
 
     public Role GetSpecificRole(int value)
     {
@@ -31,6 +32,7 @@ public class RoleService : IRoleService
         return roleSaved;
     }
 
+    /*
     public Role CreateRole(Role role)
     {
         //Role.ValidOrFail();
@@ -64,6 +66,7 @@ public class RoleService : IRoleService
         _repository.Delete(roleSaved);
         _repository.Save();
     }
+    */
 }
 
 
