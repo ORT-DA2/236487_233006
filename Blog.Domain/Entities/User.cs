@@ -7,7 +7,7 @@ public class User
 {
     public int Id { get; set; }
 
-    public DateTimeOffset CreatedAt { get; }
+    public DateTimeOffset CreatedAt { get;set; }
 
     public DateTimeOffset? DeletedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
@@ -50,7 +50,6 @@ public class User
         Articles = new List<Article>();
         Comments = new List<Comment>();
         UserRole = new List<UserRole>();
-        CreatedAt= DateTimeOffset.UtcNow;
     }
 
 

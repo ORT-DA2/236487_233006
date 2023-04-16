@@ -19,12 +19,14 @@ public class FactoryService
         serviceCollection.AddTransient<IRepository<Role>, BaseRepository<Role>>();
         serviceCollection.AddTransient<IRepository<Article>, ArticleRepository>();
         serviceCollection.AddTransient<IRepository<Comment>, BaseRepository<Comment>>();
+        serviceCollection.AddTransient<IRepository<UserRole>, BaseRepository<UserRole>>();
 
         // Inject Services
         serviceCollection.AddTransient<IUserService, UserService>();
         serviceCollection.AddTransient<IRoleService, RoleService>();
         serviceCollection.AddTransient<IArticleService, ArticleService>();
         serviceCollection.AddTransient<ICommentService, CommentService>();
+        serviceCollection.AddTransient<IUserRoleService, UserRoleService>();
 
 
         // Lo hago scoped ya que este manager maneja estado, tiene el currentUser
