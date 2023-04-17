@@ -26,6 +26,7 @@
       <Compile Include="In\CommentReplyModel.cs" />
       <Compile Include="In\CommentModel.cs" />
       <Compile Include="In\RoleSearchCriteriaModel.cs" />
+      <Compile Include="In\SessionModel.cs" />
       <Compile Include="In\UserModel.cs" />
       <Compile Include="In\UserSearchCriteriaModel.cs" />
       <Compile Include="Out\ArticleDetailModel.cs" />
