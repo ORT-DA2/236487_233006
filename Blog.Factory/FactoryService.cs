@@ -5,7 +5,7 @@ using Blog.Domain;
 using Blog.IServices;
 using Blog.IDataAccess;
 using Blog.Services;
-
+using Blog.Domain.Entities;
 
 namespace Blog.Factory;
 
@@ -19,6 +19,7 @@ public class FactoryService
         serviceCollection.AddTransient<IRoleRepository, RoleRepository>();
         serviceCollection.AddTransient<IRepository<Article>, ArticleRepository>();
         serviceCollection.AddTransient<IRepository<Comment>, CommentRepository>();
+        serviceCollection.AddTransient<IRepository<Session>, SessionRepository>();
         serviceCollection.AddTransient<IRepository<UserRole>, BaseRepository<UserRole>>();
 
         // Inject Services
@@ -28,9 +29,8 @@ public class FactoryService
         serviceCollection.AddTransient<ICommentService, CommentService>();
         serviceCollection.AddTransient<IUserRoleService, UserRoleService>();
 
-
-        // Lo hago scoped ya que este manager maneja estado, tiene el currentUser
-        // serviceCollection.AddScoped<ISessionManager, SessionManager>();
+        // scoped ya que este service maneja estado, tiene el currentUser
+        serviceCollection.AddScoped<ISessionService, SessionService>();
 
         serviceCollection.AddDbContext<BlogContext>();
     }

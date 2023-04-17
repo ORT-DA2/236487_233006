@@ -1,6 +1,7 @@
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.WebApi.Exceptions;
+using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.In;
@@ -8,6 +9,7 @@ using ResourceNotFoundException = Blog.Services.Exceptions.ResourceNotFoundExcep
 
 namespace Blog.WebApi.Controllers
 {
+    [AuthenticationFilter]
     [Route("api/comments")]
     [ApiController]
     public class CommentController : ControllerBase

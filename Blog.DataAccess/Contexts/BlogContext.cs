@@ -1,4 +1,5 @@
 ﻿using Blog.Domain;
+using Blog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Drawing;
@@ -9,10 +10,10 @@ namespace Blog.DataAccess.Contexts
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
-
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
         public BlogContext(DbContextOptions options) : base(options) { }
         public BlogContext() : base() { }

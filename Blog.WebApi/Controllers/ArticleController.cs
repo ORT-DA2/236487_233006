@@ -1,12 +1,14 @@
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.WebApi.Exceptions;
+using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ResourceNotFoundException = Blog.Services.Exceptions.ResourceNotFoundException;
 
 namespace Blog.WebApi.Controllers
 {
+    [AuthenticationFilter]
     [Route("api/articles")]
     [ApiController]
     public class ArticleController : ControllerBase
@@ -21,6 +23,7 @@ namespace Blog.WebApi.Controllers
         }
 
         // Index - Get all articles (/api/articles)
+        [AuthenticationFilter]
         [HttpGet]
         public IActionResult GetArticles([FromQuery] ArticleSearchCriteria searchCriteria)
         {

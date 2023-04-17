@@ -15,31 +15,35 @@ using Blog.Domain.SearchCriterias;
 public class ArticleControllerTest
 {
     private Mock<IArticleService> _articleServiceMock;
-    
+    private Mock<IUserService> _userServiceMock;
+
     [TestInitialize]
     public void Setup()
     {
         _articleServiceMock = new Mock<IArticleService>(MockBehavior.Strict);
+        _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
     }
 
     [TestCleanup]
     public void Cleanup()
     {
         _articleServiceMock.VerifyAll();
+        _userServiceMock.VerifyAll();
     }
 
     [TestMethod]
     public void GetExistingArticleReturnsAsExpected()
     {
         var article = CreateArticle(1);
-        var expectedArticle = new ArticleModel(article);
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new ArticleController(_articleServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object);
 
         var response = controller.GetArticle(article.Id) as OkObjectResult;
 
+        ArticleDetailModel expected = new ArticleDetailModel(article);
+
         Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
-        Assert.AreEqual(expectedArticle, response.Value);
+        Assert.AreEqual(expected, response.Value);
     }
 
     [TestMethod]
@@ -48,7 +52,7 @@ public class ArticleControllerTest
         var exception = new ResourceNotFoundException("Could not find this article, sorry :)");
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>()))
             .Throws(exception);
-        var controller = new ArticleController(_articleServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object);
 
         var response = controller.GetArticle(1) as ObjectResult;
 
@@ -67,7 +71,7 @@ public class ArticleControllerTest
         ArticleSearchCriteria criteria = new ArticleSearchCriteria();
         _articleServiceMock.Setup(service => service.GetAllArticles(criteria)).Returns(articles);
         
-        var controller = new ArticleController(_articleServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object);
 
         var result = controller.GetArticles(criteria) as OkObjectResult;
 
@@ -81,41 +85,53 @@ public class ArticleControllerTest
     public void CreateNewArticleReturnCreatedAtRoutedWithCreatedArticleAsExpected()
     {
         var article = CreateArticle(1);
+        var author = CreateAuthor(1);
 
+
+        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
         _articleServiceMock.Setup(service => service.CreateArticle(It.IsAny<Article>())).Returns(article);
 
-        var controller = new ArticleController(_articleServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object);
 
-        var newArticle = new ArticleModel(article);
+        var newArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
 
         var result = controller.CreateArticle(newArticle);
 
         var createdResult = result as CreatedAtRouteResult;
 
         Assert.AreEqual("GetArticle", createdResult.RouteName);
-        Assert.AreEqual(newArticle.Id, createdResult.RouteValues["articleId"]);
+        Assert.AreEqual(article.Id, createdResult.RouteValues["articleId"]);
 
         var articleResult = createdResult.Value as ArticleDetailModel;
-        Assert.AreEqual(newArticle.Id, articleResult.Id);
-        Assert.AreEqual(newArticle.Title, articleResult.Title);
-        Assert.AreEqual(newArticle.Content, articleResult.Content);
+        Assert.AreEqual(article.Id, articleResult.Id);
+        Assert.AreEqual(article.Title, articleResult.Title);
+        Assert.AreEqual(article.Content, articleResult.Content);
     }
 
     [TestMethod]
     public void UpdateAnArticleReturnUpdatedArticleAsExpected()
     {
         var article = CreateArticle(1);
+        var author = CreateAuthor(1);
 
-        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(),  It.IsAny<Article>())).Returns(article);
+        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
+        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(),It.IsAny<Article>())).Returns(article);
 
-        var controller = new ArticleController(_articleServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object);
 
-        var updatedArticle = new ArticleModel(article);
+        var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
 
-        var result = controller.UpdateArticle(article.Id, updatedArticle) as OkObjectResult; ;
+        var result = controller.UpdateArticle(article.Id, updatedArticle);
 
-        Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
-        Assert.AreEqual(updatedArticle, result.Value);
+        var createdResult = result as CreatedAtRouteResult;
+
+        Assert.AreEqual("GetArticle", createdResult.RouteName);
+        Assert.AreEqual(article.Id, createdResult.RouteValues["articleId"]);
+
+        var articleResult = createdResult.Value as ArticleDetailModel;
+        Assert.AreEqual(article.Id, articleResult.Id);
+        Assert.AreEqual(article.Title, articleResult.Title);
+        Assert.AreEqual(article.Content, articleResult.Content);
     }
 
     [TestMethod]
@@ -123,7 +139,9 @@ public class ArticleControllerTest
     {
         var article = CreateArticle(1);
 
-        var controller = new ArticleController(_articleServiceMock.Object);
+        _articleServiceMock.Setup(service => service.DeleteArticle(It.IsAny<int>()));
+
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object);
 
         var result = controller.DeleteArticle(article.Id) as NoContentResult;
 
@@ -139,9 +157,24 @@ public class ArticleControllerTest
             Id = articleId,
             Title = "Title",
             Content = "Content",
-            Type = "private",
+            Private = false,
             Template = Template.Left,
             CreatedAt = DateTime.Now,
+            Author = CreateAuthor(1)
         };
     }
+
+    private User CreateAuthor(int authorId)
+    {
+        return new User()
+        {
+            Id = authorId,
+            FirstName = "Firstname",
+            LastName = "Lastname",
+            Password = "Password",
+            Email = "email@gmail.com",
+            Username = "username"
+        };
+    }
+
 }
