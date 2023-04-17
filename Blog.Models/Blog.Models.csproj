@@ -32,7 +32,9 @@
       <Compile Include="Out\ArticleDetailModel.cs" />
       <Compile Include="Out\CommentDetailModel.cs" />
       <Compile Include="Out\UserDetailModel.cs" />
-      <Compile Include="Out\UserOutModel.cs" />
+      <Compile Include="In\UserModelIn.cs" />
+      <Compile Include="Out\RoleModelOut.cs" />
+      <Compile Include="Out\UserModelOut.cs" />
     </ItemGroup>
 
 </Project>

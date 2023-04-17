@@ -16,16 +16,18 @@ public class FactoryService
     {
         // Inject Repositories
         serviceCollection.AddTransient<IRepository<User>, UserRepository>();
-        serviceCollection.AddTransient<IRepository<Role>, BaseRepository<Role>>();
+        serviceCollection.AddTransient<IRoleRepository, RoleRepository>();
         serviceCollection.AddTransient<IRepository<Article>, ArticleRepository>();
         serviceCollection.AddTransient<IRepository<Comment>, CommentRepository>();
         serviceCollection.AddTransient<IRepository<Session>, SessionRepository>();
+        serviceCollection.AddTransient<IRepository<UserRole>, BaseRepository<UserRole>>();
 
         // Inject Services
         serviceCollection.AddTransient<IUserService, UserService>();
         serviceCollection.AddTransient<IRoleService, RoleService>();
         serviceCollection.AddTransient<IArticleService, ArticleService>();
         serviceCollection.AddTransient<ICommentService, CommentService>();
+        serviceCollection.AddTransient<IUserRoleService, UserRoleService>();
 
         // scoped ya que este service maneja estado, tiene el currentUser
         serviceCollection.AddScoped<ISessionService, SessionService>();
