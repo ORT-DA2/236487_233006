@@ -10,7 +10,7 @@ public class ArticleDetailModel
     
     public string Title { get; set; }
     
-    public string Type { get; set; }
+    public bool Private { get; set; }
     
     public ICollection<Comment>? Comments { get; set; }
     
@@ -32,30 +32,13 @@ public class ArticleDetailModel
         AuthorId = article.Author.Id;
         Title = article.Title;
         Content = article.Content;
-        Type = article.Type;
+        Private = article.Private;
         Comments = article.Comments;
         Image = article.Image;
         Template = article.Template;
         CreatedAt = article.CreatedAt;
         UpdatedAt = article.UpdatedAt;
         DeletedAt = article.DeletedAt;
-    }
-    
-    public Article ToEntity(User author)
-    {
-        return new Article()
-        {
-            Id = Id,
-            Title = Title,
-            Content = Content,
-            Type = Type,
-            Comments = Comments,
-            Image = Image,
-            Template = Template,
-            CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
-            DeletedAt = DeletedAt
-        };
     }
     
     public override bool Equals(object? obj)

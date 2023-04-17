@@ -1,7 +1,6 @@
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.WebApi.Exceptions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ResourceNotFoundException = Blog.Services.Exceptions.ResourceNotFoundException;
@@ -61,6 +60,10 @@ namespace Blog.WebApi.Controllers
                 var articleModel = new ArticleDetailModel(createdArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
             }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
             catch (InvalidResourceException e)
             {
                 return BadRequest(e.Message);
@@ -74,7 +77,7 @@ namespace Blog.WebApi.Controllers
             try
             {
                 var author = _userService.GetSpecificUser(updatedArticle.AuthorId);
-                var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToEntity(author));
+                var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(author));
                 var articleModel = new ArticleDetailModel(retrievedArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
             }

@@ -1,4 +1,5 @@
 ﻿using Blog.Domain.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Domain;
 
@@ -9,22 +10,28 @@ public enum Template
     Center
 }
 
+
 public class Article
 {
     public int Id { get; set; }
-    
+
+    [Required]
     public User Author { get; set; }
-    
+
+    [Required]
     public string Title { get; set; }
-    
-    public string Type { get; set; }
+
+    [Required]
+    public bool Private { get; set; }
     
     public ICollection<Comment>? Comments { get; set; }
-    
+
+    [Required]
     public string Content { get; set; }
     
     public string? Image { get; set; }
-    
+
+    [Required]
     public Template Template { get; set; }
     
     public DateTime CreatedAt { get; set; }
@@ -37,9 +44,11 @@ public class Article
     {
         Title = article.Title;
         Content = article.Content;
-        Type = article.Type;
+        Private = article.Private;
         Image = article.Image;
-        Template = article.Template;    
+        Template = article.Template;
+        UpdatedAt = article.UpdatedAt;
+        DeletedAt = article.DeletedAt;
     }
 
     public void ValidOrFail()

@@ -17,7 +17,8 @@ public class ArticleService : IArticleService
     
     public List<Article> GetAllArticles(ArticleSearchCriteria searchCriteria)
     {
-        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
+        var articles = _repository.GetAllBy(searchCriteria.Criteria());
+        return articles.Where(a => a.DeletedAt == null).ToList();
     }
 
     public Article GetSpecificArticle(int id)
@@ -60,7 +61,11 @@ public class ArticleService : IArticleService
         if (articleSaved == null)
             throw new ResourceNotFoundException($"Could not find specified article {id}");
 
-        _repository.Delete(articleSaved);
+
+        articleSaved.DeletedAt = DateTime.Now;
+
+        articleSaved.UpdateAttributes(articleSaved);
+        _repository.Update(articleSaved);
         _repository.Save();
     }
 

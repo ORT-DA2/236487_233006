@@ -7,5 +7,8 @@ public interface ICommentService
 {
     Comment CreateComment(Comment comment);
     Comment GetSpecificComment(int id);
+
+    Comment UpdateComment(int id, Comment updatedComment);
+
     List<Comment> GetAllComments(CommentSearchCriteria searchCriteria);
 }
