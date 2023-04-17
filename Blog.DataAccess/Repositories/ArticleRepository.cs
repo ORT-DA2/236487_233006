@@ -12,6 +12,7 @@ public class ArticleRepository : BaseRepository<Article>
     public override IEnumerable<Article> GetAllBy(Expression<Func<Article, bool>> expression)
     {
         return _context.Set<Article>().Where(expression)
-            .Include(a => a.Author);
+            .Include(a => a.Author)
+            .Include(a => a.Comments).ThenInclude(c => c.Reply);
     }
 }

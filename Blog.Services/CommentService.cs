@@ -31,6 +31,20 @@ public class CommentService : ICommentService
 
         return commentSaved;
     }
+    public Comment UpdateComment(int id, Comment updatedComment)
+    {
+        updatedComment.ValidOrFail();
+        var commentSaved = _repository.GetOneBy(c => c.Id == id);
+
+        if (commentSaved == null)
+            throw new ResourceNotFoundException($"Could not find specified comment {id}");
+
+        commentSaved.UpdateAttributes(updatedComment);
+        _repository.Update(commentSaved);
+        _repository.Save();
+
+        return commentSaved;
+    }
 
     public List<Comment> GetAllComments(CommentSearchCriteria searchCriteria)
     {

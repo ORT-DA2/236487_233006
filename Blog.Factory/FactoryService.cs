@@ -18,7 +18,7 @@ public class FactoryService
         serviceCollection.AddTransient<IRepository<User>, UserRepository>();
         serviceCollection.AddTransient<IRepository<Role>, BaseRepository<Role>>();
         serviceCollection.AddTransient<IRepository<Article>, ArticleRepository>();
-        serviceCollection.AddTransient<IRepository<Comment>, BaseRepository<Comment>>();
+        serviceCollection.AddTransient<IRepository<Comment>, CommentRepository>();
 
         // Inject Services
         serviceCollection.AddTransient<IUserService, UserService>();

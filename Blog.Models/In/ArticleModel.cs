@@ -1,5 +1,4 @@
 using Blog.Domain;
-using System.Text.Json.Serialization;
 
 namespace Models;
 
@@ -9,7 +8,7 @@ public class ArticleModel
     
     public string Title { get; set; }
     
-    public string Type { get; set; }
+    public bool Private { get; set; }
     
     public ICollection<Comment>? Comments { get; set; }
     
@@ -21,6 +20,8 @@ public class ArticleModel
     
     public DateTime CreatedAt { get; set; }
 
+    public DateTime? UpdatedAt { get; set; }
+
     public Article ToCreateEntity(User author)
     {
         return new Article()
@@ -28,7 +29,7 @@ public class ArticleModel
             Author = author,
             Title = Title,
             Content = Content,
-            Type = Type,
+            Private = Private,
             Comments = Comments,
             Image = Image,
             Template = Template,
@@ -36,18 +37,18 @@ public class ArticleModel
         };
     }
 
-    public Article ToEntity(User author)
+    public Article ToUpdateEntity(User author)
     {
         return new Article()
         {
             Author = author,
             Title = Title,
             Content = Content,
-            Type = Type,
+            Private = Private,
             Comments = Comments,
             Image = Image,
             Template = Template,
-            CreatedAt = CreatedAt
+            UpdatedAt = DateTime.Now
         };
     }
 }
