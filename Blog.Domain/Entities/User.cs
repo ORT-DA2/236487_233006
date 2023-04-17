@@ -51,6 +51,7 @@ public class User
         Email = user.Email;
         Password = user.Password;
         UserRole = user.UserRole;
+        UpdatedAt = user.UpdatedAt;
     }
 
     public void ValidOrFail()
