@@ -2,7 +2,7 @@ using Blog.Domain;
 
 namespace Models.Out;
 
-public class UserDetailModel
+public class UserModelOut
 {
     public int Id { get; set; }
 
@@ -12,25 +12,29 @@ public class UserDetailModel
     public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public List<Article> Articles {get; set;}
-    public List<Comment> Comments {get; set;}
-    public List<UserRole> UserRole {get;set;}
-    public UserDetailModel(User user)
+
+    public ICollection<RoleType> roles {get;set;}
+    public UserModelOut(User user)
     {
+        roles = new List<RoleType>();
+
+        foreach (var userRole in user.UserRole)
+        {
+            roles.Add(userRole.Role.RoleType);
+        }
+
         this.Id = user.Id;
         this.FirstName = user.FirstName;
         this.LastName = user.LastName;
         this.Username = user.Username;
         this.Email = user.Email;
         this.Password = user.Password;
-        this.UserRole = user.UserRole.ToList();
-        this.Articles = user.Articles.ToList();
-        this.Comments = user.Comments.ToList();
+
     }
 
     public override bool Equals(object? obj)
     {
-        var model = obj as UserDetailModel;
+        var model = obj as UserModelOut;
         return model.Id == Id;
     }
 }

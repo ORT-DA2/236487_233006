@@ -24,6 +24,6 @@ public class Role
 
 public enum RoleType
 {
-    Admin,
-    Blogger
+    Admin = 1,
+    Blogger = 2
 }

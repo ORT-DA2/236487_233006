@@ -1,3 +1,4 @@
+using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.IServices;
 using Blog.Services;
@@ -13,10 +14,14 @@ namespace Blog.WebApi.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IRoleService _roleService;
+    private readonly IUserRoleService _userRoleService;
 
-    public UsersController(IUserService userService)
+    public UsersController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService)
     {
         _userService = userService;
+        _roleService = roleService;
+        _userRoleService = userRoleService;
     }
 
     // Index - Get all users (/api/users)
@@ -24,7 +29,7 @@ public class UsersController : ControllerBase
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
         var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
-        return Ok(retrievedUsers.Select(u => new UserOutModel(u)));
+        return Ok(retrievedUsers.Select(u => new UserModelOut(u)));
     }
 
     // Show - Get specific user (/api/users/{id})
@@ -34,7 +39,7 @@ public class UsersController : ControllerBase
         try
         {
             var retrievedUser = _userService.GetSpecificUser(id);
-            return Ok(new UserDetailModel(retrievedUser));
+            return Ok(new UserModelOut(retrievedUser));
         }
         catch (ResourceNotFoundException e)
         {
@@ -44,12 +49,30 @@ public class UsersController : ControllerBase
 
     // Create - Create new user (/api/users)
     [HttpPost]
-    public IActionResult CreateUser([FromBody] UserModel newUser)
+    public IActionResult CreateUser([FromBody] UserModelIn newUser)
     {
         try
         {
-            var createdUser = _userService.CreateUser(newUser.ToEntity());
-            var userModel = new UserDetailModel(createdUser);
+            EnsureRolesHasValues(newUser.roles.Count);
+            EnsureRolesExists(newUser);
+
+            // 1) Creo User
+            var createdUser = _userService.CreateUser(newUser.ToCreateEntity());
+
+            foreach (int roleValue in new HashSet<int>(newUser.roles))
+            {
+                var role = _roleService.GetSpecificRole(roleValue);
+                var userRole = new UserRole()
+                {
+                    User = createdUser,
+                    Role = role
+                };
+
+                _userRoleService.CreateUserRole(userRole);
+            }
+
+
+            var userModel = new UserModelOut(createdUser);
             return CreatedAtRoute("GetUser", new { id = userModel.Id }, userModel);
         }
         catch (InvalidResourceException e)
@@ -60,16 +83,38 @@ public class UsersController : ControllerBase
         {
             return Conflict(e.Message);
         }
+        catch (ResourceNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
     // Update - Update specific user (/api/users/{id})
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] UserModel updatedUser)
+    public IActionResult Update(int id, [FromBody] UserModelIn updatedUser)
     {
         try
         {
-            var retrievedUser = _userService.UpdateUser(id, updatedUser.ToEntity());
-            return Ok(new UserDetailModel(retrievedUser));
+            EnsureRolesHasValues(updatedUser.roles.Count);
+            EnsureRolesExists(updatedUser);
+
+            // 1) Creo User
+            var retrievedUser = _userService.UpdateUser(id, updatedUser.ToUpdateEntity());
+
+            foreach (int roleValue in new HashSet<int>(updatedUser.roles))
+            {
+                var role = _roleService.GetSpecificRole(roleValue);
+                var userRole = new UserRole()
+                {
+                    User = retrievedUser,
+                    Role = role
+                };
+
+                _userRoleService.CreateUserRole(userRole);
+            }
+
+
+            return Ok(new UserModelOut(retrievedUser));
         }
         catch (InvalidResourceException e)
         {
@@ -78,6 +123,10 @@ public class UsersController : ControllerBase
         catch (ResourceNotFoundException e)
         {
             return NotFound(e.Message);
+        }
+        catch (DuplicateResourceException e)
+        {
+            return Conflict(e.Message);
         }
     }
 
@@ -96,4 +145,18 @@ public class UsersController : ControllerBase
         }
     }
 
+
+
+    private void EnsureRolesHasValues(int rolesLength)
+    {
+        if (rolesLength == 0) throw new InvalidResourceException("User should have at least one role");
+    }
+
+    private void EnsureRolesExists(UserModelIn user)
+    {
+        foreach (int roleValue in new HashSet<int>(user.roles))
+        {
+            var role = _roleService.GetSpecificRole(roleValue);
+        }
+    }
 }

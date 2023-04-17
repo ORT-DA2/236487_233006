@@ -8,29 +8,38 @@ namespace Blog.Services;
 
 public class RoleService : IRoleService
 {
-    private readonly IRepository<Role> _repository;
+    private readonly IRoleRepository _repository;
 
-    public RoleService(IRepository<Role> repository)
+    public RoleService(IRoleRepository repository)
     {
         _repository = repository;
     }
 
 
-    public List<Role> GetAllRoles(RoleSearchCriteria searchCriteria)
+    public List<Role> GetAllRoles()
     {
-        return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
+        return _repository.GetAllRoles();
     }
 
-    public Role GetSpecificRole(int id)
+
+    public Role GetSpecificRole(int value)
     {
-        var roleSaved = _repository.GetOneBy(r => r.Id == id);
+        try
+        {
+            var roleSaved = _repository.GetOneBy(r => (int)r.RoleType == value);
 
-        if (roleSaved == null)
-            throw new ResourceNotFoundException($"Could not find specified Role {id}");
+            if (roleSaved == null)
+                throw new ResourceNotFoundException($"Could not find specified Role {value}");
 
-        return roleSaved;
+            return roleSaved;
+        }
+        catch (ResourceNotFoundException e)
+        {
+            throw new ResourceNotFoundException(e.Message);
+        }
     }
 
+    /*
     public Role CreateRole(Role role)
     {
         //Role.ValidOrFail();
@@ -64,6 +73,7 @@ public class RoleService : IRoleService
         _repository.Delete(roleSaved);
         _repository.Save();
     }
+    */
 }
 
 
