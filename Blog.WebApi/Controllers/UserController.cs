@@ -53,20 +53,13 @@ public class UsersController : ControllerBase
     {
         try
         {
-            foreach (int roleValue in newUser.roles)
-            {
-                var role = _roleService.GetSpecificRole(roleValue);
-                if (role == null)
-                {
-                    return BadRequest("Este rol no existe");
-                }
-            }
-
+            EnsureRolesHasValues(newUser.roles.Count);
+            EnsureRolesExists(newUser);
 
             // 1) Creo User
             var createdUser = _userService.CreateUser(newUser.ToCreateEntity());
 
-            foreach (int roleValue in newUser.roles)
+            foreach (int roleValue in new HashSet<int>(newUser.roles))
             {
                 var role = _roleService.GetSpecificRole(roleValue);
                 var userRole = new UserRole()
@@ -90,6 +83,10 @@ public class UsersController : ControllerBase
         {
             return Conflict(e.Message);
         }
+        catch (ResourceNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
     // Update - Update specific user (/api/users/{id})
@@ -98,20 +95,13 @@ public class UsersController : ControllerBase
     {
         try
         {
-            foreach (int roleValue in updatedUser.roles)
-            {
-                var role = _roleService.GetSpecificRole(roleValue);
-                if (role == null)
-                {
-                    return BadRequest("Este rol no existe");
-                }
-            }
-
+            EnsureRolesHasValues(updatedUser.roles.Count);
+            EnsureRolesExists(updatedUser);
 
             // 1) Creo User
             var retrievedUser = _userService.UpdateUser(id, updatedUser.ToUpdateEntity());
 
-            foreach (int roleValue in updatedUser.roles)
+            foreach (int roleValue in new HashSet<int>(updatedUser.roles))
             {
                 var role = _roleService.GetSpecificRole(roleValue);
                 var userRole = new UserRole()
@@ -124,10 +114,6 @@ public class UsersController : ControllerBase
             }
 
 
-
-
-
-            //var retrievedUser = _userService.UpdateUser(id, updatedUser.ToUpdateEntity());
             return Ok(new UserModelOut(retrievedUser));
         }
         catch (InvalidResourceException e)
@@ -137,6 +123,10 @@ public class UsersController : ControllerBase
         catch (ResourceNotFoundException e)
         {
             return NotFound(e.Message);
+        }
+        catch (DuplicateResourceException e)
+        {
+            return Conflict(e.Message);
         }
     }
 
@@ -155,4 +145,18 @@ public class UsersController : ControllerBase
         }
     }
 
+
+
+    private void EnsureRolesHasValues(int rolesLength)
+    {
+        if (rolesLength == 0) throw new InvalidResourceException("User should have at least one role");
+    }
+
+    private void EnsureRolesExists(UserModelIn user)
+    {
+        foreach (int roleValue in new HashSet<int>(user.roles))
+        {
+            var role = _roleService.GetSpecificRole(roleValue);
+        }
+    }
 }

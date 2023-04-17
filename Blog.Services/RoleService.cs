@@ -24,12 +24,19 @@ public class RoleService : IRoleService
 
     public Role GetSpecificRole(int value)
     {
-        var roleSaved = _repository.GetOneBy(r => (int)r.RoleType == value);
+        try
+        {
+            var roleSaved = _repository.GetOneBy(r => (int)r.RoleType == value);
 
-        if (roleSaved == null)
-            throw new ResourceNotFoundException($"Could not find specified Role {value}");
+            if (roleSaved == null)
+                throw new ResourceNotFoundException($"Could not find specified Role {value}");
 
-        return roleSaved;
+            return roleSaved;
+        }
+        catch (ResourceNotFoundException e)
+        {
+            throw new ResourceNotFoundException(e.Message);
+        }
     }
 
     /*

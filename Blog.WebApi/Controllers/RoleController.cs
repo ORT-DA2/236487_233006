@@ -1,4 +1,5 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.IServices;
 using Blog.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,15 @@ public class RoleController : ControllerBase
     [HttpGet]
     public IActionResult GetRoles()
     {
-        var retrievedRoles = _roleService.GetAllRoles();
-        return Ok( new RoleModelOut(retrievedRoles));
+        try
+        {
+            var retrievedRoles = _roleService.GetAllRoles();
+            return Ok( new RoleModelOut(retrievedRoles));
+        }
+        catch (ResourceNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
 
