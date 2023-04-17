@@ -1,8 +1,10 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.IServices;
 using Blog.Services;
 using Microsoft.AspNetCore.Mvc;
 using Models.In;
+using Models.Out;
 
 namespace Blog.WebApi.Controllers;
 
@@ -10,7 +12,7 @@ namespace Blog.WebApi.Controllers;
 [Route("api/roles")]
 public class RoleController : ControllerBase
 {
-    /*private readonly IRoleService _roleService;
+    private readonly IRoleService _roleService;
 
     public RoleController(IRoleService roleService)
     {
@@ -19,52 +21,19 @@ public class RoleController : ControllerBase
 
     // Index - Get all roles (/api/roles)
     [HttpGet]
-    public IActionResult GetRoles([FromQuery] RoleSearchCriteriaModel searchCriteria)
+    public IActionResult GetRoles()
     {
-        var retrievedRoles = _roleService.GetAllRoles(searchCriteria.ToEntity());
-        return Ok(retrievedRoles.Select(u => new RoleOutModel(u)));
-    }
-
-    [HttpGet("{userId}")]
-    public async Task<IActionResult> GetById(int userId)
-    {
-        var userRole = await _roleService.GetByIdAsync(userId);
-        if (userRole == null)
+        try
         {
-            return NotFound();
+            var retrievedRoles = _roleService.GetAllRoles();
+            return Ok( new RoleModelOut(retrievedRoles));
         }
-
-        return Ok(userRole);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Add(Role role)
-    {
-        var newUserRole = await _roleService.AddAsync(role);
-        return CreatedAtAction(nameof(GetById), new { userId = newUserRole.UserId }, newUserRole);
-    }
-
-    [HttpPut("{userId}")]
-    public async Task<IActionResult> Update(int userId, Role role)
-    {
-        if (userId != role.UserId)
+        catch (ResourceNotFoundException e)
         {
-            return BadRequest();
+            return NotFound(e.Message);
         }
-
-        var updatedUserRole = await _roleService.UpdateAsync(role);
-        return Ok(updatedUserRole);
     }
 
-    [HttpDelete("{userId}")]
-    public async Task<IActionResult> Delete(int userId)
-    {
-        var success = await _roleService.DeleteAsync(userId);
-        if (!success)
-        {
-            return NotFound();
-        }
 
-        return NoContent();
-    }*/
+
 }

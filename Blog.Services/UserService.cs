@@ -22,64 +22,91 @@ public class UserService : IUserService
 
     public User GetSpecificUser(int id)
     {
-        var userSaved = _repository.GetOneBy(u => u.Id == id);
-
-        if (userSaved == null)
-            throw new ResourceNotFoundException($"Could not find specified user {id}");
-
-        return userSaved;
+        return UserExists(id);
     }
 
     public User CreateUser(User newUser)
     {
         newUser.ValidOrFail();
-
-        // Check if a user with the same email already exists
-        var emailAlreadyExists = _repository.GetOneBy(u => u.Email == newUser.Email);
-
-        if (emailAlreadyExists != null)
+        try
         {
-            throw new DuplicateResourceException($"A user with the email '{newUser.Email}' already exists.");
-        }
-
-        // Check if a user with the same username already exists
-        var usernameAlreadyExists = _repository.GetOneBy(u => u.Username == newUser.Username);
-
-        if (usernameAlreadyExists != null)
-        {
-            throw new DuplicateResourceException($"A user with the username '{newUser.Username}' already exists.");
-        }
+        EnsureUsernameIsUnique(-1, newUser);
+        EnsureEmailIsUnique(-1, newUser);
 
         _repository.Insert(newUser);
         _repository.Save();
         return newUser;
+        }
+        catch (DuplicateResourceException e)
+        {
+            throw new DuplicateResourceException(e.Message);
+        }
     }
 
     public User UpdateUser(int id, User updatedUser)
     {
         updatedUser.ValidOrFail();
-        var userSaved = _repository.GetOneBy(u => u.Id == id);
 
-        if (userSaved == null)
-            throw new ResourceNotFoundException($"Could not find specified user {id}");
+        try
+        {
+        EnsureUsernameIsUnique(id, updatedUser);
+        EnsureEmailIsUnique(id, updatedUser);
+        var userSaved = UserExists(id);
 
         userSaved.UpdateAttributes(updatedUser);
         _repository.Update(userSaved);
         _repository.Save();
 
         return userSaved;
+        }
+        catch (DuplicateResourceException e)
+        {
+            throw new DuplicateResourceException(e.Message);
+        }
+        catch (ResourceNotFoundException e)
+        {
+            throw new ResourceNotFoundException(e.Message);
+        }
+
     }
 
     public void DeleteUser(int id)
     {
-        var userSaved = _repository.GetOneBy(u => u.Id == id);
+        var user = UserExists(id);
 
-        if (userSaved == null)
-            throw new ResourceNotFoundException($"Could not find specified user {id}");
-
-        _repository.Delete(userSaved);
+        _repository.Delete(user);
         _repository.Save();
     }
 
 
+
+    private void EnsureUsernameIsUnique(int id, User user)
+    {
+        var existingUser = _repository.GetOneBy(u => u.Username == user.Username);
+
+        if (existingUser != null && existingUser.Id != id)
+        {
+            throw new DuplicateResourceException($"A user with the username '{user.Username}' already exists.");
+        }
+    }
+
+    private void EnsureEmailIsUnique(int id , User user)
+    {
+        var existingUser = _repository.GetOneBy(u => u.Email == user.Email);
+
+        if (existingUser != null && existingUser.Id != id)
+        {
+            throw new DuplicateResourceException($"A user with the email '{user.Email}' already exists.");
+        }
+    }
+
+    private User UserExists(int id)
+    {
+        var user = _repository.GetOneBy(u => u.Id == id);
+
+        if (user == null)
+            throw new ResourceNotFoundException($"Could not find specified user {id}");
+
+        return user;
+    }
 }
