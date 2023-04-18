@@ -1,3 +1,4 @@
+using Blog.Domain;
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.WebApi.Exceptions;
@@ -15,11 +16,13 @@ namespace Blog.WebApi.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly IUserService _userService;
+        private readonly ISessionService _sessionService;
 
-        public ArticleController(IArticleService articleService, IUserService userService)
+        public ArticleController(IArticleService articleService, IUserService userService, ISessionService sessionService)
         {
             _articleService = articleService;
             _userService = userService;
+            _sessionService = sessionService;
         }
 
         // Index - Get all articles (/api/articles)
@@ -27,7 +30,9 @@ namespace Blog.WebApi.Controllers
         [HttpGet]
         public IActionResult GetArticles([FromQuery] ArticleSearchCriteria searchCriteria)
         {
-            var result = _articleService.GetAllArticles(searchCriteria);
+            User currentUser = _sessionService.GetCurrentUser();
+            List<Article> result = _articleService.GetAllArticles(searchCriteria);
+            result = result.Where(a => !a.Private || a.Private && a.Author.Equals(currentUser)).ToList();
             return Ok(result.Select(a => new ArticleDetailModel(a)));
         }
         
@@ -37,7 +42,11 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
+                User currentUser = _sessionService.GetCurrentUser();
                 var retrievedArticle = _articleService.GetSpecificArticle(articleId);
+                if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
+                    return Unauthorized("Cannot see private article");
+                }
                 return Ok(new ArticleDetailModel(retrievedArticle));
             }
             catch (ResourceNotFoundException e)
@@ -79,8 +88,13 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
+                User currentUser = _sessionService.GetCurrentUser();
                 var author = _userService.GetSpecificUser(updatedArticle.AuthorId);
                 var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(author));
+                if(!retrievedArticle.Author.Equals(currentUser))
+                {
+                    return Unauthorized("Cannot update this article");
+                }
                 var articleModel = new ArticleDetailModel(retrievedArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
             }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using Blog.Domain.Exceptions;
 
@@ -167,6 +168,16 @@ public class User
         {
             return false;
         }
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || !(obj is User))
+        {
+            return false;
+        }
+
+        return Id == ((User)obj).Id;
     }
 }
 

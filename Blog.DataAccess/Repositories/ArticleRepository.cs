@@ -15,4 +15,11 @@ public class ArticleRepository : BaseRepository<Article>
             .Include(a => a.Author)
             .Include(a => a.Comments).ThenInclude(c => c.Reply);
     }
+
+    public override Article? GetOneBy(Expression<Func<Article, bool>> expression)
+    {
+        return _context.Set<Article>()
+            .Include(a => a.Author)
+            .FirstOrDefault(expression);
+    }
 }
