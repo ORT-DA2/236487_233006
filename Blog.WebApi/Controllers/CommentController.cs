@@ -17,12 +17,14 @@ namespace Blog.WebApi.Controllers
         private readonly IArticleService _articleService;
         private readonly ICommentService _commentService;
         private readonly IUserService _userService;
+        private readonly ISessionService _sessionService;
 
-        public CommentController(IArticleService articleService, ICommentService commentService, IUserService userService)
+        public CommentController(IArticleService articleService, ICommentService commentService, IUserService userService, ISessionService sessionService)
         {
             _articleService = articleService;
             _commentService = commentService;
             _userService = userService;
+            _sessionService = sessionService;
         }
 
         // Get - Get all comments (/api/comments)
@@ -48,6 +50,12 @@ namespace Blog.WebApi.Controllers
             {
                 var article = _articleService.GetSpecificArticle(newComment.ArticleId);
                 var author = _userService.GetSpecificUser(newComment.AuthorId);
+                var currentUser = _sessionService.GetCurrentUser();
+
+                if(article.Private && !article.Author.Equals(currentUser))
+                {
+                    return Unauthorized("You are not able to comment this article");
+                }
 
                 var createdComment = _commentService.CreateComment(newComment.ToCreateEntity(author, article));
                 
@@ -87,12 +95,18 @@ namespace Blog.WebApi.Controllers
             try
             {
                 var comment = _commentService.GetSpecificComment(commentId);
-                if(comment.Reply != null)
+                var currentUser = _sessionService.GetCurrentUser();
+                if (comment.Reply != null)
                 {
                     return BadRequest("Cannot reply to a replied comment");
                 } 
                 var author = _userService.GetSpecificUser(comment.Author.Id);
                 var article = _articleService.GetSpecificArticle(comment.Article.Id);
+
+                if (!article.Author.Equals(currentUser))
+                {
+                    return Unauthorized("You are not able to reply this article");
+                }
 
                 var createdComment = _commentService.CreateComment(reply.ToCreateEntity(author, article));
 
