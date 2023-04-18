@@ -9,7 +9,6 @@ using Models.In;
 using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Models;
-using System.ComponentModel.Design;
 
 [TestClass]
 public class CommentControllerTest
@@ -134,7 +133,6 @@ public class CommentControllerTest
     [TestMethod]
     public void CreateCommentReplyShouldReturnBadRequestWhenCommentAlreadyHasReply()
     {
-        // Arrange
         var commentId = 1;
         var reply = new CommentReplyModel { Content = "test reply" };
         var comment = new Comment { Id = commentId, Reply = new Comment(), Author = new User(), Article = new Article { Author = new User() } };
@@ -145,10 +143,8 @@ public class CommentControllerTest
 
         var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
 
-        // Act
         var result = controller.CreateCommentReply(commentId, reply) as BadRequestObjectResult;
 
-        // Assert
         Assert.IsNotNull(result);
         Assert.AreEqual("Cannot reply to a replied comment", result.Value);
     }
