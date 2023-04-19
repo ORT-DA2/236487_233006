@@ -5,7 +5,6 @@ using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.In;
-using ResourceNotFoundException = Blog.Services.Exceptions.ResourceNotFoundException;
 
 namespace Blog.WebApi.Controllers
 {

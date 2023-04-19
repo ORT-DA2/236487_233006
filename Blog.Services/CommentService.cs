@@ -1,8 +1,8 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Blog.IDataAccess;
 using Blog.IServices;
-using Blog.Services.Exceptions;
 
 namespace Blog.Services;
 

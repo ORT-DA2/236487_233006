@@ -5,7 +5,6 @@ using Blog.WebApi.Exceptions;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using ResourceNotFoundException = Blog.Services.Exceptions.ResourceNotFoundException;
 
 namespace Blog.WebApi.Controllers
 {
@@ -28,12 +27,23 @@ namespace Blog.WebApi.Controllers
         // Index - Get all articles (/api/articles)
         [AuthenticationFilter]
         [HttpGet]
-        public IActionResult GetArticles([FromQuery] ArticleSearchCriteria searchCriteria)
+        public IActionResult GetArticles([FromQuery] ArticleSearchCriteria searchCriteria, string? orderBy, string? direction, int? limit)
         {
-            User currentUser = _sessionService.GetCurrentUser();
-            List<Article> result = _articleService.GetAllArticles(searchCriteria);
-            result = result.Where(a => !a.Private || a.Private && a.Author.Equals(currentUser)).ToList();
-            return Ok(result.Select(a => new ArticleDetailModel(a)));
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                var result = _articleService.GetAllArticles(searchCriteria, orderBy, direction, limit);
+                result = result.Where(a => !a.Private || a.Private && a.Author.Equals(currentUser)).ToList();
+                return Ok(result.Select(a => new ArticleDetailModel(a)));
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         // Show - Get specific article (/api/article/{id})
@@ -45,7 +55,7 @@ namespace Blog.WebApi.Controllers
                 User currentUser = _sessionService.GetCurrentUser();
                 var retrievedArticle = _articleService.GetSpecificArticle(articleId);
                 if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
-                    return Unauthorized("Cannot see private article");
+                    return Unauthorized("Cannot see privat6e article");
                 }
                 return Ok(new ArticleDetailModel(retrievedArticle));
             }
