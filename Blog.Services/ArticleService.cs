@@ -1,8 +1,8 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Blog.IDataAccess;
 using Blog.IServices;
-using Blog.Services.Exceptions;
 
 namespace Blog.Services;
 
@@ -15,10 +15,36 @@ public class ArticleService : IArticleService
         _repository = repository;
     }
     
-    public List<Article> GetAllArticles(ArticleSearchCriteria searchCriteria)
+    public List<Article> GetAllArticles(ArticleSearchCriteria searchCriteria, string? orderBy, string? direction, int? limit)
     {
         var articles = _repository.GetAllBy(searchCriteria.Criteria());
-        return articles.Where(a => a.DeletedAt == null).ToList();
+
+        // filter out deleted articles
+        articles = articles.Where(a => a.DeletedAt == null);
+
+        if (!string.IsNullOrEmpty(orderBy))
+        {
+            if(string.IsNullOrEmpty(direction))
+            {
+                throw new InvalidResourceException("Invalid direction parameter value. Must be 'asc' or 'desc'.");
+            }
+            switch (direction?.ToLower())
+            {
+                case "asc":
+                    articles = articles.OrderBy(a => a.GetType().GetProperty(orderBy).GetValue(a, null));
+                    break;
+                case "desc":
+                    articles = articles.OrderByDescending(a => a.GetType().GetProperty(orderBy).GetValue(a, null));
+                    break;
+            }
+        }
+
+        if (limit.HasValue)
+        {
+            articles = articles.Take(limit.Value);
+        }
+
+        return articles.ToList();
     }
 
     public Article GetSpecificArticle(int id)
