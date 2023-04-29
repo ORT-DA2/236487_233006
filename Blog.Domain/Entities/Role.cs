@@ -7,7 +7,7 @@ public class Role
     public int Id { get; set; }
     public RoleType RoleType { get; set; }
 
-    public ICollection<UserRole> UserRole {get;set;}
+    public List<UserRole> UserRole {get;set;}
 
     public Role()
     {
