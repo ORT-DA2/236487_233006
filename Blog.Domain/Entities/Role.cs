@@ -12,6 +12,7 @@ public class Role
     public Role()
     {
         RoleType = RoleType.Blogger;
+        UserRole = new List<UserRole>();
     }
 
     public void UpdateAttributes(Role role)

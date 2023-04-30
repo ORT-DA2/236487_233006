@@ -1,5 +1,6 @@
 using Blog.Domain;
 
+namespace Blog.Domain.Tests;
 
 [TestClass]
 public class RoleTests
