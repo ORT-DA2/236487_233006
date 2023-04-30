@@ -1,41 +1,44 @@
-using System;
-using System.Linq;
-using System.Text;
+using Blog.Domain;
 using Blog.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
 
 namespace Blog.WebApi.Filters
 {
     public class RoleFilter : Attribute, IAuthorizationFilter
     {
+        private readonly RoleType[] _roles;
+
+        public RoleFilter(params RoleType[] roles)
+        {
+            _roles = roles;
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            using var reader = new StreamReader(context.HttpContext.Request.Body, Encoding.UTF8);
-            var rolesJson = reader.ReadToEnd();
-
-            int[] roles = JsonConvert.DeserializeObject<int[]>(rolesJson);
-
-            var requiredRolesAttribute = context.ActionDescriptor.EndpointMetadata
-                .OfType<RequiredRolesAttribute>()
-                .FirstOrDefault();
-
-            if (requiredRolesAttribute != null)
+            if (_roles != null)
             {
                 var sessionLogic = GetSessionService(context);
                 var currentUser = sessionLogic.GetCurrentUser(Guid.Parse(context.HttpContext.Request.Headers["Authorization"].ToString()));
+                bool allowed = false;
 
-                if (currentUser != null && requiredRolesAttribute.Roles.Any(role => roles.Contains(role)))
+                if (currentUser != null)
                 {
-                    return;
-                }
-                else
-                {
-                    context.Result = new ObjectResult(new { Message = "Forbidden" })
+                    foreach (var role in _roles)
                     {
-                        StatusCode = 403
-                    };
+                        if (currentUser.IsInRole(role))
+                        {
+                            allowed = true;
+                        }
+                    }
+
+                    if(!allowed)
+                    {
+                        context.Result = new ObjectResult(new { Message = "You are not authorized to perform this action" })
+                        {
+                            StatusCode = 403
+                        };
+                    }
                 }
             }
         }
@@ -47,17 +50,6 @@ namespace Blog.WebApi.Filters
             var sessionHandler = sessionHandlerLogicObject as ISessionService;
 
             return sessionHandler;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class RequiredRolesAttribute : Attribute
-    {
-        public int[] Roles { get; }
-
-        public RequiredRolesAttribute(params int[] roles)
-        {
-            Roles = roles;
         }
     }
 }
