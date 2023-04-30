@@ -1,14 +1,12 @@
 using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.IServices;
-using Blog.Services;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models.In;
 using Models.Out;
 
 namespace Blog.WebApi.Controllers;
-
 
 [ApiController]
 [Route("api/users")]
@@ -27,7 +25,7 @@ public class UserController : ControllerBase
 
     // Index - Get all users (/api/users)
     [HttpGet]
-    [RequiredRoles(1, 2)]
+    [RoleFilter(RoleType.Admin, RoleType.Blogger)]
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
         var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
@@ -35,8 +33,8 @@ public class UserController : ControllerBase
     }
 
     // Show - Get specific user (/api/users/{id})
-    [RequiredRoles(1)]
     [HttpGet("{id}", Name = "GetUser")]
+    [RoleFilter(RoleType.Admin)]
     public IActionResult GetUserById(int id)
     {
         try
@@ -52,7 +50,7 @@ public class UserController : ControllerBase
 
     // Create - Create new user (/api/users)
     [HttpPost]
-    [RequiredRoles(1)]
+    [RoleFilter(RoleType.Admin)]
     public IActionResult CreateUser([FromBody] UserModelIn newUser)
     {
         try
@@ -94,8 +92,8 @@ public class UserController : ControllerBase
     }
 
     // Update - Update specific user (/api/users/{id})
-    [RequiredRoles(1)]
     [HttpPut("{id}")]
+    [RoleFilter(RoleType.Admin)]
     public IActionResult Update(int id, [FromBody] UserModelIn updatedUser)
     {
         try
@@ -136,8 +134,8 @@ public class UserController : ControllerBase
     }
 
     // Delete - Delete specific user (/api/users/{id})
-    [RequiredRoles(1)]
     [HttpDelete("{id}")]
+    [RoleFilter(RoleType.Admin)]
     public IActionResult Delete(int id)
     {
         try

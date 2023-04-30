@@ -13,7 +13,11 @@ public class SessionRepository : BaseRepository<Session>
 
     public override Session? GetOneBy(Expression<Func<Session, bool>> expression)
     {
-        return _context.Set<Session>().Include(a => a.User).FirstOrDefault(expression);
+        return _context.Set<Session>()
+            .Include(a => a.User)
+            .ThenInclude(u => u.UserRoles)
+            .ThenInclude(ur => ur.Role)
+            .FirstOrDefault(expression);
     }
     
     public override void Insert(Session session)

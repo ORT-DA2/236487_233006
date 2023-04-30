@@ -18,7 +18,7 @@ public class UserModelOut
     {
         roles = new List<RoleType>();
 
-        foreach (var userRole in user.UserRole)
+        foreach (var userRole in user.UserRoles)
         {
             roles.Add(userRole.Role.RoleType);
         }

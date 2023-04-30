@@ -28,13 +28,13 @@ public class User
 
     public ICollection<Comment> Comments { get; set; }
 
-    public ICollection<UserRole> UserRole {get;set;}
+    public ICollection<UserRole> UserRoles {get;set;}
 
     public User()
     {
         Articles = new List<Article>();
         Comments = new List<Comment>();
-        UserRole = new List<UserRole>();
+        UserRoles = new List<UserRole>();
     }
 
 
@@ -45,7 +45,7 @@ public class User
         Username = user.Username;
         Email = user.Email;
         Password = user.Password;
-        UserRole = user.UserRole;
+        UserRoles = user.UserRoles;
         UpdatedAt = user.UpdatedAt;
     }
 
@@ -168,6 +168,11 @@ public class User
         }
 
         return Id == ((User)obj).Id;
+    }
+
+    public bool IsInRole(RoleType role)
+    {  
+        return UserRoles.Any(ur => ur.Role.RoleType == role);
     }
 }
 
