@@ -181,6 +181,145 @@ public class CommentControllerTest
         Assert.AreEqual(reply.Content, commentResult.Content);
     }
 
+
+    [TestMethod]
+public void CreateCommentWithAuthorizedUserShouldReturnCreatedAtRoute()
+{
+    var article = CreateArticle(1);
+    var author = CreateUser(1);
+    var newComment = new CommentModel { ArticleId = article.Id, AuthorId = author.Id };
+    var createdComment = new Comment { Id = 1, Author = author, Article = article, Content = "Test comment" };
+
+    _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
+    _userServiceMock.Setup(u => u.GetSpecificUser(It.IsAny<int>())).Returns(author);
+    _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
+    _commentServiceMock.Setup(cs => cs.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
+
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+
+    var result = controller.CreateComment(newComment) as CreatedAtRouteResult;
+
+    Assert.IsNotNull(result);
+    Assert.AreEqual("GetComment", result.RouteName);
+    Assert.AreEqual(createdComment.Id, result.RouteValues["commentId"]);
+
+    var commentResult = result.Value as CommentDetailModel;
+    Assert.AreEqual(createdComment.Id, commentResult.Id);
+    Assert.AreEqual(createdComment.Content, commentResult.Content);
+}
+
+// [TestMethod]
+// public void CreateCommentReplyWithUnauthorizedUserShouldReturnUnauthorized()
+// {
+//     var article = CreateArticle(1);
+//     var author = CreateUser(1);
+//     var currentUser = CreateUser(2);
+//     int commentId = 2;
+//     var comment = new Comment { Id = commentId, Author = author, Article = article, Content = "My comment" };
+//
+//     _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Returns(comment);
+//     _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
+//
+//     var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+//
+//     var result = controller.CreateCommentReply(commentId, new CommentReplyModel() { AuthorId = currentUser.Id, Content = "My reply" });
+//
+//     Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+//     var message = ((UnauthorizedObjectResult)result).Value.ToString();
+//     Assert.AreEqual("You are not able to reply this article", message);
+// }
+
+[TestMethod]
+public void CreateCommentWithValidDataShouldReturnCreatedAtRoute()
+{
+    var article = CreateArticle(1);
+    var author = CreateUser(1);
+    var newComment = new CommentModel { ArticleId = 1, AuthorId = 1 };
+    var createdComment = new Comment { Id = 1, Content = "Test comment", Article = article, Author = author };
+
+    _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
+    _userServiceMock.Setup(u => u.GetSpecificUser(It.IsAny<int>())).Returns(author);
+    _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
+    _commentServiceMock.Setup(c => c.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
+
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+
+    var result = controller.CreateComment(newComment);
+
+    var createdResult = result as CreatedAtRouteResult;
+
+    Assert.AreEqual("GetComment", createdResult.RouteName);
+    Assert.AreEqual(createdComment.Id, createdResult.RouteValues["commentId"]);
+
+    var commentResult = createdResult.Value as CommentDetailModel;
+    Assert.AreEqual(createdComment.Id, commentResult.Id);
+    Assert.AreEqual(createdComment.Content, commentResult.Content);
+}
+
+[TestMethod]
+public void GetCommentsShouldReturnBadRequestWhenInvalidResourceExceptionOccurs()
+{
+    _commentServiceMock.Setup(c => c.GetAllComments(It.IsAny<CommentSearchCriteria>())).Throws(new InvalidResourceException("Invalid search criteria"));
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+
+    IActionResult result;
+
+    try
+    {
+        result = controller.GetComments(new CommentSearchCriteria());
+    }
+    catch (InvalidResourceException ex)
+    {
+        Assert.AreEqual("Invalid search criteria", ex.Message);
+        throw;
+    }
+
+    Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+    var badRequestResult = result as BadRequestObjectResult;
+    Assert.AreEqual("Invalid search criteria", badRequestResult.Value);
+}
+
+
+[TestMethod]
+public void CreateCommentReplyWithUnauthorizedUserShouldReturnUnauthorized()
+{
+    var article = CreateArticle(1);
+    var author = CreateUser(1);
+    int commentId = 2;
+    var comment = new Comment { Id = commentId, Author = author, Article = article, Content = "My comment" };
+
+    var currentUser = new User { Id = 3 };
+
+    _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Returns(comment);
+    _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
+    _userServiceMock.Setup(u => u.GetSpecificUser(It.IsAny<int>())).Returns(author);
+    _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(comment.Article);
+
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+
+    var result = controller.CreateCommentReply(commentId, new CommentReplyModel() { AuthorId = author.Id, Content = "My reply" });
+
+    Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+    var message = ((UnauthorizedObjectResult)result).Value.ToString();
+    Assert.AreEqual("You are not able to reply this article", message);
+}
+
+
+
+[TestMethod]
+public void CreateCommentReplyWithNonExistingCommentShouldReturnNotFound()
+{
+    var reply = new CommentReplyModel { Content = "test reply" };
+    int commentId = 1;
+
+    _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+
+    var action = new Action(() => controller.CreateCommentReply(commentId, reply));
+
+    Assert.ThrowsException<ResourceNotFoundException>(action);
+}
+
     private Article CreateArticle(int articleId, bool isPrivate = false)
     {
         return new Article()

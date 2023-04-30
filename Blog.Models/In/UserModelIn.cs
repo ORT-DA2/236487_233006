@@ -12,7 +12,7 @@ public class UserModelIn
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public ICollection<int> roles {get;set;}
+    public List<int> roles {get;set;}
     // Mapping the recieved DTO to my Domain
     public User ToCreateEntity()
     {

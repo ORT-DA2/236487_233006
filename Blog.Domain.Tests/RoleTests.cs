@@ -1,84 +1,54 @@
-namespace Blog.Domain.Tests;
-
 using Blog.Domain;
+
+namespace Blog.Domain.Tests;
 
 [TestClass]
 public class RoleTests
 {
-    [TestMethod]
-    public void CreateUserRole_DefaultUserId_IsZero()
+    private Role _role;
+
+    [TestInitialize]
+    public void Initialize()
     {
-        // Arrange
-        var userRole = new Role();
-
-        // Act
-        var userId = userRole.UserId;
-
-        // Assert
-        Assert.AreEqual(0, userId);
-    }
-
-
-
-    [TestMethod]
-    public void CreateUserRole_DefaultUser_IsNull()
-    {
-        // Arrange
-        var userRole = new Role();
-
-        // Act
-        var user = userRole.User;
-
-        // Assert
-        Assert.IsNull(user);
-    }
-
-    [TestMethod]
-    public void CreateUserRole_SetUserId_UserIdIsSet()
-    {
-        // Arrange
-        var userRole = new Role { UserId = 1 };
-
-        // Act
-        var userId = userRole.UserId;
-
-        // Assert
-        Assert.AreEqual(1, userId);
-    }
-
-    [TestMethod]
-    public void CreateUserRole_SetRole_RoleIsSet()
-    {
-        // Arrange
-        var userRole = new Role { RoleType = RoleType.Admin };
-
-        // Act
-        var role = userRole.RoleType;
-
-        // Assert
-        Assert.AreEqual(RoleType.Admin, role);
-    }
-
-    [TestMethod]
-    public void CreateUserRole_SetUser_UserIsSet()
-    {
-        // Arrange
-        var user = new User
+        _role = new Role
         {
-            FirstName = "FirstName",
-            LastName = "LastName",
-            Username = "username",
-            Email = "email@example.com",
-            Password = "password1234"
+            Id = 1,
+            RoleType = RoleType.Blogger
         };
+    }
 
-        var userRole = new Role { User = user };
+    [TestMethod]
+    public void RoleConstructorSetsDefaultRoleType()
+    {
+        var role = new Role();
+        Assert.AreEqual(RoleType.Blogger, role.RoleType);
+    }
 
-        // Act
-        var assignedUser = userRole.User;
+    [TestMethod]
+    public void RoleConstructorInitializesUserRoleCollection()
+    {
+        var role = new Role();
+        Assert.IsNotNull(role.UserRole);
+    }
 
-        // Assert
-        Assert.IsNotNull(assignedUser);
-        Assert.AreEqual(user, assignedUser);
+    [TestMethod]
+    public void UpdateAttributesUpdatesRoleType()
+    {
+        var newRole = new Role { RoleType = RoleType.Admin };
+        _role.UpdateAttributes(newRole);
+        Assert.AreEqual(RoleType.Admin, _role.RoleType);
+    }
+
+    [TestMethod]
+    public void UpdateAttributesUpdatesUserRoleCollection()
+    {
+        var newUserRole = new UserRole { Role = new Role { Id = 2 }, User = new User { Id = 1 } };
+        var newUserRoleList = new List<UserRole> { newUserRole };
+        var newRole = new Role { UserRole = newUserRoleList };
+        _role.UpdateAttributes(newRole);
+        Assert.IsNotNull(_role.UserRole);
+        Assert.AreEqual(1, _role.UserRole.Count);
+        Assert.AreEqual(2, _role.UserRole[0].Role.Id);
+        Assert.AreEqual(1, _role.UserRole[0].User.Id);
     }
 }

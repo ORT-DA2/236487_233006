@@ -2,6 +2,7 @@ using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.IServices;
 using Blog.Services;
+using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models.In;
 using Models.Out;
@@ -11,13 +12,13 @@ namespace Blog.WebApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UsersController : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IRoleService _roleService;
     private readonly IUserRoleService _userRoleService;
 
-    public UsersController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService)
+    public UserController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService)
     {
         _userService = userService;
         _roleService = roleService;
@@ -26,6 +27,7 @@ public class UsersController : ControllerBase
 
     // Index - Get all users (/api/users)
     [HttpGet]
+    [RequiredRoles(1, 2)]
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
         var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
@@ -33,6 +35,7 @@ public class UsersController : ControllerBase
     }
 
     // Show - Get specific user (/api/users/{id})
+    [RequiredRoles(1)]
     [HttpGet("{id}", Name = "GetUser")]
     public IActionResult GetUserById(int id)
     {
@@ -49,6 +52,7 @@ public class UsersController : ControllerBase
 
     // Create - Create new user (/api/users)
     [HttpPost]
+    [RequiredRoles(1)]
     public IActionResult CreateUser([FromBody] UserModelIn newUser)
     {
         try
@@ -90,6 +94,7 @@ public class UsersController : ControllerBase
     }
 
     // Update - Update specific user (/api/users/{id})
+    [RequiredRoles(1)]
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] UserModelIn updatedUser)
     {
@@ -131,13 +136,14 @@ public class UsersController : ControllerBase
     }
 
     // Delete - Delete specific user (/api/users/{id})
+    [RequiredRoles(1)]
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         try
         {
             _userService.DeleteUser(id);
-            return Ok();
+              return Ok();
         }
         catch (ResourceNotFoundException e)
         {

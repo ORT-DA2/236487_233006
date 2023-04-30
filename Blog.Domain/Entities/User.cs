@@ -30,12 +30,6 @@ public class User
 
     public ICollection<UserRole> UserRole {get;set;}
 
-    /*
-    public byte[] PasswordHash { get; set; }
-    public byte[] PasswordSalt { get; set; }
-    public string RefreshToken { get; set; } = string.Empty;
-    */
-
     public User()
     {
         Articles = new List<Article>();
@@ -65,7 +59,7 @@ public class User
 
     }
 
-    private void ValidateUsername()
+    public void ValidateUsername()
     {
         if (string.IsNullOrEmpty(Username))
         {
@@ -90,7 +84,7 @@ public class User
 
     }
 
-    private void ValidatePassword()
+    public void ValidatePassword()
     {
         if (string.IsNullOrEmpty(Password))
         {
@@ -113,7 +107,7 @@ public class User
         }
     }
 
-    private void ValidateEmail()
+    public void ValidateEmail()
     {
         if (string.IsNullOrEmpty(Email))
         {
@@ -131,7 +125,7 @@ public class User
         }
     }
 
-    private void ValidateFirstName()
+    public void ValidateFirstName()
     {
         if (string.IsNullOrEmpty(FirstName))
         {
@@ -144,7 +138,7 @@ public class User
         }
     }
 
-    private void ValidateLastName()
+    public void ValidateLastName()
     {
         if (string.IsNullOrEmpty(LastName))
         {
@@ -157,17 +151,13 @@ public class User
         }
     }
 
-    private bool IsValidEmail(string email)
+    public bool IsValidEmail(string email)
     {
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
-        }
-        catch
-        {
+        if (string.IsNullOrEmpty(email))
             return false;
-        }
+
+        string pattern = @"^[\w\.\-]+@([\w\-]+\.)+[\w\-]+$";
+        return Regex.IsMatch(email, pattern);
     }
 
     public override bool Equals(object obj)
