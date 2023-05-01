@@ -21,6 +21,11 @@ public class BaseRepository<T> : IRepository<T> where T : class
         return _context.Set<T>().Where(expression);
     }
 
+    public virtual IEnumerable<T> GetAll()
+    {
+        return _context.Set<T>();
+    }
+
     public virtual T? GetOneBy(Expression<Func<T, bool>> expression)
     {
         return _context.Set<T>().FirstOrDefault(expression);

@@ -20,6 +20,23 @@ public class UserService : IUserService
         return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
     }
 
+    public List<User> GetUsersRanking(DateTime startDate, DateTime endDate)
+    {
+        List <User> users = _repository.GetAll().OrderByDescending(u => GetUserArticlesCommentsTotalCount(u.Articles.ToList(), startDate, endDate)).ToList();
+        return users;
+    }
+
+    public int GetUserArticlesCommentsTotalCount (List<Article> userArticles, DateTime startDate, DateTime endDate)
+    {
+        int sum = 0;
+        userArticles.ForEach(article =>
+        {
+
+            sum += article.Comments.Where(c => c.CreatedAt >= startDate && c.CreatedAt <= endDate).ToList().Count;
+        });
+        return sum;
+    }
+
     public User GetSpecificUser(int id)
     {
         return UserExists(id);
