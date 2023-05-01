@@ -25,6 +25,8 @@ public class Comment
 
     public DateTime? DeletedAt { get; set; }
 
+    public bool IsViewed { get; set; }
+
     public void ValidOrFail()
     {
         if (string.IsNullOrEmpty(Content))
@@ -43,5 +45,6 @@ public class Comment
         CreatedAt = comment.CreatedAt;
         UpdatedAt = comment.UpdatedAt;
         DeletedAt = comment.DeletedAt;
+        IsViewed = comment.IsViewed;
     }
 }

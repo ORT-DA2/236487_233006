@@ -11,4 +11,5 @@ public interface ICommentService
     Comment UpdateComment(int id, Comment updatedComment);
 
     List<Comment> GetAllComments(CommentSearchCriteria searchCriteria);
+    void MarkAllArticleCommentsAsViewed(int articleId);
 }

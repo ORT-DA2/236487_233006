@@ -1,13 +1,16 @@
 using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.IServices;
+using Blog.Services;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Models.In;
 using Models.Out;
 
 namespace Blog.WebApi.Controllers;
 
+[AuthenticationFilter]
 [ApiController]
 [Route("api/users")]
 public class UserController : ControllerBase
@@ -15,17 +18,19 @@ public class UserController : ControllerBase
     private readonly IUserService _userService;
     private readonly IRoleService _roleService;
     private readonly IUserRoleService _userRoleService;
+    private readonly ISessionService _sessionService;
 
-    public UserController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService)
+    public UserController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService, ISessionService sessionService)
     {
         _userService = userService;
         _roleService = roleService;
         _userRoleService = userRoleService;
+        _sessionService = sessionService;
     }
 
     // Index - Get all users (/api/users)
-    [HttpGet]
     [RoleFilter(RoleType.Admin, RoleType.Blogger)]
+    [HttpGet]
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
         var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
@@ -56,9 +61,26 @@ public class UserController : ControllerBase
        
     }
 
+    // Get user activities (/api/users/activities)
+    [HttpGet("activities")]
+    public IActionResult GetUserActivities()
+    {
+        User currentUser = _sessionService.GetCurrentUser();
+        List<Comment> comments =  new List<Comment>();
+        currentUser.Articles.ToList().ForEach(a =>
+        {
+            if(a.Comments != null)
+            {
+                List<Comment> newComments = a.Comments.Where(c => !c.IsViewed && !c.Author.Equals(currentUser)).ToList();
+                comments.AddRange(newComments);
+            }
+        });
+        return Ok(comments.Select(c => new CommentDetailModel(c)));
+    }
+
     // Show - Get specific user (/api/users/{id})
-    [HttpGet("{id}", Name = "GetUser")]
     [RoleFilter(RoleType.Admin)]
+    [HttpGet("{id}", Name = "GetUser")]
     public IActionResult GetUserById(int id)
     {
         try

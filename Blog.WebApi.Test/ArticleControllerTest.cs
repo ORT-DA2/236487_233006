@@ -18,6 +18,7 @@ public class ArticleControllerTest
     private Mock<IArticleService> _articleServiceMock;
     private Mock<IUserService> _userServiceMock;
     private Mock<ISessionService> _sessionServiceMock;
+    private Mock<ICommentService> _commentServiceMock;
 
     [TestInitialize]
     public void Setup()
@@ -25,6 +26,7 @@ public class ArticleControllerTest
         _articleServiceMock = new Mock<IArticleService>(MockBehavior.Strict);
         _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
         _sessionServiceMock = new Mock<ISessionService>(MockBehavior.Strict);
+        _commentServiceMock = new Mock<ICommentService>(MockBehavior.Strict);
     }
 
     [TestCleanup]
@@ -32,6 +34,8 @@ public class ArticleControllerTest
     {
         _articleServiceMock.VerifyAll();
         _userServiceMock.VerifyAll();
+        _sessionServiceMock.VerifyAll();
+        _commentServiceMock.VerifyAll();
     }
 
     [TestMethod]
@@ -41,7 +45,7 @@ public class ArticleControllerTest
         var article = CreateArticle(1);
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
         var response = controller.GetArticle(article.Id) as OkObjectResult;
 
@@ -58,13 +62,13 @@ public class ArticleControllerTest
         var article = CreateArticle(1, true);
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
         var result = controller.GetArticle(article.Id);
 
         Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
         var unauthorizedResult = result as UnauthorizedObjectResult;
-        Assert.AreEqual("Cannot see private article", unauthorizedResult.Value);
+        Assert.AreEqual("You are not authorized to perform this action", unauthorizedResult.Value);
     }
 
     [TestMethod]
@@ -80,7 +84,7 @@ public class ArticleControllerTest
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetAllArticles(criteria, null, null, null)).Returns(articles);
         
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
         var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
 
@@ -101,7 +105,7 @@ public class ArticleControllerTest
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(author);
         _articleServiceMock.Setup(service => service.CreateArticle(It.IsAny<Article>())).Returns(article);
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
         var newArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
 
@@ -128,7 +132,7 @@ public class ArticleControllerTest
         _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
         _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(),It.IsAny<Article>())).Returns(article);
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
         var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
 
@@ -149,11 +153,13 @@ public class ArticleControllerTest
     public void DeleteAnArticleReturnNoContent()
     {
         var article = CreateArticle(1);
+        User currentUser = CreateUser(1);
 
-        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(article.Author);
+        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
         _articleServiceMock.Setup(service => service.DeleteArticle(It.IsAny<int>()));
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
         var result = controller.DeleteArticle(article.Id) as NoContentResult;
 
@@ -163,67 +169,67 @@ public class ArticleControllerTest
     }
 
     [TestMethod]
-public void GetExistingArticleReturnsAsExpectedWhenArticleExistsAndIsPrivateAndCurrentUserIsAuthor()
-{
-    User currentUser = CreateUser(1);
-    var article = CreateArticle(1, true);
-    _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-    _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-    var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
-
-    var response = controller.GetArticle(article.Id) as OkObjectResult;
-
-    ArticleDetailModel expected = new ArticleDetailModel(article);
-
-    Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
-    Assert.AreEqual(expected, response.Value);
-}
-
-[TestMethod]
-public void UpdateAnArticleReturnUnauthorizedWhenCurrentUserIsNotAuthor()
-{
-    User currentUser = CreateUser(2);
-    User author = CreateUser(1);
-    var article = CreateArticle(1);
-
-    _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-    _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
-    _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(), It.IsAny<Article>())).Returns(article);
-
-    var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
-
-    var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
-
-    var result = controller.UpdateArticle(article.Id, updatedArticle);
-
-    Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
-    var unauthorizedResult = result as UnauthorizedObjectResult;
-    Assert.AreEqual("Cannot update this article", unauthorizedResult.Value);
-}
-
-[TestMethod]
-public void GetArticles_ReturnsOnlyNonPrivateArticlesOrPrivateArticlesWithCurrentUserAsAuthor()
-{
-    User currentUser = CreateUser(1);
-    var articles = new List<Article>
+    public void GetExistingArticleReturnsAsExpectedWhenArticleExistsAndIsPrivateAndCurrentUserIsAuthor()
     {
-        CreateArticle(1),
-        CreateArticle(2, true),
-        CreateArticle(3, true)
-    };
-    ArticleSearchCriteria criteria = new ArticleSearchCriteria();
-    _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-    _articleServiceMock.Setup(service => service.GetAllArticles(criteria, null, null, null)).Returns(articles);
+        User currentUser = CreateUser(1);
+        var article = CreateArticle(1, true);
+        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
 
-    var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var response = controller.GetArticle(article.Id) as OkObjectResult;
 
-    var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
+        ArticleDetailModel expected = new ArticleDetailModel(article);
 
-    var articlesResult = result.Value as IEnumerable<ArticleDetailModel>;
+        Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+        Assert.AreEqual(expected, response.Value);
+    }
 
-    Assert.IsNotNull(articlesResult);
-    Assert.AreEqual(3, articlesResult.Count());
-}
+    [TestMethod]
+    public void UpdateAnArticleReturnUnauthorizedWhenCurrentUserIsNotAuthor()
+    {
+        User currentUser = CreateUser(2);
+        User author = CreateUser(1);
+        var article = CreateArticle(1);
+
+        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
+        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(), It.IsAny<Article>())).Returns(article);
+
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+
+        var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
+
+        var result = controller.UpdateArticle(article.Id, updatedArticle);
+
+        Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        var unauthorizedResult = result as UnauthorizedObjectResult;
+        Assert.AreEqual("You are not authorized to perform this action", unauthorizedResult.Value);
+    }
+
+    [TestMethod]
+    public void GetArticles_ReturnsOnlyNonPrivateArticlesOrPrivateArticlesWithCurrentUserAsAuthor()
+    {
+        User currentUser = CreateUser(1);
+        var articles = new List<Article>
+        {
+            CreateArticle(1),
+            CreateArticle(2, true),
+            CreateArticle(3, true)
+        };
+        ArticleSearchCriteria criteria = new ArticleSearchCriteria();
+        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(service => service.GetAllArticles(criteria, null, null, null)).Returns(articles);
+
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+
+        var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
+
+        var articlesResult = result.Value as IEnumerable<ArticleDetailModel>;
+
+        Assert.IsNotNull(articlesResult);
+        Assert.AreEqual(3, articlesResult.Count());
+    }
 
 
 private Article CreateArticle(int articleId, bool isPrivate = false)
