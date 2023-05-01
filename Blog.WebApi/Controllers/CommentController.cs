@@ -1,3 +1,4 @@
+using Blog.Domain;
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.WebApi.Exceptions;
@@ -47,16 +48,15 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
+                User currentUser = _sessionService.GetCurrentUser();
                 var article = _articleService.GetSpecificArticle(newComment.ArticleId);
-                var author = _userService.GetSpecificUser(newComment.AuthorId);
-                var currentUser = _sessionService.GetCurrentUser();
 
                 if(article.Private && !article.Author.Equals(currentUser))
                 {
                     return Unauthorized("You are not able to comment this article");
                 }
 
-                var createdComment = _commentService.CreateComment(newComment.ToCreateEntity(author, article));
+                var createdComment = _commentService.CreateComment(newComment.ToCreateEntity(currentUser, article));
                 
                 var commentModel = new CommentDetailModel(createdComment);
 
@@ -99,7 +99,6 @@ namespace Blog.WebApi.Controllers
                 {
                     return BadRequest("Cannot reply to a replied comment");
                 } 
-                var author = _userService.GetSpecificUser(comment.Author.Id);
                 var article = _articleService.GetSpecificArticle(comment.Article.Id);
 
                 if (!article.Author.Equals(currentUser))
@@ -107,7 +106,7 @@ namespace Blog.WebApi.Controllers
                     return Unauthorized("You are not able to reply this article");
                 }
 
-                var createdComment = _commentService.CreateComment(reply.ToCreateEntity(author, article));
+                var createdComment = _commentService.CreateComment(reply.ToCreateEntity(currentUser, article));
 
                 comment.Reply = createdComment;
 
