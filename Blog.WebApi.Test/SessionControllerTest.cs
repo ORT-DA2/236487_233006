@@ -27,7 +27,7 @@ namespace Blog.WebApi.Tests
             // Arrange
             var sessionModel = new SessionModel { Email = "test@example.com", Password = "password" };
             Guid token = Guid.NewGuid();
-            _sessionServiceMock.Setup(service => service.Authenticate(sessionModel.Email, sessionModel.Password)).Returns(token);
+            _sessionServiceMock.Setup(service => service.Authenticate(sessionModel.Email, null, sessionModel.Password)).Returns(token);
             var controller = new SessionController(_sessionServiceMock.Object);
 
             // Act
@@ -45,7 +45,7 @@ namespace Blog.WebApi.Tests
         {
             // Arrange
             var sessionModel = new SessionModel { Email = "test@example.com", Password = "wrong_password" };
-            _sessionServiceMock.Setup(service => service.Authenticate(sessionModel.Email, sessionModel.Password)).Throws<InvalidCredentialException>();
+            _sessionServiceMock.Setup(service => service.Authenticate(sessionModel.Email, null, sessionModel.Password)).Throws<InvalidCredentialException>();
             var controller = new SessionController(_sessionServiceMock.Object);
 
             // Act

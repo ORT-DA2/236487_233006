@@ -40,9 +40,9 @@ public class SessionService : ISessionService
     }
 
     // Metodo para autenticar a un usuario y generar un token de autenticación
-    public Guid Authenticate(string email, string password)
+    public Guid Authenticate(string email, string username, string password)
     {
-        var user = _userRepository.GetOneBy(u => u.Email == email && u.Password == password);
+        var user = _userRepository.GetOneBy(u => (u.Email == email || u.Username == username) && u.Password == password);
 
         if (user == null)
             throw new InvalidCredentialException("Invalid credentials");
