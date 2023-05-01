@@ -32,7 +32,7 @@ public class UserController : ControllerBase
         return Ok(retrievedUsers.Select(u => new UserModelOut(u)));
     }
 
-    // Index - Get users ranking (/api/users/ranking)
+    // Get users ranking (/api/users/ranking)
     [HttpGet("ranking")]
     public IActionResult GetUsersRanking([FromQuery] string startDate, [FromQuery] string endDate)
     {
