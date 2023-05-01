@@ -32,6 +32,30 @@ public class UserController : ControllerBase
         return Ok(retrievedUsers.Select(u => new UserModelOut(u)));
     }
 
+    // Index - Get users ranking (/api/users/ranking)
+    [HttpGet("ranking")]
+    public IActionResult GetUsersRanking([FromQuery] string startDate, [FromQuery] string endDate)
+    {
+        try
+        {
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+
+            if(start >= end)
+            {
+                return BadRequest("Invalid date format");
+            }
+
+            var retrievedUsers = _userService.GetUsersRanking(start, end);
+            return Ok(retrievedUsers.Select(u => new UserModelOut(u)));
+        }
+        catch (FormatException)
+        {
+            return BadRequest("Invalid date format");
+        }
+       
+    }
+
     // Show - Get specific user (/api/users/{id})
     [HttpGet("{id}", Name = "GetUser")]
     [RoleFilter(RoleType.Admin)]

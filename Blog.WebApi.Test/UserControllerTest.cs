@@ -339,6 +339,51 @@ public void UpdateUser_EmptyRolesList_ReturnsBadRequest()
     Assert.AreEqual("User should have at least one role", result.Value);
 }
 
+        [TestMethod]
+        public void GetUsersRanking_ValidDates_ReturnsOk()
+        {
+            var startDate = "2022-01-01";
+            var endDate = "2022-02-01";
+            var users = new List<User>();
+            _userServiceMock.Setup(x => x.GetUsersRanking(DateTime.Parse(startDate), DateTime.Parse(endDate)))
+                            .Returns(users);
+
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+
+            var result = controller.GetUsersRanking(startDate, endDate);
+
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result;
+            Assert.AreEqual(users.Count, ((IEnumerable<UserModelOut>)okResult.Value).Count());
+        }
+
+        [TestMethod]
+        public void GetUsersRanking_InvalidDateFormat_ReturnsBadRequest()
+        {
+            var endDate = "2022-02-01";
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+
+            var result = controller.GetUsersRanking("invalid-start-date", endDate) as BadRequestObjectResult; ;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+            Assert.AreEqual("Invalid date format", result.Value);
+        }
+
+        [TestMethod]
+        public void GetUsersRanking_InvalidDateRange_ReturnsBadRequest()
+        {
+            var startDate = "2022-02-01";
+            var endDate = "2022-01-01";
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+
+            var result = controller.GetUsersRanking(startDate, endDate) as BadRequestObjectResult; ;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+            Assert.AreEqual("Invalid date format", result.Value);
+        }
+
         private User CreateUser(int userId)
         {
             return new User()
