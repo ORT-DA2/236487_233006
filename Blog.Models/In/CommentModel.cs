@@ -4,8 +4,6 @@ namespace Models.In;
 
 public class CommentModel
 {
-    public int AuthorId { get; set; }
-
     public Comment? Reply { get; set; }
 
     public string Content { get; set; }

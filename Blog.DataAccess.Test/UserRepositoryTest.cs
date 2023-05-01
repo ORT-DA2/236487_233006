@@ -192,7 +192,7 @@ public void GetUsersByRole()
             Username = "johndoe",
             Email = "john@example.com",
             Password = "password123",
-            UserRole = new List<UserRole> { adminUserRole }
+            UserRoles = new List<UserRole> { adminUserRole }
         },
         new()
         {
@@ -201,7 +201,7 @@ public void GetUsersByRole()
             Username = "janedoe",
             Email = "jane@example.com",
             Password = "password456",
-            UserRole = new List<UserRole> { bloggerUserRole }
+            UserRoles = new List<UserRole> { bloggerUserRole }
         }
     };
 
@@ -209,8 +209,8 @@ public void GetUsersByRole()
     _blogContext.SaveChanges();
 
 // Act
-    var adminUsers = _repository.GetAllBy(user => user.UserRole.Any(ur => ur.Role.RoleType == RoleType.Admin)).ToList();
-    var bloggerUsers = _repository.GetAllBy(user => user.UserRole.Any(ur => ur.Role.RoleType == RoleType.Blogger)).ToList();
+    var adminUsers = _repository.GetAllBy(user => user.UserRoles.Any(ur => ur.Role.RoleType == RoleType.Admin)).ToList();
+    var bloggerUsers = _repository.GetAllBy(user => user.UserRoles.Any(ur => ur.Role.RoleType == RoleType.Blogger)).ToList();
 
 // Assert
     Assert.AreEqual(1, adminUsers.Count);

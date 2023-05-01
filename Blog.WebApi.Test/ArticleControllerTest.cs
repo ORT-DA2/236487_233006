@@ -54,7 +54,6 @@ public class ArticleControllerTest
     [TestMethod]
     public void GetExistingArticleShouldReturnUnauthorizedWhenArticleExistsAndIsPrivateButCurrentUserIsNotAuthor()
     {
-        /*
         User currentUser = CreateUser(2);
         var article = CreateArticle(1, true);
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
@@ -66,31 +65,11 @@ public class ArticleControllerTest
         Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
         var unauthorizedResult = result as UnauthorizedObjectResult;
         Assert.AreEqual("Cannot see private article", unauthorizedResult.Value);
-        */
-    }
-
-    [TestMethod]
-    public void GetNonExistingArticleReturnsNotFound()
-    {
-        /*
-        User currentUser = CreateUser(1);
-        var exception = new ResourceNotFoundException("Could not find this article, sorry :)");
-        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-        _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>()))
-            .Throws(exception);
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
-
-        var response = controller.GetArticle(1) as ObjectResult;
-
-        Assert.AreEqual((int)HttpStatusCode.NotFound, response.StatusCode);
-        Assert.AreEqual(exception.Message, response.Value);
-        */
     }
 
     [TestMethod]
     public void GetAllArticlesReturnsAsExpected()
     {
-        /*
         User currentUser = CreateUser(2);
         var articles = new List<Article>
         {
@@ -99,11 +78,11 @@ public class ArticleControllerTest
         };
         ArticleSearchCriteria criteria = new ArticleSearchCriteria();
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-        _articleServiceMock.Setup(service => service.GetAllArticles(criteria)).Returns(articles);
+        _articleServiceMock.Setup(service => service.GetAllArticles(criteria, null, null, null)).Returns(articles);
         
         var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
 
-        var result = controller.GetArticles(criteria) as OkObjectResult;
+        var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
 
         var articlesResult = result.Value as IEnumerable<ArticleDetailModel>;
 
@@ -111,7 +90,6 @@ public class ArticleControllerTest
 
         Assert.IsNotNull(articlesResult);
         Assert.AreEqual(publicArticles, articlesResult.Count());
-        */
     }
 
     [TestMethod]
@@ -121,7 +99,6 @@ public class ArticleControllerTest
         var author = CreateUser(1);
 
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(author);
-        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
         _articleServiceMock.Setup(service => service.CreateArticle(It.IsAny<Article>())).Returns(article);
 
         var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
@@ -227,7 +204,6 @@ public void UpdateAnArticleReturnUnauthorizedWhenCurrentUserIsNotAuthor()
 [TestMethod]
 public void GetArticles_ReturnsOnlyNonPrivateArticlesOrPrivateArticlesWithCurrentUserAsAuthor()
 {
-    /*
     User currentUser = CreateUser(1);
     var articles = new List<Article>
     {
@@ -241,13 +217,12 @@ public void GetArticles_ReturnsOnlyNonPrivateArticlesOrPrivateArticlesWithCurren
 
     var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
 
-    var result = controller.GetArticles(criteria) as OkObjectResult;
+    var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
 
     var articlesResult = result.Value as IEnumerable<ArticleDetailModel>;
 
     Assert.IsNotNull(articlesResult);
-    Assert.AreEqual(2, articlesResult.Count());
-    */
+    Assert.AreEqual(3, articlesResult.Count());
 }
 
 

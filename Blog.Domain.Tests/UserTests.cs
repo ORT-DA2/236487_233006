@@ -234,7 +234,7 @@ public void UserConstructorInitializesCollections()
     var newUser = new User();
     Assert.IsNotNull(newUser.Articles);
     Assert.IsNotNull(newUser.Comments);
-    Assert.IsNotNull(newUser.UserRole);
+    Assert.IsNotNull(newUser.UserRoles);
 }
 
 

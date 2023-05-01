@@ -55,7 +55,7 @@ namespace Blog.WebApi.Controllers
                 User currentUser = _sessionService.GetCurrentUser();
                 var retrievedArticle = _articleService.GetSpecificArticle(articleId);
                 if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
-                    return Unauthorized("Cannot see privat6e article");
+                    return Unauthorized("Cannot see private article");
                 }
                 return Ok(new ArticleDetailModel(retrievedArticle));
             }
@@ -71,13 +71,7 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
-                var author = _userService.GetSpecificUser(newArticle.AuthorId);
-                /* if (author == null) TODO: Add current user
-                {
-                    // If the author is not provided, set the current user as the author.
-                    var currentUser = await _userManager.GetUserAsync(User);
-                    author = new Author { Name = currentUser.UserName };
-                }*/
+                User author = _sessionService.GetCurrentUser();
                 var createdArticle = _articleService.CreateArticle(newArticle.ToCreateEntity(author));
                 var articleModel = new ArticleDetailModel(createdArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);

@@ -5,7 +5,7 @@ namespace Models;
 public class ArticleModel
 {
     public int AuthorId { get; set; }
-    
+
     public string Title { get; set; }
     
     public bool Private { get; set; }
