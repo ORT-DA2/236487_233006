@@ -11,6 +11,7 @@ using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Models.In;
 using Models.Out;
+using Models;
 
 namespace Blog.WebApi.Tests
 {
@@ -20,6 +21,7 @@ namespace Blog.WebApi.Tests
         private Mock<IUserService> _userServiceMock;
         private Mock<IRoleService> _roleServiceMock;
         private Mock<IUserRoleService> _userRoleServiceMock;
+        private Mock<ISessionService> _sessionServiceMock;
 
         [TestInitialize]
         public void Setup()
@@ -27,6 +29,7 @@ namespace Blog.WebApi.Tests
             _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             _roleServiceMock = new Mock<IRoleService>(MockBehavior.Strict);
             _userRoleServiceMock = new Mock<IUserRoleService>(MockBehavior.Strict);
+            _sessionServiceMock = new Mock<ISessionService>(MockBehavior.Strict);
         }
 
         [TestCleanup]
@@ -35,6 +38,7 @@ namespace Blog.WebApi.Tests
             _userServiceMock.VerifyAll();
             _roleServiceMock.VerifyAll();
             _userRoleServiceMock.VerifyAll();
+            _sessionServiceMock.VerifyAll();
         }
 
 
@@ -51,7 +55,7 @@ namespace Blog.WebApi.Tests
           _userServiceMock.Setup(service => service.GetAllUsers(It.IsAny<UserSearchCriteria>())).Returns(users);
 
 
-          var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+          var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
           UserSearchCriteriaModel userCriteria = new UserSearchCriteriaModel();
           var result = controller.GetUsers(userCriteria) as OkObjectResult;
@@ -70,7 +74,7 @@ namespace Blog.WebApi.Tests
 
             _userServiceMock.Setup(service => service.GetSpecificUser(user.Id)).Returns(user);
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.GetUserById(user.Id) as OkObjectResult;
 
@@ -86,7 +90,7 @@ namespace Blog.WebApi.Tests
             int nonExistingUserId = 3;
             _userServiceMock.Setup(service => service.GetSpecificUser(nonExistingUserId)).Throws(new ResourceNotFoundException("User not found"));
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.GetUserById(nonExistingUserId) as NotFoundObjectResult;
 
@@ -116,7 +120,7 @@ namespace Blog.WebApi.Tests
 
             _userRoleServiceMock.Setup(service => service.CreateUserRole(It.IsAny<UserRole>())).Returns(new UserRole()).Verifiable();
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.CreateUser(newUser) as CreatedAtRouteResult;
 
@@ -151,7 +155,7 @@ namespace Blog.WebApi.Tests
 
             _userRoleServiceMock.Setup(service => service.CreateUserRole(It.IsAny<UserRole>())).Returns(new UserRole());
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.Update(userToUpdate.Id, updatedUserModel) as OkObjectResult;
             Assert.IsNotNull(result);
@@ -179,7 +183,7 @@ namespace Blog.WebApi.Tests
             _roleServiceMock.Setup(service => service.GetSpecificRole(1)).Returns(new Role { Id = 1, RoleType =  RoleType.Admin});
 
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.Update(nonExistingUserId, updatedUserModel) as NotFoundObjectResult;
 
@@ -196,7 +200,7 @@ namespace Blog.WebApi.Tests
 
             _userServiceMock.Setup(service => service.DeleteUser(userToDelete.Id));
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.Delete(userToDelete.Id) as OkResult;
 
@@ -211,7 +215,7 @@ namespace Blog.WebApi.Tests
         {
             _userServiceMock.Setup(service => service.GetAllUsers(It.IsAny<UserSearchCriteria>())).Returns(new List<User>());
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             UserSearchCriteriaModel userCriteria = new UserSearchCriteriaModel();
             var result = controller.GetUsers(userCriteria) as OkObjectResult;
@@ -235,7 +239,7 @@ namespace Blog.WebApi.Tests
                 roles = new List<int>()
             };
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.CreateUser(newUser) as BadRequestObjectResult;
 
@@ -260,7 +264,7 @@ namespace Blog.WebApi.Tests
             _userServiceMock.Setup(service => service.CreateUser(It.IsAny<User>())).Throws(new DuplicateResourceException("Email or username already exists"));
             _roleServiceMock.Setup(service => service.GetSpecificRole(1)).Returns(new Role { Id = 1, RoleType = RoleType.Admin });
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.CreateUser(newUser) as ConflictObjectResult;
 
@@ -271,73 +275,73 @@ namespace Blog.WebApi.Tests
 
 
         [TestMethod]
-public void CreateUser_EmptyRolesList_ReturnsBadRequest()
-{
-    var newUser = new UserModelIn
-    {
-        FirstName = "Firstname",
-        LastName = "Lastname",
-        Password = "Password",
-        Email = "email@gmail.com",
-        Username = "username",
-        roles = new List<int>()
-    };
+        public void CreateUser_EmptyRolesList_ReturnsBadRequest()
+        {
+            var newUser = new UserModelIn
+            {
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                Password = "Password",
+                Email = "email@gmail.com",
+                Username = "username",
+                roles = new List<int>()
+            };
 
-    var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-    var result = controller.CreateUser(newUser) as BadRequestObjectResult;
+            var result = controller.CreateUser(newUser) as BadRequestObjectResult;
 
-    Assert.IsNotNull(result);
-    Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
-    Assert.AreEqual("User should have at least one role", result.Value);
-}
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+            Assert.AreEqual("User should have at least one role", result.Value);
+        }
 
-[TestMethod]
-public void CreateUser_NonExistingRole_ReturnsNotFound()
-{
-    var newUser = new UserModelIn
-    {
-        FirstName = "Firstname",
-        LastName = "Lastname",
-        Password = "Password",
-        Email = "email@gmail.com",
-        Username = "username",
-        roles = new List<int> { 99 }
-    };
+        [TestMethod]
+        public void CreateUser_NonExistingRole_ReturnsNotFound()
+        {
+            var newUser = new UserModelIn
+            {
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                Password = "Password",
+                Email = "email@gmail.com",
+                Username = "username",
+                roles = new List<int> { 99 }
+            };
 
-    _roleServiceMock.Setup(service => service.GetSpecificRole(99)).Throws(new ResourceNotFoundException("Role not found"));
+            _roleServiceMock.Setup(service => service.GetSpecificRole(99)).Throws(new ResourceNotFoundException("Role not found"));
 
-    var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-    var result = controller.CreateUser(newUser) as NotFoundObjectResult;
+            var result = controller.CreateUser(newUser) as NotFoundObjectResult;
 
-    Assert.IsNotNull(result);
-    Assert.AreEqual((int)HttpStatusCode.NotFound, result.StatusCode);
-    Assert.AreEqual("Role not found", result.Value);
-}
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.NotFound, result.StatusCode);
+            Assert.AreEqual("Role not found", result.Value);
+        }
 
-[TestMethod]
-public void UpdateUser_EmptyRolesList_ReturnsBadRequest()
-{
-    var userToUpdate = CreateUser(1);
-    var updatedUserModel = new UserModelIn
-    {
-        FirstName = "UpdatedFirstname",
-        LastName = "UpdatedLastname",
-        Password = "UpdatedPassword",
-        Email = "updatedemail@gmail.com",
-        Username = "updatedusername",
-        roles = new List<int>()
-    };
+        [TestMethod]
+        public void UpdateUser_EmptyRolesList_ReturnsBadRequest()
+        {
+            var userToUpdate = CreateUser(1);
+            var updatedUserModel = new UserModelIn
+            {
+                FirstName = "UpdatedFirstname",
+                LastName = "UpdatedLastname",
+                Password = "UpdatedPassword",
+                Email = "updatedemail@gmail.com",
+                Username = "updatedusername",
+                roles = new List<int>()
+            };
 
-    var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-    var result = controller.Update(userToUpdate.Id, updatedUserModel) as BadRequestObjectResult;
+            var result = controller.Update(userToUpdate.Id, updatedUserModel) as BadRequestObjectResult;
 
-    Assert.IsNotNull(result);
-    Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
-    Assert.AreEqual("User should have at least one role", result.Value);
-}
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
+            Assert.AreEqual("User should have at least one role", result.Value);
+        }
 
         [TestMethod]
         public void GetUsersRanking_ValidDates_ReturnsOk()
@@ -348,7 +352,7 @@ public void UpdateUser_EmptyRolesList_ReturnsBadRequest()
             _userServiceMock.Setup(x => x.GetUsersRanking(DateTime.Parse(startDate), DateTime.Parse(endDate)))
                             .Returns(users);
 
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.GetUsersRanking(startDate, endDate);
 
@@ -361,7 +365,7 @@ public void UpdateUser_EmptyRolesList_ReturnsBadRequest()
         public void GetUsersRanking_InvalidDateFormat_ReturnsBadRequest()
         {
             var endDate = "2022-02-01";
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.GetUsersRanking("invalid-start-date", endDate) as BadRequestObjectResult; ;
 
@@ -375,13 +379,39 @@ public void UpdateUser_EmptyRolesList_ReturnsBadRequest()
         {
             var startDate = "2022-02-01";
             var endDate = "2022-01-01";
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.GetUsersRanking(startDate, endDate) as BadRequestObjectResult; ;
 
             Assert.IsNotNull(result);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
             Assert.AreEqual("Invalid date format", result.Value);
+        }
+
+        [TestMethod]
+        public void GetUserActivities_ReturnsOkResult()
+        {
+            User currentUser = CreateUser(1);
+            _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
+
+            var result = controller.GetUserActivities();
+
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        }
+
+        [TestMethod]
+        public void GetUserActivities_ReturnsCommentDetailModels()
+        {
+            User currentUser = CreateUser(1);
+            _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
+
+            var result = controller.GetUserActivities() as OkObjectResult;
+            var commentDetailModels = result.Value as IEnumerable<CommentDetailModel>;
+
+            Assert.IsNotNull(commentDetailModels);
+            Assert.IsTrue(commentDetailModels.All(c => c.GetType() == typeof(CommentDetailModel)));
         }
 
         private User CreateUser(int userId)

@@ -16,12 +16,14 @@ namespace Blog.WebApi.Controllers
         private readonly IArticleService _articleService;
         private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
+        private readonly ICommentService _commentService;
 
-        public ArticleController(IArticleService articleService, IUserService userService, ISessionService sessionService)
+        public ArticleController(IArticleService articleService, IUserService userService, ISessionService sessionService, ICommentService commentService)
         {
             _articleService = articleService;
             _userService = userService;
             _sessionService = sessionService;
+            _commentService = commentService;
         }
 
         // Index - Get all articles (/api/articles)
@@ -55,9 +57,29 @@ namespace Blog.WebApi.Controllers
                 User currentUser = _sessionService.GetCurrentUser();
                 var retrievedArticle = _articleService.GetSpecificArticle(articleId);
                 if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
-                    return Unauthorized("Cannot see private article");
+                    return Unauthorized("You are not authorized to perform this action");
                 }
                 return Ok(new ArticleDetailModel(retrievedArticle));
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        // Show - Get specific article (/api/article/{id})
+        [HttpPost("{articleId}/markAllCommentsAsViewed")]
+        public IActionResult MarkAllCommentsAsViewed(int articleId)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                var article = _articleService.GetSpecificArticle(articleId);
+                if(!article.Author.Equals(currentUser)) {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+                _commentService.MarkAllArticleCommentsAsViewed(article.Id);
+                return NoContent();
             }
             catch (ResourceNotFoundException e)
             {
@@ -97,7 +119,7 @@ namespace Blog.WebApi.Controllers
                 var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(author));
                 if(!retrievedArticle.Author.Equals(currentUser))
                 {
-                    return Unauthorized("Cannot update this article");
+                    return Unauthorized("You are not authorized to perform this action");
                 }
                 var articleModel = new ArticleDetailModel(retrievedArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
@@ -118,6 +140,12 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
+                User currentUser = _sessionService.GetCurrentUser();
+                var article = _articleService.GetSpecificArticle(articleId);
+                if (!article.Author.Equals(currentUser))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
                 _articleService.DeleteArticle(articleId);
                 return NoContent();
             }

@@ -8,9 +8,9 @@ namespace Blog.Services;
 
 public class CommentService : ICommentService
 {
-    private readonly IRepository<Comment> _repository;
+    private readonly ICommentRepository _repository;
 
-    public CommentService(IRepository<Comment> repository)
+    public CommentService(ICommentRepository repository)
     {
         _repository = repository;
     }
@@ -49,5 +49,10 @@ public class CommentService : ICommentService
     public List<Comment> GetAllComments(CommentSearchCriteria searchCriteria)
     {
         return _repository.GetAllBy(searchCriteria.Criteria()).ToList();
+    }
+
+    public void MarkAllArticleCommentsAsViewed(int articleId)
+    {
+        _repository.MarkAllArticleCommentsAsViewed(articleId);
     }
 }

@@ -1,13 +1,12 @@
-using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.IServices;
-using Blog.Services;
+using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Models.In;
 using Models.Out;
 
 namespace Blog.WebApi.Controllers;
 
+[AuthenticationFilter]
 [ApiController]
 [Route("api/roles")]
 public class RoleController : ControllerBase

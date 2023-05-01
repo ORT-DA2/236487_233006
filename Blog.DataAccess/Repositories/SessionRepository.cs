@@ -17,6 +17,9 @@ public class SessionRepository : BaseRepository<Session>
             .Include(a => a.User)
             .ThenInclude(u => u.UserRoles)
             .ThenInclude(ur => ur.Role)
+            .Include(a => a.User.Articles)
+            .ThenInclude(ar => ar.Comments)
+            .ThenInclude(c => c.Author)
             .FirstOrDefault(expression);
     }
     
