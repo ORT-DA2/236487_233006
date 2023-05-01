@@ -22,8 +22,9 @@ namespace Blog.WebApi.Controllers
         {
             try
             {
-                var token = _sessionService.Authenticate(session.Email, session.Password);
-                return Ok(new { token = token });
+                
+                var token = _sessionService.Authenticate(session.Email, session.Username, session.Password);
+                return Ok(new { token });
             }
             catch (InvalidCredentialException e)
             {
