@@ -29,7 +29,7 @@ public class UserServiceTests
     [TestCleanup]
     public void Cleanup()
     {
-        //_repoMock.VerifyAll();
+        _repoMock.VerifyAll();
     }
 
     [TestMethod]
@@ -105,17 +105,14 @@ public class UserServiceTests
         Assert.AreEqual(newUser, createdUser);
     }
 
-    /*
     [TestMethod]
     public void UpdateUser_UpdatesUserAttributes()
     {
         // Arrange
         var existingUser = new User { Id = 1, FirstName = "John", LastName = "Doe", Username = "jdoe9411", Email = "john.doe@example.com", Password = "password123" };
-        var updatedUser = new User { FirstName = "Jane", LastName = "Doe", Username = "jdoe9411", Email = "jane.doe@example.com", Password = "password456" };
+        var updatedUser = new User { Id = 1, FirstName = "Jane", LastName = "Doe", Username = "jdoe9411", Email = "jane.doe@example.com", Password = "password456" };
 
-        _repoMock.Setup(repo => repo.GetOneBy(u => u.Id == existingUser.Id)).Returns(existingUser);
-        _repoMock.Setup(repo => repo.GetOneBy(u => u.Email == updatedUser.Email && u.Id != existingUser.Id)).Returns(default(User));
-        _repoMock.Setup(repo => repo.GetOneBy(u => u.Username == updatedUser.Username && u.Id != existingUser.Id)).Returns(default(User));
+        _repoMock.Setup(repo => repo.GetOneBy(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
         _repoMock.Setup(repo => repo.Update(It.IsAny<User>())).Callback<User>(user =>
         {
             existingUser.FirstName = updatedUser.FirstName;
@@ -134,9 +131,9 @@ public class UserServiceTests
         Assert.AreEqual(updatedUser.LastName, updatedResult.LastName);
         Assert.AreEqual(updatedUser.Email, updatedResult.Email);
         Assert.AreEqual(updatedUser.Password, updatedResult.Password);
-    }
-*/
 
+        _repoMock.Verify();
+    }
 
     [TestMethod]
     public void DeleteUser_RemovesUser()
@@ -259,45 +256,19 @@ public class UserServiceTests
         Assert.AreEqual(2, result.Count);
     }
 
-
-
     [TestMethod]
-    public void UpdateUser_UpdatesUserAttributes()
-    {
-        /*
-        // Arrange
-        var existingUser = new User { Id = 1, FirstName = "John", LastName = "Doe", Username = "jdoe9411", Email = "john.doe@example.com", Password = "password123" };
-        var updatedUser = new User { FirstName = "Jane", LastName = "Doe", Username = "janedoe", Email = "jane.doe@example.com", Password = "password456" };
-
-        _repoMock.Setup(repo => repo.GetOneBy(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
-
-        // Act
-        var updatedResult = _userService.UpdateUser(existingUser.Id, updatedUser);
-
-        // Assert
-        Assert.AreEqual(existingUser, updatedResult);
-        Assert.AreEqual(updatedUser.FirstName, updatedResult.FirstName);
-        Assert.AreEqual(updatedUser.LastName, updatedResult.LastName);
-        Assert.AreEqual(updatedUser.Email, updatedResult.Email);
-        Assert.AreEqual(updatedUser.Password, updatedResult.Password);
-        */
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(InvalidResourceException))]
+    [ExpectedException(typeof(ResourceNotFoundException))]
     public void UpdateUser_ThrowsExceptionWhenUserDoesNotExist()
     {
-        // Arrange
-        var nonExistingUserId = 5;
-        var nonExistingUser = default(User);
-        _repoMock.Setup(repo => repo.GetOneBy(It.IsAny<Expression<Func<User, bool>>>())).Returns(nonExistingUser);
+        int userId = 99;
+        var updatedUser = new User { FirstName = "Jane", LastName = "Doe", Username = "jdoe9411", Email = "jane.doe@example.com", Password = "password456" };
 
-        // Act
-        _userService.UpdateUser(nonExistingUserId, new User());
+        _repoMock.Setup(repo => repo.GetOneBy(It.IsAny<Expression<Func<User, bool>>>())).Returns(default(User));
+
+        _userService.UpdateUser(userId, updatedUser);
     }
 
 
-    /*
   [TestMethod]
   [ExpectedException(typeof(DuplicateResourceException))]
   public void UpdateUser_ThrowsExceptionWhenUsernameAlreadyExists()
@@ -307,14 +278,11 @@ public class UserServiceTests
       var existingUser = new User { Id = 1, FirstName = "John", LastName = "Doe", Username = "jdoe9411", Email = "john.doe@example.com", Password = "password123" };
       var updatedUser = new User { FirstName = "Jane", LastName = "Doe", Username = "jdoe9411", Email = "jane.doe@example.com", Password = "password456" };
 
-      _repoMock.Setup(repo => repo.GetOneBy(u => u.Id == existingUser.Id)).Returns(existingUser);
-      _repoMock.Setup(repo => repo.GetOneBy(u => u.Email == updatedUser.Email && u.Id != existingUser.Id)).Returns(default(User));
-      _repoMock.Setup(repo => repo.GetOneBy(u => u.Username == updatedUser.Username && u.Id != existingUser.Id)).Returns(existingUser);
+      _repoMock.Setup(repo => repo.GetOneBy(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
 
       // Act
-      _userService.UpdateUser(existingUser.Id, updatedUser);
+      _userService.UpdateUser(updatedUser.Id, existingUser);
 
   }
-  */
 }
 

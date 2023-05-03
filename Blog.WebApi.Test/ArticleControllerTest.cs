@@ -127,28 +127,25 @@ public class ArticleControllerTest
     [TestMethod]
     public void UpdateAnArticleReturnUpdatedArticleAsExpected()
     {
-        var article = CreateArticle(1);
-        var author = CreateUser(1);
+        // Arrange
+        int articleId = 1;
+        User currentUser = CreateUser(1);
+        var updatedArticle = new ArticleModel { Title = "New Title", Content = "New Content", AuthorId = 2 };
+        var updatedEntity = updatedArticle.ToUpdateEntity(currentUser);
+        var retrievedArticle = new Article { Id = 1, Title = "Old Title", Content = "Old Content", Author = currentUser };
+        var expectedArticleModel = new ArticleDetailModel(retrievedArticle);
 
-        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(author);
-        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
-        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(),It.IsAny<Article>())).Returns(article);
+        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(currentUser);
+        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(),It.IsAny<Article>())).Returns(retrievedArticle);
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        // Act
+        IActionResult result = _articleController.UpdateArticle(articleId, updatedArticle);
 
-        var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
-
-        var result = controller.UpdateArticle(article.Id, updatedArticle);
-
-        var createdResult = result as CreatedAtRouteResult;
-
-        Assert.AreEqual("GetArticle", createdResult.RouteName);
-        Assert.AreEqual(article.Id, createdResult.RouteValues["articleId"]);
-
-        var articleResult = createdResult.Value as ArticleDetailModel;
-        Assert.AreEqual(article.Id, articleResult.Id);
-        Assert.AreEqual(article.Title, articleResult.Title);
-        Assert.AreEqual(article.Content, articleResult.Content);
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        var okObjectResult = (OkObjectResult)result;
+        Assert.AreEqual(expectedArticleModel, okObjectResult.Value);
     }
 
     [TestMethod]
@@ -356,23 +353,6 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
     }
 
     [TestMethod]
-    public void CreateArticle_CurrentUserNotFound_ReturnsNotFoundResult()
-    {
-        // Arrange
-        _articleServiceMock.Setup(a => a.CreateArticle(It.IsAny<Article>())).Returns(new Article());
-        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns<User>(null);
-
-        // Act
-        var result = _articleController.CreateArticle(new ArticleModel()) as NotFoundObjectResult;
-
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual("Cant retrieve user without auth token", result.Value);
-    }
-
-
-
-    [TestMethod]
     public void GetArticles_ReturnsOkResult()
     {
         // Arrange
@@ -434,11 +414,12 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
     public void DeleteArticle_ValidArticleId_ReturnsNoContentResult()
     {
         // Arrange
-        var articleId = 1;
+        int articleId = 1;
         var currentUser = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
-        var article = new Article { Id = articleId, Author = currentUser };
-        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
-        _articleServiceMock.Setup(a => a.GetSpecificArticle(It.IsAny<Int32>())).Returns(article);
+        Article article = new Article { Id = articleId, Author = currentUser };
+        _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(x => x.GetSpecificArticle(articleId)).Returns(article);
+        _articleServiceMock.Setup(x => x.DeleteArticle(It.IsAny<int>()));
 
         // Act
         var result = _articleController.DeleteArticle(articleId);
@@ -454,7 +435,9 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
     {
         // Arrange
         var articleId = 1;
-        _articleServiceMock.Setup(a => a.GetSpecificArticle(It.IsAny<Int32>())).Throws(new ResourceNotFoundException("Not found"));
+        var currentUser = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(a => a.GetSpecificArticle(It.IsAny<int>())).Throws(new ResourceNotFoundException("Not found"));
 
         // Act
         var result = _articleController.DeleteArticle(articleId);

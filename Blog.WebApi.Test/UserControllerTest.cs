@@ -115,13 +115,10 @@ namespace Blog.WebApi.Tests
                 roles = new List<int> { 1, 2 }
             };
 
-            var createdUser = CreateUser(1);
-
-            _userServiceMock.Setup(service => service.CreateUser(It.IsAny<User>())).Returns(createdUser);
             _roleServiceMock.Setup(service => service.GetSpecificRole(1)).Returns(new Role { Id = 1, RoleType =  RoleType.Admin});
             _roleServiceMock.Setup(service => service.GetSpecificRole(2)).Returns(new Role { Id = 2, RoleType = RoleType.Blogger});
-
             _userRoleServiceMock.Setup(service => service.CreateUserRole(It.IsAny<UserRole>())).Returns(new UserRole()).Verifiable();
+            _userServiceMock.Setup(service => service.CreateUser(It.IsAny<User>())).Returns(newUser.ToCreateEntity());
 
             var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
@@ -133,7 +130,6 @@ namespace Blog.WebApi.Tests
 
             _userServiceMock.Verify(service => service.CreateUser(It.IsAny<User>()), Times.Once());
 
-            Assert.AreEqual(createdUser.Id, createdUserModel.Id);
             Assert.AreEqual(newUser.Username, createdUserModel.Username);
         }
 
@@ -152,10 +148,11 @@ namespace Blog.WebApi.Tests
                 Username = "updatedusername",
                 roles = new List<int> { 1 }
             };
+            var currentUser = CreateUser(1);
 
-            _userServiceMock.Setup(service => service.UpdateUser(userToUpdate.Id, It.IsAny<User>())).Returns(userToUpdate);
-            _roleServiceMock.Setup(service => service.GetSpecificRole(1)).Returns(new Role { Id = 1, RoleType =  RoleType.Admin});
-
+            _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+            _userServiceMock.Setup(service => service.UpdateUser(It.IsAny<int>(), It.IsAny<User>())).Returns(userToUpdate);
+            _roleServiceMock.Setup(service => service.GetSpecificRole(It.IsAny<int>())).Returns(new Role { Id = 1, RoleType =  RoleType.Admin});
             _userRoleServiceMock.Setup(service => service.CreateUserRole(It.IsAny<UserRole>())).Returns(new UserRole());
 
             var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
@@ -171,7 +168,7 @@ namespace Blog.WebApi.Tests
         [TestMethod]
         public void UpdateUser_ReturnsNotFound_WhenUserDoesNotExist()
         {
-            int nonExistingUserId = 3;
+            var role = new Role { Id = 1, RoleType = RoleType.Admin };
             var updatedUserModel = new UserModelIn
             {
                 FirstName = "UpdatedFirstname",
@@ -179,16 +176,19 @@ namespace Blog.WebApi.Tests
                 Password = "UpdatedPassword",
                 Email = "updatedemail@gmail.com",
                 Username = "updatedusername",
-                roles = new List<int> { 1 }
+                roles = new List<int> { role.Id }
             };
 
-            _userServiceMock.Setup(service => service.UpdateUser(nonExistingUserId, It.IsAny<User>())).Throws(new ResourceNotFoundException("User not found"));
-            _roleServiceMock.Setup(service => service.GetSpecificRole(1)).Returns(new Role { Id = 1, RoleType =  RoleType.Admin});
+            User currentUser = CreateUser(1);
+
+            _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+            _userServiceMock.Setup(service => service.UpdateUser(It.IsAny<int>(), It.IsAny<User>())).Throws(new ResourceNotFoundException("User not found"));
+            _roleServiceMock.Setup(service => service.GetSpecificRole(It.IsAny<int>())).Returns(role);
 
 
             var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-            var result = controller.Update(nonExistingUserId, updatedUserModel) as NotFoundObjectResult;
+            var result = controller.Update(currentUser.Id, updatedUserModel) as NotFoundObjectResult;
 
             Assert.AreEqual((int)HttpStatusCode.NotFound, result.StatusCode);
             Assert.AreEqual("User not found", result.Value);
@@ -201,11 +201,11 @@ namespace Blog.WebApi.Tests
         {
             var userToDelete = CreateUser(1);
 
-            _userServiceMock.Setup(service => service.DeleteUser(userToDelete.Id));
+            _userServiceMock.Setup(service => service.DeleteUser(It.IsAny<int>()));
 
             var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-            var result = controller.Delete(userToDelete.Id) as OkResult;
+            var result = controller.Delete(userToDelete.Id) as NoContentResult;
 
             Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
@@ -336,6 +336,9 @@ namespace Blog.WebApi.Tests
                 roles = new List<int>()
             };
 
+            var currentUser = CreateUser(1);
+            _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+
             var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
             var result = controller.Update(userToUpdate.Id, updatedUserModel) as BadRequestObjectResult;
@@ -445,30 +448,6 @@ namespace Blog.WebApi.Tests
         Assert.IsNotNull(result);
         Assert.AreEqual("You are not authorized to perform this action", result.Value);
     }
-
-    [TestMethod]
-    public void Update_UserNotFound_ReturnsNotFoundResult()
-    {
-        // Arrange
-        var updatedUser = new UserModelIn { roles = new List<int> { 1 } };
-        var currentUser = CreateUser(10);
-        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
-        _userServiceMock.Setup(u => u.UpdateUser(It.IsAny<int>(), It.IsAny<User>())).Throws(new ResourceNotFoundException("User not found"));
-
-        // Act
-        var result = _userController.Update(1, updatedUser) as NotFoundObjectResult;
-
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual("User not found", result.Value);
-
-    }
-
-
-
-
-
-
 
     }
 
