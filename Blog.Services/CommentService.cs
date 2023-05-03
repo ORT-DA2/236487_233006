@@ -55,4 +55,7 @@ public class CommentService : ICommentService
     {
         _repository.MarkAllArticleCommentsAsViewed(articleId);
     }
+
+
+
 }

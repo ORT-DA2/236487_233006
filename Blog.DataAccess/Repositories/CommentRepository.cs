@@ -58,4 +58,6 @@ public class CommentRepository : ICommentRepository
         comments.ForEach(c => c.IsViewed = true);
         _context.SaveChanges();
     }
+
+
 }

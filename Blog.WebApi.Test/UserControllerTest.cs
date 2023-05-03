@@ -22,6 +22,7 @@ namespace Blog.WebApi.Tests
         private Mock<IRoleService> _roleServiceMock;
         private Mock<IUserRoleService> _userRoleServiceMock;
         private Mock<ISessionService> _sessionServiceMock;
+        private UserController _userController;
 
         [TestInitialize]
         public void Setup()
@@ -30,6 +31,8 @@ namespace Blog.WebApi.Tests
             _roleServiceMock = new Mock<IRoleService>(MockBehavior.Strict);
             _userRoleServiceMock = new Mock<IUserRoleService>(MockBehavior.Strict);
             _sessionServiceMock = new Mock<ISessionService>(MockBehavior.Strict);
+
+            _userController = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
         }
 
         [TestCleanup]
@@ -425,6 +428,48 @@ namespace Blog.WebApi.Tests
                 Username = "username"
             };
         }
+
+
+        [TestMethod]
+    public void Update_UnauthorizedUser_ReturnsUnauthorizedResult()
+    {
+        // Arrange
+        var updatedUser = new UserModelIn { roles = new List<int> { 1 } };
+        var currentUser = new User { Id = 1 };
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+
+        // Act
+        var result = _userController.Update(2, updatedUser) as UnauthorizedObjectResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual("You are not authorized to perform this action", result.Value);
+    }
+
+    [TestMethod]
+    public void Update_UserNotFound_ReturnsNotFoundResult()
+    {
+        // Arrange
+        var updatedUser = new UserModelIn { roles = new List<int> { 1 } };
+        var currentUser = CreateUser(10);
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+        _userServiceMock.Setup(u => u.UpdateUser(It.IsAny<int>(), It.IsAny<User>())).Throws(new ResourceNotFoundException("User not found"));
+
+        // Act
+        var result = _userController.Update(1, updatedUser) as NotFoundObjectResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual("User not found", result.Value);
+
+    }
+
+
+
+
+
+
+
     }
 
 
