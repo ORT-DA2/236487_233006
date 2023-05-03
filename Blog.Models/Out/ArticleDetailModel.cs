@@ -28,6 +28,11 @@ public class ArticleDetailModel
 
     public ArticleDetailModel(Article article)
     {
+        if (article == null)
+        {
+            throw new ArgumentNullException(nameof(article));
+        }
+
         Id = article.Id;
         AuthorId = article.Author.Id;
         Title = article.Title;

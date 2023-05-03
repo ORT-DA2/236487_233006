@@ -64,4 +64,7 @@ public class SessionService : ISessionService
         _sessionRepository.Delete(session);
         _sessionRepository.Save();
     }
+
+
+
 }
