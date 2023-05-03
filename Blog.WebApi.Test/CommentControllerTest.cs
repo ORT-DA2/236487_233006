@@ -9,6 +9,8 @@ using Models.In;
 using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Models;
+using System;
+using System.ComponentModel.Design;
 
 [TestClass]
 public class CommentControllerTest
@@ -81,9 +83,10 @@ public class CommentControllerTest
         _commentServiceMock.Setup(s => s.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
         var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
 
-        var action = new Action(() => controller.GetComment(commentId));
+        var result = controller.GetComment(commentId) as NotFoundObjectResult;
 
-        Assert.ThrowsException<ResourceNotFoundException>(action);
+        Assert.IsNotNull(result);
+        Assert.AreEqual("Comment not found", result.Value);
     }
 
     [TestMethod]
@@ -95,9 +98,10 @@ public class CommentControllerTest
         _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Throws(new ResourceNotFoundException("Article not found"));
         var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
 
-        var action = new Action(() => controller.CreateComment(newComment));
+        var result = controller.CreateComment(newComment) as NotFoundObjectResult;
 
-        Assert.ThrowsException<ResourceNotFoundException>(action);
+        Assert.IsNotNull(result);
+        Assert.AreEqual("Article not found", result.Value);
     }
 
      [TestMethod]
@@ -253,10 +257,11 @@ public void CreateCommentReplyWithNonExistingCommentShouldReturnNotFound()
     _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
     var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
 
-    var action = new Action(() => controller.CreateCommentReply(commentId, reply));
+    var result = controller.CreateCommentReply(commentId, reply) as NotFoundObjectResult;
 
-    Assert.ThrowsException<ResourceNotFoundException>(action);
-}
+    Assert.IsNotNull(result);
+    Assert.AreEqual("Comment not found", result.Value);
+    }
 
     private Article CreateArticle(int articleId, bool isPrivate = false)
     {
