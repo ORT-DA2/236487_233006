@@ -11,6 +11,7 @@ using Models;
 using System.Net;
 using System.Collections.Generic;
 using Blog.Domain.SearchCriterias;
+using Microsoft.AspNetCore.Http;
 
 [TestClass]
 public class ArticleControllerTest
@@ -148,6 +149,49 @@ public class ArticleControllerTest
         Assert.AreEqual(expectedArticleModel, okObjectResult.Value);
     }
 
+
+    [TestMethod]
+    public void UpdateAnArticleReturnUnauthorizedWhenCurrentUserIsNotAuthor()
+    {
+        User currentUser = CreateUser(2);
+        User author = CreateUser(1);
+        var article = CreateArticle(1);
+
+        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
+        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
+        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(), It.IsAny<Article>())).Returns(article);
+
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+
+        var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
+
+        var result = controller.UpdateArticle(article.Id, updatedArticle);
+
+        Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        var unauthorizedResult = result as UnauthorizedObjectResult;
+        Assert.AreEqual("You are not authorized to perform this action", unauthorizedResult.Value);
+    }
+
+    [TestMethod]
+    public void UpdateArticle_InvalidResource_ReturnsBadRequestResult()
+    {
+        int articleId = 1;
+        var currentUser = new User { Id = 1 };
+        var updatedArticle = new ArticleModel { AuthorId = 1 };
+        var author = new User { Id = 1 };
+
+        _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
+        _userServiceMock.Setup(x => x.GetSpecificUser(updatedArticle.AuthorId)).Returns(author);
+        _articleServiceMock.Setup(x => x.UpdateArticle(articleId, It.IsAny<Article>())).Throws(new InvalidResourceException("Invalid article"));
+
+        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var result = controller.UpdateArticle(articleId, updatedArticle) as BadRequestObjectResult;
+
+        Assert.IsNotNull(result);
+        Assert.AreEqual(StatusCodes.Status400BadRequest, result.StatusCode);
+        Assert.AreEqual("Invalid article", result.Value);
+    }
+
     [TestMethod]
     public void DeleteAnArticleReturnNoContent()
     {
@@ -182,28 +226,6 @@ public class ArticleControllerTest
 
         Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
         Assert.AreEqual(expected, response.Value);
-    }
-
-    [TestMethod]
-    public void UpdateAnArticleReturnUnauthorizedWhenCurrentUserIsNotAuthor()
-    {
-        User currentUser = CreateUser(2);
-        User author = CreateUser(1);
-        var article = CreateArticle(1);
-
-        _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
-        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(), It.IsAny<Article>())).Returns(article);
-
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
-
-        var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
-
-        var result = controller.UpdateArticle(article.Id, updatedArticle);
-
-        Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
-        var unauthorizedResult = result as UnauthorizedObjectResult;
-        Assert.AreEqual("You are not authorized to perform this action", unauthorizedResult.Value);
     }
 
     [TestMethod]
