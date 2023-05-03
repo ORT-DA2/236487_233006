@@ -10,7 +10,6 @@ using Models.Out;
 
 namespace Blog.WebApi.Controllers;
 
-[AuthenticationFilter]
 [ApiController]
 [Route("api/users")]
 public class UserController : ControllerBase
@@ -29,6 +28,7 @@ public class UserController : ControllerBase
     }
 
     // Index - Get all users (/api/users)
+    [AuthenticationFilter]
     [RoleFilter(RoleType.Admin, RoleType.Blogger)]
     [HttpGet]
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
@@ -38,6 +38,7 @@ public class UserController : ControllerBase
     }
 
     // Get users ranking (/api/users/ranking)
+    [AuthenticationFilter]
     [RoleFilter(RoleType.Admin)]
     [HttpGet("ranking")]
     public IActionResult GetUsersRanking([FromQuery] string startDate, [FromQuery] string endDate)
@@ -63,6 +64,7 @@ public class UserController : ControllerBase
     }
 
     // Get user activities (/api/users/activities)
+    [AuthenticationFilter]
     [HttpGet("activities")]
     public IActionResult GetUserActivities()
     {
@@ -80,6 +82,7 @@ public class UserController : ControllerBase
     }
 
     // Show - Get specific user (/api/users/{id})
+    [AuthenticationFilter]
     [RoleFilter(RoleType.Admin)]
     [HttpGet("{id}", Name = "GetUser")]
     public IActionResult GetUserById(int id)
@@ -138,6 +141,7 @@ public class UserController : ControllerBase
     }
 
     // Update - Update specific user (/api/users/{id})
+    [AuthenticationFilter]
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] UserModelIn updatedUser)
     {
@@ -185,6 +189,7 @@ public class UserController : ControllerBase
     }
 
     // Delete - Delete specific user (/api/users/{id})
+    [AuthenticationFilter]
     [HttpDelete("{id}")]
     [RoleFilter(RoleType.Admin)]
     public IActionResult Delete(int id)
