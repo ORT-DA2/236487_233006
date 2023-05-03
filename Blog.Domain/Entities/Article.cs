@@ -54,8 +54,17 @@ public class Article
     public void ValidOrFail()
     {
         if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Content))
+        {
             throw new InvalidResourceException("Title or content empty");
+        }
 
-        if(Author == null) throw new InvalidResourceException("Author empty");
+        if(Author == null)
+        {
+            throw new InvalidResourceException("Author empty");
+        }
+
+        if (!Enum.IsDefined(typeof(Template), Template)) {
+            throw new InvalidResourceException("Invalid template");
+        }
     }
 }
