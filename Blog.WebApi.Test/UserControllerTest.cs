@@ -393,32 +393,6 @@ namespace Blog.WebApi.Tests
             Assert.AreEqual("Invalid date format", result.Value);
         }
 
-        [TestMethod]
-        public void GetUserActivities_ReturnsOkResult()
-        {
-            User currentUser = CreateUser(1);
-            _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
-
-            var result = controller.GetUserActivities();
-
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-        }
-
-        [TestMethod]
-        public void GetUserActivities_ReturnsCommentDetailModels()
-        {
-            User currentUser = CreateUser(1);
-            _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-            var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
-
-            var result = controller.GetUserActivities() as OkObjectResult;
-            var commentDetailModels = result.Value as IEnumerable<CommentDetailModel>;
-
-            Assert.IsNotNull(commentDetailModels);
-            Assert.IsTrue(commentDetailModels.All(c => c.GetType() == typeof(CommentDetailModel)));
-        }
-
         private User CreateUser(int userId)
         {
             return new User()
@@ -434,22 +408,44 @@ namespace Blog.WebApi.Tests
 
 
         [TestMethod]
-    public void Update_UnauthorizedUser_ReturnsUnauthorizedResult()
-    {
-        // Arrange
-        var updatedUser = new UserModelIn { roles = new List<int> { 1 } };
-        var currentUser = new User { Id = 1 };
-        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+        public void Update_UnauthorizedUser_ReturnsUnauthorizedResult()
+        {
+            // Arrange
+            var updatedUser = new UserModelIn { roles = new List<int> { 1 } };
+            var currentUser = new User { Id = 1 };
+            _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
 
-        // Act
-        var result = _userController.Update(2, updatedUser) as UnauthorizedObjectResult;
+            // Act
+            var result = _userController.Update(2, updatedUser) as UnauthorizedObjectResult;
 
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual("You are not authorized to perform this action", result.Value);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("You are not authorized to perform this action", result.Value);
+        }
+
+        [TestMethod]
+        public void GetUserActivities_ReturnsCorrectCommentDetails()
+        {
+            var currentUser = new User { Id = 1, FirstName = "John", LastName = "Doe", Username = "jdoe9411", Email = "john.doe@example.com", Password = "password123" };
+            var article1 = new Article { Id = 1, Title = "Article 1", Content = "Lorem ipsum", Author = currentUser };
+            var article2 = new Article { Id = 2, Title = "Article 2", Content = "Dolor sit amet", Author = currentUser };
+            var comment1 = new Comment { Id = 1, Content = "Nice article!", Author = new User { Id = 2, FirstName = "Jane", LastName = "Doe", Username = "jane_doe", Email = "jane.doe@example.com", Password = "password456" }, Article = article1 };
+            var comment2 = new Comment { Id = 2, Content = "Great job!", Author = new User { Id = 3, FirstName = "Bob", LastName = "Smith", Username = "bob_smith", Email = "bob.smith@example.com", Password = "password789" }, Article = article2 };
+            article1.Comments = new List<Comment> { comment1 };
+            article2.Comments = new List<Comment> { comment2 };
+            currentUser.Articles = new List<Article> { article1, article2 };
+
+            _sessionServiceMock.Setup(svc => svc.GetCurrentUser(null)).Returns(currentUser);
+
+            var result = _userController.GetUserActivities() as OkObjectResult;
+            var commentDetails = result.Value as IEnumerable<CommentDetailModel>;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(commentDetails);
+            Assert.AreEqual(2, commentDetails.Count());
+            Assert.IsTrue(commentDetails.Any(c => c.Id == comment1.Id));
+            Assert.IsTrue(commentDetails.Any(c => c.Id == comment2.Id));
+        }
+
     }
-
-    }
-
-
 }
