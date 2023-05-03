@@ -38,6 +38,7 @@ public class UserController : ControllerBase
     }
 
     // Get users ranking (/api/users/ranking)
+    [RoleFilter(RoleType.Admin)]
     [HttpGet("ranking")]
     public IActionResult GetUsersRanking([FromQuery] string startDate, [FromQuery] string endDate)
     {
@@ -96,7 +97,6 @@ public class UserController : ControllerBase
 
     // Create - Create new user (/api/users)
     [HttpPost]
-    [RoleFilter(RoleType.Admin)]
     public IActionResult CreateUser([FromBody] UserModelIn newUser)
     {
         try
@@ -139,31 +139,36 @@ public class UserController : ControllerBase
 
     // Update - Update specific user (/api/users/{id})
     [HttpPut("{id}")]
-    [RoleFilter(RoleType.Admin)]
     public IActionResult Update(int id, [FromBody] UserModelIn updatedUser)
     {
         try
         {
-            EnsureRolesHasValues(updatedUser.roles.Count);
-            EnsureRolesExists(updatedUser);
+            User currentUser = _sessionService.GetCurrentUser();
 
-            // 1) Creo User
-            var retrievedUser = _userService.UpdateUser(id, updatedUser.ToUpdateEntity());
-
-            foreach (int roleValue in new HashSet<int>(updatedUser.roles))
+            if(currentUser.Id == id || currentUser.IsInRole(RoleType.Admin))
             {
-                var role = _roleService.GetSpecificRole(roleValue);
-                var userRole = new UserRole()
+                EnsureRolesHasValues(updatedUser.roles.Count);
+                EnsureRolesExists(updatedUser);
+
+                // 1) Creo User
+                var retrievedUser = _userService.UpdateUser(id, updatedUser.ToUpdateEntity());
+
+                foreach (int roleValue in new HashSet<int>(updatedUser.roles))
                 {
-                    User = retrievedUser,
-                    Role = role
-                };
+                    var role = _roleService.GetSpecificRole(roleValue);
+                    var userRole = new UserRole()
+                    {
+                        User = retrievedUser,
+                        Role = role
+                    };
 
-                _userRoleService.CreateUserRole(userRole);
+                    _userRoleService.CreateUserRole(userRole);
+                }
+                return Ok(new UserModelOut(retrievedUser));
+            } else
+            {
+                return Unauthorized("You are not authorized to perform this action");
             }
-
-
-            return Ok(new UserModelOut(retrievedUser));
         }
         catch (InvalidResourceException e)
         {
@@ -187,7 +192,7 @@ public class UserController : ControllerBase
         try
         {
             _userService.DeleteUser(id);
-              return Ok();
+              return NoContent();
         }
         catch (ResourceNotFoundException e)
         {

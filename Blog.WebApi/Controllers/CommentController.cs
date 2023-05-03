@@ -1,7 +1,7 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
-using Blog.WebApi.Exceptions;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;

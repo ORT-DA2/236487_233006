@@ -204,8 +204,7 @@ namespace Blog.WebApi.Tests
 
             var result = controller.Delete(userToDelete.Id) as OkResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
 
 

@@ -1,10 +1,11 @@
 using Blog.Domain;
+using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
-using Blog.WebApi.Exceptions;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Out;
 
 namespace Blog.WebApi.Controllers
 {
@@ -122,7 +123,7 @@ namespace Blog.WebApi.Controllers
                     return Unauthorized("You are not authorized to perform this action");
                 }
                 var articleModel = new ArticleDetailModel(retrievedArticle);
-                return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
+                return Ok(articleModel);
             }
             catch (InvalidResourceException e)
             {
