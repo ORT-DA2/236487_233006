@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "186d3096-647e-40e6-8033-a0dcc0c6238c",
+		"name": "Blog API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST Create New Article",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"My first article\",\r\n    \"Private\": false,\r\n    \"content\": \"My first content\",\r\n    \"image\": \"https://example.com/article.jpg\",\r\n    \"template\": 10,\r\n    \"createdAt\": \"2023-04-15T12:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/articles",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Articles",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"description": "2273e140-5a32-4031-adca-a154f2171e41 |  542ee7d5-667b-4e96-958f-edc02a84642e",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/articles?q=",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"articles"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "",
+							"description": "Buscar articulos que contengan un texto dado en el Titulo o Contenido del mismo."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Specific article",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"description": "2273e140-5a32-4031-adca-a154f2171e41 |  542ee7d5-667b-4e96-958f-edc02a84642e",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/articles/2",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"articles",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Article",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/articles/100",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"articles",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update Article",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"authorId\": 1,\r\n    \"title\": \"test\",\r\n    \"Private\": true,\r\n    \"content\": \"NUEVO CON UPDATED AT\",\r\n    \"image\": \"https://example.com/article.jpg\",\r\n    \"template\": 10,\r\n    \"createdAt\": \"2023-04-15T12:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/articles/3",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"articles",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Mark all comments as viewed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/articles/1/markAllCommentsAsViewed",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"articles",
+						"1",
+						"markAllCommentsAsViewed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create New Comment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"articleId\": 999,\r\n    \"content\": \"nuevo comment para article 1 desde otro user\"\r\n}"
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/comments",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create New Reply",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"Mi reply al comment 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/comments/10000/reply",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"comments",
+						"10000",
+						"reply"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Comments",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/comments",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Specific Comment",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/comments/1",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"agustin.j.nogueira@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/sessions",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Logout",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/sessions",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create New User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Agustin7\",\r\n    \"lastName\": \"Juarez7\",\r\n    \"username\": \"agustinj7\",\r\n    \"email\": \"agustin.j.nogueira7@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"roles\": [\r\n        2\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/users",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe2\",\r\n    \"password\": \"cleancode2023\",\r\n    \"email\": \"johndoe2@example.com\",\r\n    \"username\": \"JohnDoe2\",\r\n    \"roles\": [\r\n        1,\r\n        2\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}/api/users/2",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/users/1",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/users",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Users Ranking",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/users/ranking?startDate=2023-05-22T12:50:07.8869133&endDate=2023-05-23T12:50:07.8869133",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"ranking"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2023-05-22T12:50:07.8869133",
+							"description": "Required"
+						},
+						{
+							"key": "endDate",
+							"value": "2023-05-23T12:50:07.8869133",
+							"description": "Required"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET User Activities",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/users/activities",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
