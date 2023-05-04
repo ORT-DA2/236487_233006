@@ -353,3 +353,8 @@ MigrationBackup/
 .ionide/
 
 .env
+
+# Rider
+*.idea/
+/Blog.DataAccess/appsettings.json
+/Blog.WebApi/appsettings.json
