@@ -24,7 +24,8 @@ namespace Blog.WebApi.Controllers
             {
                 
                 var token = _sessionService.Authenticate(session.Email, session.Username, session.Password);
-                return Ok(new { token });
+                var user = _sessionService.GetCurrentUser(token);
+                return Ok(new { token, user });
             }
             catch (InvalidCredentialException e)
             {
