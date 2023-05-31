@@ -7,6 +7,7 @@ using Moq;
 using Blog.IServices;
 using Blog.WebApi.Controllers;
 using Models.In;
+using Blog.Domain;
 
 namespace Blog.WebApi.Tests
 {
@@ -22,11 +23,21 @@ namespace Blog.WebApi.Tests
         }
 
         [TestMethod]
-        public void Login_ValidCredentials_ReturnsToken()
+        public void Login_ValidCredentials_ReturnsOK()
         {
             // Arrange
+            User currentUser = new User()
+            {
+                Id = 1,
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                Password = "Password",
+                Email = "email@gmail.com",
+                Username = "username"
+            };
             var sessionModel = new SessionModel { Email = "test@example.com", Password = "password" };
             Guid token = Guid.NewGuid();
+            _sessionServiceMock.Setup(service => service.GetCurrentUser(It.IsAny<Guid>())).Returns(currentUser);
             _sessionServiceMock.Setup(service => service.Authenticate(sessionModel.Email, null, sessionModel.Password)).Returns(token);
             var controller = new SessionController(_sessionServiceMock.Object);
 

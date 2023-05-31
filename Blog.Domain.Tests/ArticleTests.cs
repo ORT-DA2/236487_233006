@@ -40,6 +40,14 @@ public class ArticleTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidResourceException))]
+    public void ValidOrFailThrowsExceptionWithInvalidTemplateAndArticle()
+    {
+        var invalidArticle = new Article() { Title = "", Content = "A content", Author = _author, Template = Template.Left, SecondImage = "test" };
+        invalidArticle.ValidOrFail();
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidResourceException))]
     public void ValidOrFailThrowsExceptionWithInvalidArticle()
     {
         var invalidArticle = new Article() { Title = "", Content = "A content", Author = _author };
@@ -73,7 +81,7 @@ public class ArticleTests
             Content = "Updated content",
             Author = _author,
             Private = true,
-            Image = "new_image.png",
+            FirstImage = "new_image.png",
             Template = Template.Right,
             UpdatedAt = DateTime.UtcNow,
             DeletedAt = null
@@ -84,7 +92,7 @@ public class ArticleTests
         Assert.AreEqual(updatedArticle.Title, _validArticle.Title);
         Assert.AreEqual(updatedArticle.Content, _validArticle.Content);
         Assert.AreEqual(updatedArticle.Private, _validArticle.Private);
-        Assert.AreEqual(updatedArticle.Image, _validArticle.Image);
+        Assert.AreEqual(updatedArticle.FirstImage, _validArticle.FirstImage);
         Assert.AreEqual(updatedArticle.Template, _validArticle.Template);
         Assert.AreEqual(updatedArticle.UpdatedAt, _validArticle.UpdatedAt);
         Assert.AreEqual(updatedArticle.DeletedAt, _validArticle.DeletedAt);
