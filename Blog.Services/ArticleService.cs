@@ -95,6 +95,19 @@ public class ArticleService : IArticleService
         _repository.Save();
     }
 
+    public List<Article> GetRecentArticles(ArticleSearchCriteria searchCriteria, int limit)
+    {
+        var articles = _repository.GetAllBy(searchCriteria.Criteria());
 
+        // filter out deleted articles
+        articles = articles.Where(a => a.DeletedAt == null);
 
+        var recentArticles = articles
+        // Ordenar por fecha de modificación si está disponible, de lo contrario, por fecha de creación
+        .OrderByDescending(a => a.UpdatedAt ?? a.CreatedAt)
+        .Take(limit)
+        .ToList();
+
+        return recentArticles.ToList();
+    }
 }
