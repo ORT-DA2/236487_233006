@@ -103,7 +103,7 @@ public class ArticleService : IArticleService
         articles = articles.Where(a => a.DeletedAt == null);
 
         var recentArticles = articles
-        // Ordenar por fecha de modificación si está disponible, de lo contrario, por fecha de creación
+        // Order by UpdatedAt if it exists, otherwise order by CreatedAt
         .OrderByDescending(a => a.UpdatedAt ?? a.CreatedAt)
         .Take(limit)
         .ToList();
