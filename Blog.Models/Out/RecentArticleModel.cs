@@ -17,8 +17,10 @@ public class RecentArticleModel
     
     public string Content { get; set; }
     
-    public string? Image { get; set; }
-    
+    public string? FirstImage { get; set; }
+
+    public string? SecondImage { get; set; }
+
     public Template Template { get; set; }
     
     public DateTime CreatedAt { get; set; }
@@ -40,7 +42,8 @@ public class RecentArticleModel
         Content = article.Content;
         Private = article.Private;
         Comments = article.Comments;
-        Image = article.Image;
+        FirstImage = article.FirstImage;
+        SecondImage = article.SecondImage;
         Template = article.Template;
         CreatedAt = article.CreatedAt;
         UpdatedAt = article.UpdatedAt;

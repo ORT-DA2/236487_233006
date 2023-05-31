@@ -14,8 +14,9 @@ public class ArticleModel
     
     public string Content { get; set; }
     
-    public string? Image { get; set; }
-    
+    public string? FirstImage { get; set; }
+    public string? SecondImage { get; set; }
+
     public Template Template { get; set; }
     
     public DateTime CreatedAt { get; set; }
@@ -31,7 +32,8 @@ public class ArticleModel
             Content = Content,
             Private = Private,
             Comments = Comments,
-            Image = Image,
+            FirstImage = FirstImage,
+            SecondImage = SecondImage,
             Template = Template,
             CreatedAt = DateTime.Now
         };
@@ -46,7 +48,8 @@ public class ArticleModel
             Content = Content,
             Private = Private,
             Comments = Comments,
-            Image = Image,
+            FirstImage = FirstImage,
+            SecondImage = SecondImage,
             Template = Template,
             UpdatedAt = DateTime.Now
         };

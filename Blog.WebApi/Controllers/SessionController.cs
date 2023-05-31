@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Blog.IServices;
 using Blog.WebApi.Filters;
 using Models.In;
+using Models.Out;
 
 namespace Blog.WebApi.Controllers
 {
@@ -25,7 +26,8 @@ namespace Blog.WebApi.Controllers
                 
                 var token = _sessionService.Authenticate(session.Email, session.Username, session.Password);
                 var user = _sessionService.GetCurrentUser(token);
-                return Ok(new { token, user });
+                UserModelOut userModel = new UserModelOut(user);
+                return Ok(new { token, user = userModel });
             }
             catch (InvalidCredentialException e)
             {

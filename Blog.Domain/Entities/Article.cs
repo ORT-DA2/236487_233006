@@ -7,7 +7,8 @@ public enum Template
 {
     Left,
     Right,
-    Center
+    Center,
+    TwoImages
 }
 
 
@@ -29,7 +30,8 @@ public class Article
     [Required]
     public string Content { get; set; }
     
-    public string? Image { get; set; }
+    public string? FirstImage { get; set; }
+    public string? SecondImage { get; set; }
 
     [Required]
     public Template Template { get; set; }
@@ -45,7 +47,8 @@ public class Article
         Title = article.Title;
         Content = article.Content;
         Private = article.Private;
-        Image = article.Image;
+        FirstImage = article.FirstImage;
+        SecondImage = article.SecondImage;
         Template = article.Template;
         UpdatedAt = article.UpdatedAt;
         DeletedAt = article.DeletedAt;
@@ -65,6 +68,11 @@ public class Article
 
         if (!Enum.IsDefined(typeof(Template), Template)) {
             throw new InvalidResourceException("Invalid template");
+        }
+
+        if(Template != Template.TwoImages && !string.IsNullOrEmpty(SecondImage))
+        {
+            throw new InvalidResourceException("SecondImage is not available in the selected template");
         }
     }
 }
