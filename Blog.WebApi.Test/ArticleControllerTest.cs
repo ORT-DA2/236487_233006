@@ -100,6 +100,33 @@ public class ArticleControllerTest
     }
 
     [TestMethod]
+    public void GetRecentArticles_ReturnsRecentArticles()
+    {
+        ArticleSearchCriteria criteria = new ArticleSearchCriteria();
+        User currentUser = CreateUser(1);
+        User otherUser = CreateUser(2);
+        var expectedArticles = new List<Article>
+        {
+            new Article{ Author = currentUser, Title="Title", Content = "Content" },
+            new Article{ Author = otherUser, Title ="Title", Content = "Content" },
+            new Article{ Author = otherUser, Title ="Title", Content = "Content", Private = true },
+        };
+
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(a => a.GetRecentArticles(It.IsAny<ArticleSearchCriteria>(), It.IsAny<int>())).Returns(expectedArticles);
+
+        var result = _articleController.GetRecentArticles(criteria);
+
+        var okResult = result as OkObjectResult;
+        Assert.IsNotNull(okResult);
+        Assert.AreEqual((int)HttpStatusCode.OK, okResult.StatusCode);
+
+        var actualArticles = okResult.Value as IEnumerable<RecentArticleModel>;
+        Assert.IsNotNull(actualArticles);
+        Assert.AreEqual(2, actualArticles.Count());
+    }
+
+    [TestMethod]
     public void CreateNewArticleReturnCreatedAtRoutedWithCreatedArticleAsExpected()
     {
         var article = CreateArticle(1);

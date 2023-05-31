@@ -42,7 +42,28 @@ public class ArticleServicesTest
         Assert.AreEqual(2, result.Count);
     }
 
+    [TestMethod]
+    public void GetRecentArticles_ReturnsRecentArticles()
+    {
+        var searchCriteria = new ArticleSearchCriteria();
+        var limit = 10;
+        var articles = new List<Article>()
+            {
+                new Article { CreatedAt = DateTime.Now.AddDays(-1) },
+                new Article { CreatedAt = DateTime.Now.AddDays(-2) },
+                new Article { CreatedAt = DateTime.Now.AddDays(-3) }
+            };
+        var expectedRecentArticles = articles.OrderByDescending(a => a.UpdatedAt ?? a.CreatedAt)
+                                             .Take(limit)
+                                             .ToList();
 
+        _repoMock.Setup(repo => repo.GetAllBy(It.IsAny<Expression<Func<Article, bool>>>())).Returns(articles.AsQueryable());
+
+        var result = _articleService.GetRecentArticles(searchCriteria, limit);
+
+        Assert.AreEqual(expectedRecentArticles.Count, result.Count);
+        Assert.IsTrue(expectedRecentArticles.SequenceEqual(result));
+    }
 
     [TestMethod]
     [ExpectedException(typeof(ResourceNotFoundException))]

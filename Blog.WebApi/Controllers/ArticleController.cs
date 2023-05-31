@@ -48,7 +48,31 @@ namespace Blog.WebApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
+        // Index - Get recent articles (/api/articles)
+        [AuthenticationFilter]
+        [HttpGet("recent")]
+        public IActionResult GetRecentArticles([FromQuery] ArticleSearchCriteria searchCriteria)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                var recentArticles = _articleService.GetRecentArticles(searchCriteria, 10);
+
+                recentArticles = recentArticles.Where(a => !a.Private || (a.Private && a.Author.Equals(currentUser))).ToList();
+
+                return Ok(recentArticles.Select(a => new RecentArticleModel(a)));
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         // Show - Get specific article (/api/article/{id})
         [HttpGet("{articleId}", Name = "GetArticle")]
         public IActionResult GetArticle(int articleId)
