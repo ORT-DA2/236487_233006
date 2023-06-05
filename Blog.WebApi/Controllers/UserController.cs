@@ -28,14 +28,14 @@ public class UserController : ControllerBase
     }
 
     // Index - Get all users (/api/users)
-    [AuthenticationFilter]
-    [RoleFilter(RoleType.Admin, RoleType.Blogger)]
+
     [HttpGet]
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
         var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
         return Ok(retrievedUsers.Select(u => new UserModelOut(u)));
     }
+
 
     // Get users ranking (/api/users/ranking)
     [AuthenticationFilter]
@@ -82,8 +82,7 @@ public class UserController : ControllerBase
     }
 
     // Show - Get specific user (/api/users/{id})
-    [AuthenticationFilter]
-    [RoleFilter(RoleType.Admin)]
+
     [HttpGet("{id}", Name = "GetUser")]
     public IActionResult GetUserById(int id)
     {

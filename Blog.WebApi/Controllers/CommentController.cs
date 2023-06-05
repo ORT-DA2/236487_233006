@@ -2,7 +2,6 @@ using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
-using Blog.Services;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -17,15 +16,15 @@ namespace Blog.WebApi.Controllers
     {
         private readonly IArticleService _articleService;
         private readonly ICommentService _commentService;
+        private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
-        private readonly IOffensiveWordService _offensiveWordService;
 
-        public CommentController(IArticleService articleService, ICommentService commentService, ISessionService sessionService, IOffensiveWordService offensiveWordService)
+        public CommentController(IArticleService articleService, ICommentService commentService, IUserService userService, ISessionService sessionService)
         {
             _articleService = articleService;
             _commentService = commentService;
+            _userService = userService;
             _sessionService = sessionService;
-            _offensiveWordService = offensiveWordService;
         }
 
         // Get - Get all comments (/api/comments)
@@ -55,15 +54,6 @@ namespace Blog.WebApi.Controllers
                 if(article.Private && !article.Author.Equals(currentUser))
                 {
                     return Unauthorized("You are not able to comment this article");
-                }
-
-                if (IsOffensive(newComment))
-                {
-                    newComment.IsApproved = false;
-                }
-                else
-                {
-                    newComment.IsApproved = true;
                 }
 
                 var createdComment = _commentService.CreateComment(newComment.ToCreateEntity(currentUser, article));
@@ -116,8 +106,6 @@ namespace Blog.WebApi.Controllers
                     return Unauthorized("You are not able to reply this article");
                 }
 
-                reply.IsReply = true;
-
                 var createdComment = _commentService.CreateComment(reply.ToCreateEntity(currentUser, article));
 
                 comment.Reply = createdComment;
@@ -136,16 +124,6 @@ namespace Blog.WebApi.Controllers
             {
                 return NotFound(e.Message);
             }
-        }
-
-        private bool IsOffensive(CommentModel comment)
-        {
-            if (_offensiveWordService.ContainsOffensiveWord(comment.Content))
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
