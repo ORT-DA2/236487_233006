@@ -1,4 +1,3 @@
-
 using Blog.Factory;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var factory = new FactoryService();
 factory.RegisterServices(builder.Services);
+
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(p => p.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod())
+);
 
 
 builder.Services.AddControllers();
@@ -26,8 +29,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();
-
