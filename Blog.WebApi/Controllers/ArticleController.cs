@@ -18,15 +18,13 @@ namespace Blog.WebApi.Controllers
         private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
         private readonly ICommentService _commentService;
-        private readonly IOffensiveWordService _offensiveWordService;
 
-        public ArticleController(IArticleService articleService, IUserService userService, ISessionService sessionService, ICommentService commentService, IOffensiveWordService wordService)
+        public ArticleController(IArticleService articleService, IUserService userService, ISessionService sessionService, ICommentService commentService)
         {
             _articleService = articleService;
             _userService = userService;
             _sessionService = sessionService;
             _commentService = commentService;
-            _offensiveWordService = wordService;
         }
 
         // Index - Get all articles (/api/articles)
@@ -75,7 +73,7 @@ namespace Blog.WebApi.Controllers
             }
         }
 
-        // Show - Get specific article (/api/articles/{id})
+        // Show - Get specific article (/api/article/{id})
         [HttpGet("{articleId}", Name = "GetArticle")]
         public IActionResult GetArticle(int articleId)
         {
@@ -86,10 +84,6 @@ namespace Blog.WebApi.Controllers
                 if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
                     return Unauthorized("You are not authorized to perform this action");
                 }
-                if (!retrievedArticle.IsApproved && !retrievedArticle.Author.Equals(currentUser))
-                {
-                    return NotFound();
-                }
                 return Ok(new ArticleDetailModel(retrievedArticle));
             }
             catch (ResourceNotFoundException e)
@@ -98,7 +92,7 @@ namespace Blog.WebApi.Controllers
             }
         }
 
-        // Show - Get specific article (/api/articles/{id})
+        // Show - Get specific article (/api/article/{id})
         [HttpPost("{articleId}/markAllCommentsAsViewed")]
         public IActionResult MarkAllCommentsAsViewed(int articleId)
         {
@@ -125,14 +119,6 @@ namespace Blog.WebApi.Controllers
             try
             {
                 User author = _sessionService.GetCurrentUser();
-
-                if (IsOffensive(newArticle)) {
-                    newArticle.IsApproved = false;
-                } else
-                {
-                    newArticle.IsApproved = true;
-                }
-
                 var createdArticle = _articleService.CreateArticle(newArticle.ToCreateEntity(author));
                 var articleModel = new ArticleDetailModel(createdArticle);
                 return CreatedAtRoute("GetArticle", new { articleId = articleModel.Id }, articleModel);
@@ -155,19 +141,8 @@ namespace Blog.WebApi.Controllers
             {
                 User currentUser = _sessionService.GetCurrentUser();
                 var author = _userService.GetSpecificUser(updatedArticle.AuthorId);
-
-                if (IsOffensive(updatedArticle))
-                {
-                    updatedArticle.IsApproved = false;
-                }
-                else
-                {
-                    updatedArticle.IsApproved = true;
-                }
-
                 var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(author));
-
-                if (!retrievedArticle.Author.Equals(currentUser))
+                if(!retrievedArticle.Author.Equals(currentUser))
                 {
                     return Unauthorized("You are not authorized to perform this action");
                 }
@@ -203,23 +178,6 @@ namespace Blog.WebApi.Controllers
             {
                 return NotFound(e.Message);
             }
-        }
-
-        private bool IsOffensive(ArticleModel article)
-        {
-            bool offensive = false;
-            
-            if (_offensiveWordService.ContainsOffensiveWord(article.Title))
-            {
-                offensive = true;
-            }
-
-            if (_offensiveWordService.ContainsOffensiveWord(article.Content))
-            {
-                offensive = true;
-            }
-
-            return offensive;
         }
     }
 }
