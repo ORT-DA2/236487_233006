@@ -28,8 +28,6 @@ public class UserController : ControllerBase
     }
 
     // Index - Get all users (/api/users)
-    [AuthenticationFilter]
-    [RoleFilter(RoleType.Admin, RoleType.Blogger)]
     [HttpGet]
     public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
     {
@@ -82,8 +80,6 @@ public class UserController : ControllerBase
     }
 
     // Show - Get specific user (/api/users/{id})
-    [AuthenticationFilter]
-    [RoleFilter(RoleType.Admin)]
     [HttpGet("{id}", Name = "GetUser")]
     public IActionResult GetUserById(int id)
     {
