@@ -27,12 +27,13 @@
       <Compile Include="In\CommentModel.cs" />
       <Compile Include="In\SessionModel.cs" />
       <Compile Include="In\UserSearchCriteriaModel.cs" />
+      <Compile Include="Out\OffensiveWordDetailModel.cs" />
       <Compile Include="Out\RecentArticleModel.cs" />
       <Compile Include="Out\ArticleDetailModel.cs" />
       <Compile Include="Out\CommentDetailModel.cs" />
       <Compile Include="In\UserModelIn.cs" />
       <Compile Include="Out\RoleModelOut.cs" />
-      <Compile Include="Out\RecentArticleUserModel.cs" />
+      <Compile Include="Out\UserDetailModelOut.cs" />
       <Compile Include="Out\UserModelOut.cs" />
     </ItemGroup>
 

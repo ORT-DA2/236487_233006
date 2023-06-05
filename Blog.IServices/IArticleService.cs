@@ -3,12 +3,12 @@ using Blog.Domain.SearchCriterias;
 
 namespace Blog.IServices;
 
-public interface IArticleService
+public interface IOffensiveWordService
 {
-    List<Article> GetAllArticles(ArticleSearchCriteria searchCriteria, string? orderBy, string? direction, int? limit);
-    Article GetSpecificArticle(int id);
-    Article CreateArticle(Article article);
-    Article UpdateArticle(int id, Article updatedArticle);
-    void DeleteArticle(int id);
-    List<Article> GetRecentArticles(ArticleSearchCriteria searchCriteria, int limit);
+    List<OffensiveWord> GetAllOffensiveWords(OffensiveWordSearchCriteria searchCriteria);
+    OffensiveWord GetSpecificOffensiveWord(int id);
+    OffensiveWord CreateOffensiveWord(OffensiveWord word);
+    OffensiveWord UpdateOffensiveWord(int id, OffensiveWord updatedWord);
+    void DeleteOffensiveWord(int id);
+    bool ContainsOffensiveWord(string word);
 }

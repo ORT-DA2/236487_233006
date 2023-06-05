@@ -14,7 +14,13 @@ public class CommentReplyModel
 
     public DateTime? DeletedAt { get; set; }
 
-    public Comment ToCreateEntity(User author, Article article)
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
+    public bool IsReply { get; set; }
+
+    public Comment ToCreateEntity(User author, Article article) 
     {
         return new Comment()
         {
@@ -22,6 +28,9 @@ public class CommentReplyModel
             Article = article,
             Content = Content,
             CreatedAt = DateTime.Now,
+            IsApproved = IsApproved,
+            IsRejected = IsRejected,
+            IsReply = IsReply
         };
     }
 }

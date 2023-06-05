@@ -7,7 +7,7 @@ public class RecentArticleModel
 {
     public int Id { get; set; }
 
-    public RecentArticleUserModel Author { get; set; }
+    public UserDetailModelOut Author { get; set; }
     
     public string Title { get; set; }
     
@@ -29,6 +29,10 @@ public class RecentArticleModel
 
     public DateTime? DeletedAt { get; set; }
 
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
     public RecentArticleModel(Article article)
     {
         if (article == null)
@@ -37,7 +41,7 @@ public class RecentArticleModel
         }
 
         Id = article.Id;
-        Author = new RecentArticleUserModel(article.Author);
+        Author = new UserDetailModelOut(article.Author);
         Title = article.Title;
         Content = article.Content;
         Private = article.Private;
@@ -48,5 +52,7 @@ public class RecentArticleModel
         CreatedAt = article.CreatedAt;
         UpdatedAt = article.UpdatedAt;
         DeletedAt = article.DeletedAt;
+        IsApproved = article.IsApproved;
+        IsRejected = article.IsRejected;
     }
 }

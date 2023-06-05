@@ -27,6 +27,12 @@ public class Comment
 
     public bool IsViewed { get; set; }
 
+    public bool IsReply { get; set; }
+
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
     public void ValidOrFail()
     {
         if (string.IsNullOrEmpty(Content))
@@ -46,5 +52,7 @@ public class Comment
         UpdatedAt = comment.UpdatedAt;
         DeletedAt = comment.DeletedAt;
         IsViewed = comment.IsViewed;
+        IsApproved = comment.IsApproved;
+        IsRejected = comment.IsRejected;
     }
 }

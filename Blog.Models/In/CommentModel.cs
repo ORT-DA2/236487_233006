@@ -16,6 +16,11 @@ public class CommentModel
 
     public DateTime? DeletedAt { get; set; }
 
+    public bool IsViewed { get; set; }
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
     public Comment ToEntity(User author, Article article)
     {
         return new Comment()
@@ -26,7 +31,9 @@ public class CommentModel
             Article = article,
             CreatedAt = CreatedAt,
             UpdatedAt = UpdatedAt,
-            DeletedAt = DeletedAt
+            DeletedAt = DeletedAt,
+            IsViewed = IsViewed,
+            IsApproved = IsApproved,
         };
     }
 
@@ -38,6 +45,9 @@ public class CommentModel
             Article = article,
             Content = Content,
             CreatedAt = DateTime.Now,
+            IsViewed= IsViewed,
+            IsApproved = IsApproved,
+            IsRejected = IsRejected,
         };
     }
 }

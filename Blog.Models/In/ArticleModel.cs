@@ -23,6 +23,10 @@ public class ArticleModel
 
     public DateTime? UpdatedAt { get; set; }
 
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
     public Article ToCreateEntity(User author)
     {
         return new Article()
@@ -35,7 +39,9 @@ public class ArticleModel
             FirstImage = FirstImage,
             SecondImage = SecondImage,
             Template = Template,
-            CreatedAt = DateTime.Now
+            CreatedAt = DateTime.Now,
+            IsApproved = IsApproved,
+            IsRejected = IsRejected,
         };
     }
 
@@ -51,7 +57,9 @@ public class ArticleModel
             FirstImage = FirstImage,
             SecondImage = SecondImage,
             Template = Template,
-            UpdatedAt = DateTime.Now
+            UpdatedAt = DateTime.Now,
+            IsApproved = IsApproved,
+            IsRejected = IsRejected,
         };
     }
 }
