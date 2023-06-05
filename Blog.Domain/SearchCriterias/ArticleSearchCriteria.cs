@@ -8,10 +8,12 @@ namespace Blog.Domain.SearchCriterias
 
         public int? authorId { get; set; }
 
+        public bool? isApproved { get; set; }
+
         public Expression<Func<Article, bool>> Criteria()
         {
             return a => (string.IsNullOrEmpty(q) || a.Title.IndexOf(q) >= 0 || a.Content.IndexOf(q) >= 0) &&
-                        (authorId == null || a.Author.Id == authorId);
+                        (authorId == null || a.Author.Id == authorId) && (isApproved == null || a.IsApproved == isApproved);
         }
     }
 }

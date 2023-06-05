@@ -12,7 +12,7 @@ public class ArticleDetailModel
     
     public bool Private { get; set; }
     
-    public ICollection<Comment>? Comments { get; set; }
+    public List<CommentDetailModel>? Comments { get; set; }
     
     public string Content { get; set; }
     
@@ -28,6 +28,10 @@ public class ArticleDetailModel
 
     public DateTime? DeletedAt { get; set; }
 
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
     public ArticleDetailModel(Article article)
     {
         if (article == null)
@@ -35,18 +39,22 @@ public class ArticleDetailModel
             throw new ArgumentNullException(nameof(article));
         }
 
+        List<CommentDetailModel> comments = article.Comments.Select(c => new CommentDetailModel(c)).ToList();
+
         Id = article.Id;
         AuthorId = article.Author.Id;
         Title = article.Title;
         Content = article.Content;
         Private = article.Private;
-        Comments = article.Comments;
+        Comments = comments;
         FirstImage = article.FirstImage;
         SecondImage = article.SecondImage;
         Template = article.Template;
         CreatedAt = article.CreatedAt;
         UpdatedAt = article.UpdatedAt;
         DeletedAt = article.DeletedAt;
+        IsApproved = article.IsApproved;
+        IsRejected = article.IsRejected;
     }
     
     public override bool Equals(object? obj)

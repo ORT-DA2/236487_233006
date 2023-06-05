@@ -42,6 +42,10 @@ public class Article
 
     public DateTime? DeletedAt { get; set; }
 
+    public bool IsApproved { get; set; }
+
+    public bool IsRejected { get; set; }
+
     public void UpdateAttributes(Article article)
     {
         Title = article.Title;
@@ -52,6 +56,8 @@ public class Article
         Template = article.Template;
         UpdatedAt = article.UpdatedAt;
         DeletedAt = article.DeletedAt;
+        IsApproved = article.IsApproved;
+        IsRejected = article.IsRejected;
     }
 
     public void ValidOrFail()

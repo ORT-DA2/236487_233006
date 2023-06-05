@@ -22,6 +22,7 @@ public class ArticleService : IArticleService
         // filter out deleted articles
         articles = articles.Where(a => a.DeletedAt == null);
 
+
         if (!string.IsNullOrEmpty(orderBy))
         {
             if(string.IsNullOrEmpty(direction))
@@ -99,8 +100,7 @@ public class ArticleService : IArticleService
     {
         var articles = _repository.GetAllBy(searchCriteria.Criteria());
 
-        // filter out deleted articles
-        articles = articles.Where(a => a.DeletedAt == null);
+        articles = articles.Where(a => a.DeletedAt == null && a.IsApproved);
 
         var recentArticles = articles
         // Order by UpdatedAt if it exists, otherwise order by CreatedAt

@@ -15,6 +15,8 @@ namespace Blog.DataAccess.Contexts
         public DbSet<Role> Roles { get; set; }
         public DbSet<Session> Sessions { get; set; }
 
+        public DbSet<OffensiveWord> OffensiveWords { get; set; }
+
         public BlogContext(DbContextOptions options) : base(options) { }
         public BlogContext() : base() { }
 

@@ -21,6 +21,7 @@ public class FactoryService
         serviceCollection.AddTransient<ICommentRepository, CommentRepository>();
         serviceCollection.AddTransient<IRepository<Session>, SessionRepository>();
         serviceCollection.AddTransient<IRepository<UserRole>, BaseRepository<UserRole>>();
+        serviceCollection.AddTransient<IRepository<OffensiveWord>, BaseRepository<OffensiveWord>>();
 
         // Inject Services
         serviceCollection.AddTransient<IUserService, UserService>();
@@ -28,6 +29,7 @@ public class FactoryService
         serviceCollection.AddTransient<IArticleService, ArticleService>();
         serviceCollection.AddTransient<ICommentService, CommentService>();
         serviceCollection.AddTransient<IUserRoleService, UserRoleService>();
+        serviceCollection.AddTransient<IOffensiveWordService, OffensiveWordService>();
 
         // scoped ya que este service maneja estado, tiene el currentUser
         serviceCollection.AddScoped<ISessionService, SessionService>();
