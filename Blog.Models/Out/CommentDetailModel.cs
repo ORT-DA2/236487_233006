@@ -9,7 +9,7 @@ public class CommentDetailModel
     
     public UserDetailModelOut Author { get; set; }
     
-    public int? ReplyId { get; set; }
+    public CommentDetailModel? Reply { get; set; }
     
     public string Content { get; set; }
     
@@ -28,10 +28,15 @@ public class CommentDetailModel
     public CommentDetailModel(Comment comment)
     {
         UserDetailModelOut author = new UserDetailModelOut(comment.Author);
+        CommentDetailModel reply = null;
+        if (comment.Reply != null)
+        {
+            reply = new CommentDetailModel(comment.Reply);
+        }
         Id = comment.Id;
         Author = author;
         Content = comment.Content;
-        if(comment.Reply != null) { ReplyId = comment.Reply.Id; }
+        Reply = reply;
         if(comment.Article != null) { ArticleId = comment.Article.Id; }
         CreatedAt = comment.CreatedAt;
         UpdatedAt = comment.UpdatedAt;
