@@ -39,7 +39,12 @@ public class ArticleDetailModel
             throw new ArgumentNullException(nameof(article));
         }
 
-        List<CommentDetailModel> comments = article.Comments.Select(c => new CommentDetailModel(c)).ToList();
+        List<CommentDetailModel>? comments = null;
+
+        if(article.Comments != null)
+        {
+            comments = article.Comments.Select(c => new CommentDetailModel(c)).ToList();
+        }
 
         Id = article.Id;
         AuthorId = article.Author.Id;
