@@ -2,7 +2,7 @@ using Blog.Domain;
 
 namespace Models;
 
-public class ArticleModel
+public class CreateArticleModel
 {
     public int AuthorId { get; set; }
 
@@ -40,24 +40,6 @@ public class ArticleModel
             SecondImage = SecondImage,
             Template = Template,
             CreatedAt = DateTime.Now,
-            IsApproved = IsApproved,
-            IsRejected = IsRejected,
-        };
-    }
-
-    public Article ToUpdateEntity(User author)
-    {
-        return new Article()
-        {
-            Author = author,
-            Title = Title,
-            Content = Content,
-            Private = Private,
-            Comments = Comments,
-            FirstImage = FirstImage,
-            SecondImage = SecondImage,
-            Template = Template,
-            UpdatedAt = DateTime.Now,
             IsApproved = IsApproved,
             IsRejected = IsRejected,
         };

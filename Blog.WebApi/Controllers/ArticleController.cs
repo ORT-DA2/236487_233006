@@ -15,15 +15,13 @@ namespace Blog.WebApi.Controllers
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;
-        private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
         private readonly ICommentService _commentService;
         private readonly IOffensiveWordService _offensiveWordService;
 
-        public ArticleController(IArticleService articleService, IUserService userService, ISessionService sessionService, ICommentService commentService, IOffensiveWordService wordService)
+        public ArticleController(IArticleService articleService, ISessionService sessionService, ICommentService commentService, IOffensiveWordService wordService)
         {
             _articleService = articleService;
-            _userService = userService;
             _sessionService = sessionService;
             _commentService = commentService;
             _offensiveWordService = wordService;
@@ -98,7 +96,6 @@ namespace Blog.WebApi.Controllers
             }
         }
 
-        // Show - Get specific article (/api/articles/{id})
         [HttpPost("{articleId}/markAllCommentsAsViewed")]
         public IActionResult MarkAllCommentsAsViewed(int articleId)
         {
@@ -120,13 +117,13 @@ namespace Blog.WebApi.Controllers
 
         // Create - Create new article (/api/articles)
         [HttpPost]
-        public IActionResult CreateArticle([FromBody] ArticleModel newArticle)
+        public IActionResult CreateArticle([FromBody] CreateArticleModel newArticle)
         {
             try
             {
                 User author = _sessionService.GetCurrentUser();
 
-                if (IsOffensive(newArticle)) {
+                if (IsOffensive(newArticle.ToCreateEntity(author))) {
                     newArticle.IsApproved = false;
                 } else
                 {
@@ -149,14 +146,19 @@ namespace Blog.WebApi.Controllers
 
         // Update - Update specific article (/api/articles/{id})
         [HttpPut("{articleId}")]
-        public IActionResult UpdateArticle(int articleId, [FromBody] ArticleModel updatedArticle)
+        public IActionResult UpdateArticle(int articleId, [FromBody] UpdateArticleModel updatedArticle)
         {
             try
             {
                 User currentUser = _sessionService.GetCurrentUser();
-                var author = _userService.GetSpecificUser(updatedArticle.AuthorId);
+                Article retrievedArticle = _articleService.GetSpecificArticle(articleId);
 
-                if (IsOffensive(updatedArticle))
+                if (!retrievedArticle.Author.Equals(currentUser))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+
+                if (IsOffensive(updatedArticle.ToUpdateEntity(retrievedArticle.Author)))
                 {
                     updatedArticle.IsApproved = false;
                 }
@@ -165,13 +167,10 @@ namespace Blog.WebApi.Controllers
                     updatedArticle.IsApproved = true;
                 }
 
-                var retrievedArticle = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(author));
+                var returned = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(retrievedArticle.Author));
 
-                if (!retrievedArticle.Author.Equals(currentUser))
-                {
-                    return Unauthorized("You are not authorized to perform this action");
-                }
-                var articleModel = new ArticleDetailModel(retrievedArticle);
+                
+                var articleModel = new ArticleDetailModel(returned);
                 return Ok(articleModel);
             }
             catch (InvalidResourceException e)
@@ -205,7 +204,7 @@ namespace Blog.WebApi.Controllers
             }
         }
 
-        private bool IsOffensive(ArticleModel article)
+        private bool IsOffensive(Article article)
         {
             bool offensive = false;
             

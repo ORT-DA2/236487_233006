@@ -1,5 +1,6 @@
 using Blog.Domain;
 using Blog.Domain.Exceptions;
+using Blog.Domain.SearchCriterias;
 using Blog.IServices;
 using Blog.Services;
 using Blog.WebApi.Filters;
@@ -29,9 +30,9 @@ public class UserController : ControllerBase
 
     // Index - Get all users (/api/users)
     [HttpGet]
-    public IActionResult GetUsers([FromQuery] UserSearchCriteriaModel searchCriteria)
+    public IActionResult GetUsers([FromQuery] UserSearchCriteria searchCriteria)
     {
-        var retrievedUsers = _userService.GetAllUsers(searchCriteria.ToEntity());
+        var retrievedUsers = _userService.GetAllUsers(searchCriteria);
         return Ok(retrievedUsers.Select(u => new UserModelOut(u)));
     }
 

@@ -60,7 +60,7 @@ namespace Blog.WebApi.Tests
 
           var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-          UserSearchCriteriaModel userCriteria = new UserSearchCriteriaModel();
+          UserSearchCriteria userCriteria = new UserSearchCriteria();
           var result = controller.GetUsers(userCriteria) as OkObjectResult;
 
           var usersResult = result.Value as IEnumerable<UserModelOut>;
@@ -219,7 +219,7 @@ namespace Blog.WebApi.Tests
 
             var controller = new UserController(_userServiceMock.Object, _roleServiceMock.Object, _userRoleServiceMock.Object, _sessionServiceMock.Object);
 
-            UserSearchCriteriaModel userCriteria = new UserSearchCriteriaModel();
+            UserSearchCriteria userCriteria = new UserSearchCriteria();
             var result = controller.GetUsers(userCriteria) as OkObjectResult;
 
             var usersResult = result.Value as IEnumerable<UserModelOut>;

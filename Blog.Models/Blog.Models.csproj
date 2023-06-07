@@ -22,11 +22,11 @@
 
     <ItemGroup>
       <PackageReference Include="Moq" Version="4.18.4" />
-      <Compile Include="In\ArticleModel.cs" />
+      <Compile Include="In\UpdateArticleModel.cs" />
+      <Compile Include="In\CreateArticleModel.cs" />
       <Compile Include="In\CommentReplyModel.cs" />
       <Compile Include="In\CommentModel.cs" />
       <Compile Include="In\SessionModel.cs" />
-      <Compile Include="In\UserSearchCriteriaModel.cs" />
       <Compile Include="Out\OffensiveWordDetailModel.cs" />
       <Compile Include="Out\RecentArticleModel.cs" />
       <Compile Include="Out\ArticleDetailModel.cs" />

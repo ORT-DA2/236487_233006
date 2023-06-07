@@ -49,9 +49,9 @@ public class ArticleServicesTest
         var limit = 10;
         var articles = new List<Article>()
             {
-                new Article { CreatedAt = DateTime.Now.AddDays(-1) },
-                new Article { CreatedAt = DateTime.Now.AddDays(-2) },
-                new Article { CreatedAt = DateTime.Now.AddDays(-3) }
+                new Article { CreatedAt = DateTime.Now.AddDays(-1), IsApproved = true },
+                new Article { CreatedAt = DateTime.Now.AddDays(-2), IsApproved = true },
+                new Article { CreatedAt = DateTime.Now.AddDays(-3), IsApproved = true }
             };
         var expectedRecentArticles = articles.OrderByDescending(a => a.UpdatedAt ?? a.CreatedAt)
                                              .Take(limit)
