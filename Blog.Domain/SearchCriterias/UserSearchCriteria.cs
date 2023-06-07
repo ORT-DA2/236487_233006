@@ -8,6 +8,6 @@ public class UserSearchCriteria
 
     public Expression<Func<User, bool>> Criteria()
     {
-        return u => string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(Email) || u.Username == Username && u.Email == Email;
+        return u => (string.IsNullOrEmpty(Username) || u.Username == Username) && (string.IsNullOrEmpty(Email) || u.Email == Email);
     }
 }

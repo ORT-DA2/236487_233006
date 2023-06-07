@@ -10,32 +10,31 @@ using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Models;
 using System;
-using System.ComponentModel.Design;
 
 [TestClass]
 public class CommentControllerTest
 {
     private Mock<IArticleService> _articleServiceMock;
-    private Mock<IUserService> _userServiceMock;
     private Mock<ISessionService> _sessionServiceMock;
     private Mock<ICommentService> _commentServiceMock;
+    private Mock<IOffensiveWordService> _offensiveWordServiceMock;
 
     [TestInitialize]
     public void Setup()
     {
         _articleServiceMock = new Mock<IArticleService>(MockBehavior.Strict);
-        _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
         _sessionServiceMock = new Mock<ISessionService>(MockBehavior.Strict);
         _commentServiceMock = new Mock<ICommentService>(MockBehavior.Strict);
+        _offensiveWordServiceMock = new Mock<IOffensiveWordService>(MockBehavior.Strict);
     }
 
     [TestCleanup]
     public void Cleanup()
     {
         _articleServiceMock.VerifyAll();
-        _userServiceMock.VerifyAll();
         _sessionServiceMock.VerifyAll();
         _commentServiceMock.VerifyAll();
+        _offensiveWordServiceMock.VerifyAll();
     }
 
     [TestMethod]
@@ -45,7 +44,7 @@ public class CommentControllerTest
         var author = CreateUser(1);
         var expectedComments = new List<Comment> { new Comment { Id = 1, Content = "Test Comment", Article = article, Author = author } };
         _commentServiceMock.Setup(c => c.GetAllComments(It.IsAny<CommentSearchCriteria>())).Returns(expectedComments);
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.GetComments(new CommentSearchCriteria());
 
@@ -64,7 +63,7 @@ public class CommentControllerTest
         int commentId = 1;
         _commentServiceMock.Setup(s => s.GetSpecificComment(It.IsAny<int>()))
             .Returns(new Comment { Id = commentId, Content = "Test comment", Article = article, Author = author });
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.GetComment(commentId);
 
@@ -81,7 +80,7 @@ public class CommentControllerTest
         var author = CreateUser(1);
         int commentId = 2;
         _commentServiceMock.Setup(s => s.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.GetComment(commentId) as NotFoundObjectResult;
 
@@ -96,7 +95,7 @@ public class CommentControllerTest
         var currentUser = new User { Id = 2 };
         _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Throws(new ResourceNotFoundException("Article not found"));
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.CreateComment(newComment) as NotFoundObjectResult;
 
@@ -112,7 +111,7 @@ public class CommentControllerTest
         var currentUser = new User { Id = 2 };
         _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns((User)null);
         _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.CreateComment(newComment);
 
@@ -132,7 +131,7 @@ public class CommentControllerTest
         _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Returns(comment);
         _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
 
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.CreateCommentReply(commentId, reply) as BadRequestObjectResult;
 
@@ -157,7 +156,7 @@ public class CommentControllerTest
         _commentServiceMock.Setup(cs => cs.CreateComment(It.IsAny<Comment>())).Returns(reply);
         _commentServiceMock.Setup(c => c.UpdateComment(It.IsAny<int>(), It.IsAny<Comment>())).Returns(comment);
 
-        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.CreateCommentReply(commentId, new CommentReplyModel() { AuthorId =  author.Id, Content = reply.Content });
 
@@ -183,8 +182,9 @@ public void CreateCommentWithAuthorizedUserShouldReturnCreatedAtRoute()
     _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
     _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
     _commentServiceMock.Setup(cs => cs.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
+    _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
     var result = controller.CreateComment(newComment) as CreatedAtRouteResult;
 
@@ -208,8 +208,9 @@ public void CreateCommentWithValidDataShouldReturnCreatedAtRoute()
     _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
     _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
     _commentServiceMock.Setup(c => c.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
+    _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
     var result = controller.CreateComment(newComment);
 
@@ -237,7 +238,7 @@ public void CreateCommentReplyWithUnauthorizedUserShouldReturnUnauthorized()
     _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
     _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(comment.Article);
 
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
     var result = controller.CreateCommentReply(commentId, new CommentReplyModel() { AuthorId = author.Id, Content = "My reply" });
 
@@ -255,7 +256,7 @@ public void CreateCommentReplyWithNonExistingCommentShouldReturnNotFound()
     int commentId = 1;
 
     _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object);
+    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
     var result = controller.CreateCommentReply(commentId, reply) as NotFoundObjectResult;
 

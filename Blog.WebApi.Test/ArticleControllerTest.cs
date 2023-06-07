@@ -17,26 +17,27 @@ using Microsoft.AspNetCore.Http;
 public class ArticleControllerTest
 {
     private Mock<IArticleService> _articleServiceMock;
-    private Mock<IUserService> _userServiceMock;
     private Mock<ISessionService> _sessionServiceMock;
     private Mock<ICommentService> _commentServiceMock;
+    private Mock<IOffensiveWordService> _offensiveWordServiceMock;
+
     private ArticleController _articleController;
 
     [TestInitialize]
     public void Setup()
     {
         _articleServiceMock = new Mock<IArticleService>(MockBehavior.Strict);
-        _userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
         _sessionServiceMock = new Mock<ISessionService>(MockBehavior.Strict);
         _commentServiceMock = new Mock<ICommentService>(MockBehavior.Strict);
-        _articleController = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        _offensiveWordServiceMock = new Mock<IOffensiveWordService>(MockBehavior.Strict);
+
+        _articleController = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
     }
 
     [TestCleanup]
     public void Cleanup()
     {
         _articleServiceMock.VerifyAll();
-        _userServiceMock.VerifyAll();
         _sessionServiceMock.VerifyAll();
         _commentServiceMock.VerifyAll();
     }
@@ -48,7 +49,7 @@ public class ArticleControllerTest
         var article = CreateArticle(1);
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var response = controller.GetArticle(article.Id) as OkObjectResult;
 
@@ -65,7 +66,7 @@ public class ArticleControllerTest
         var article = CreateArticle(1, true);
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.GetArticle(article.Id);
 
@@ -87,7 +88,7 @@ public class ArticleControllerTest
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetAllArticles(criteria, null, null, null)).Returns(articles);
         
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
 
@@ -134,10 +135,11 @@ public class ArticleControllerTest
 
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(author);
         _articleServiceMock.Setup(service => service.CreateArticle(It.IsAny<Article>())).Returns(article);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
-        var newArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
+        var newArticle = new CreateArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
 
         var result = controller.CreateArticle(newArticle);
 
@@ -158,14 +160,15 @@ public class ArticleControllerTest
         // Arrange
         int articleId = 1;
         User currentUser = CreateUser(1);
-        var updatedArticle = new ArticleModel { Title = "New Title", Content = "New Content", AuthorId = 2 };
+        var updatedArticle = new UpdateArticleModel { Title = "New Title", Content = "New Content" };
         var updatedEntity = updatedArticle.ToUpdateEntity(currentUser);
         var retrievedArticle = new Article { Id = 1, Title = "Old Title", Content = "Old Content", Author = currentUser };
         var expectedArticleModel = new ArticleDetailModel(retrievedArticle);
 
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(currentUser);
+        _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(retrievedArticle);
         _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(),It.IsAny<Article>())).Returns(retrievedArticle);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
         // Act
         IActionResult result = _articleController.UpdateArticle(articleId, updatedArticle);
@@ -185,12 +188,11 @@ public class ArticleControllerTest
         var article = CreateArticle(1);
 
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
-        _userServiceMock.Setup(service => service.GetSpecificUser(It.IsAny<int>())).Returns(author);
-        _articleServiceMock.Setup(service => service.UpdateArticle(It.IsAny<int>(), It.IsAny<Article>())).Returns(article);
+        _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
-        var updatedArticle = new ArticleModel() { Title = article.Title, Content = article.Content, AuthorId = article.Author.Id, Private = article.Private, Template = article.Template, CreatedAt = article.CreatedAt };
+        var updatedArticle = new UpdateArticleModel() { Title = article.Title, Content = article.Content, Private = article.Private, Template = article.Template };
 
         var result = controller.UpdateArticle(article.Id, updatedArticle);
 
@@ -204,14 +206,13 @@ public class ArticleControllerTest
     {
         int articleId = 1;
         var currentUser = new User { Id = 1 };
-        var updatedArticle = new ArticleModel { AuthorId = 1 };
+        var updatedArticle = new UpdateArticleModel { };
         var author = new User { Id = 1 };
 
         _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
-        _userServiceMock.Setup(x => x.GetSpecificUser(updatedArticle.AuthorId)).Returns(author);
-        _articleServiceMock.Setup(x => x.UpdateArticle(articleId, It.IsAny<Article>())).Throws(new InvalidResourceException("Invalid article"));
+        _articleServiceMock.Setup(x => x.GetSpecificArticle(articleId)).Throws(new InvalidResourceException("Invalid article"));
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
         var result = controller.UpdateArticle(articleId, updatedArticle) as BadRequestObjectResult;
 
         Assert.IsNotNull(result);
@@ -229,7 +230,7 @@ public class ArticleControllerTest
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
         _articleServiceMock.Setup(service => service.DeleteArticle(It.IsAny<int>()));
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.DeleteArticle(article.Id) as NoContentResult;
 
@@ -245,7 +246,7 @@ public class ArticleControllerTest
         var article = CreateArticle(1, true);
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var response = controller.GetArticle(article.Id) as OkObjectResult;
 
@@ -269,7 +270,7 @@ public class ArticleControllerTest
         _sessionServiceMock.Setup(service => service.GetCurrentUser(null)).Returns(currentUser);
         _articleServiceMock.Setup(service => service.GetAllArticles(criteria, null, null, null)).Returns(articles);
 
-        var controller = new ArticleController(_articleServiceMock.Object, _userServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object);
+        var controller = new ArticleController(_articleServiceMock.Object, _sessionServiceMock.Object, _commentServiceMock.Object, _offensiveWordServiceMock.Object);
 
         var result = controller.GetArticles(criteria, null, null, null) as OkObjectResult;
 
@@ -364,10 +365,11 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
     {
         // Arrange
         var author = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
-        var newArticle = new ArticleModel { Title = "Test Article", Content = "This is a test article." };
+        var newArticle = new CreateArticleModel { Title = "Test Article", Content = "This is a test article." };
         var createdArticle = new Article { Id = 1, Title = newArticle.Title, Content = newArticle.Content, Author = author };
         _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
         _articleServiceMock.Setup(a => a.CreateArticle(It.IsAny<Article>())).Returns(createdArticle);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
         // Act
         var result = _articleController.CreateArticle(newArticle) as CreatedAtRouteResult;
@@ -389,9 +391,10 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
     {
         // Arrange
         var author = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
-        var newArticle = new ArticleModel { Title = "", Content = "" };
+        var newArticle = new CreateArticleModel { Title = "", Content = "" };
         _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
         _articleServiceMock.Setup(a => a.CreateArticle(It.IsAny<Article>())).Throws(new InvalidResourceException("Invalid article"));
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
         // Act
         var result = _articleController.CreateArticle(newArticle) as BadRequestObjectResult;

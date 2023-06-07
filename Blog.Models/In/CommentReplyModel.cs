@@ -16,6 +16,8 @@ public class CommentReplyModel
 
     public bool IsApproved { get; set; }
 
+    public bool IsViewed { get; set; }
+
     public bool IsRejected { get; set; }
 
     public bool IsReply { get; set; }
@@ -28,6 +30,7 @@ public class CommentReplyModel
             Article = article,
             Content = Content,
             CreatedAt = DateTime.Now,
+            IsViewed = IsViewed,
             IsApproved = IsApproved,
             IsRejected = IsRejected,
             IsReply = IsReply

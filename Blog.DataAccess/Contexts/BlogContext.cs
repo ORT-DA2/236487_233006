@@ -35,6 +35,24 @@ namespace Blog.DataAccess.Contexts
                 .WithMany(u => u.Comments)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Configure the OnDelete behavior for User-Article relationship
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Articles)
+                .WithOne(a => a.Author)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure the OnDelete behavior for User-Comment relationship
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Comments)
+                .WithOne(c => c.Author)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure the OnDelete behavior for User-UserRoles relationship
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserRoles)
+                .WithOne(ur => ur.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
