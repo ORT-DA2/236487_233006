@@ -1,0 +1,58 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "paths": {
+      "@app/*": ["projects/angular-template/src/app/*"],
+      // Features
+      "@features/*": ["projects/angular-template/src/app/features/*"],
+      "@auth/*": ["projects/angular-template/src/app/features/auth/*"],
+      "@layout/*": ["projects/angular-template/src/app/features/layout/*"],
+      "@home/*": ["projects/angular-template/src/app/features/home/*"],
+      "@users/*": ["projects/angular-template/src/app/features/users/*"],
+      "@shared/*": ["projects/angular-template/src/app/features/shared/*"],
+      "@articles/*": [
+        "projects/angular-template/src/app/features/articles/*"
+      ],
+      "@core": [
+        "projects/core/src/public-api.ts",
+        "dist/core",
+        "dist/core/core"
+      ],
+      // Note that we depend on the compiled version of the library   ng build --watch
+      "@ui-components": [
+        "projects/ui-components/src/public-api.ts",
+        "dist/ui-components",
+        "dist/ui-components/ui-components"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "compilationMode": "full"
+  }
+}

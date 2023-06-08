@@ -1,0 +1,35 @@
+<div >
+
+  <div class="drop-zone" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)" (click)="fileUploadInput.click()">
+    <p>Click or Drag and drop files here</p>
+    <p class="p-placeholder">{{this.placeholder}}</p>
+  </div>
+
+  <input type="file" (change)="onFileInput($event)" #fileUploadInput class="file-input"  [accept]="this.accept" />
+
+
+  <div class="preview-container">
+    <ng-container *ngFor="let file of this.formControl.value">
+    <div class="preview" [ngSwitch]="file.category">
+      <ng-container  *ngSwitchCase="'image'">
+        <img [src]="file.data" alt="Image Preview" />
+      </ng-container>
+      <ng-container *ngSwitchCase="'application'">
+        <p>Application || {{file.name}} - {{file.type}}</p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'audio'">
+        <p>audio</p>
+      </ng-container>
+      <ng-container *ngSwitchCase="'video'">
+        <p>video</p>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <div>File Preview Not Supported</div>
+      </ng-container>
+      <label>{{file?.name}}</label>
+      <p-button icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text p-button-sm" class="button" (click)="removeFile(file)"></p-button>
+
+    </div>
+    </ng-container>
+  </div>
+</div>

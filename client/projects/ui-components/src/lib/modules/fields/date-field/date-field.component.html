@@ -1,0 +1,31 @@
+<p-calendar
+  *ngIf="!this.isReadOnly; else readOnlyTemplate"
+  [formControl]="this.formControl"
+  [inputId]="this.inputId"
+  [dateFormat]="this.dateFormat"
+  [placeholder]="this.placeholder"
+  [showIcon]="this.showIcon"
+  [minDate]="this.minDate"
+  [maxDate]="this.maxDate"
+  [view]="this.view"
+  [disabled]="this.disabled"
+  (onBlur)="onBlur()"
+  class="treetableDate"
+>
+</p-calendar>
+
+
+<ng-template #readOnlyTemplate>
+  <div class="read-only-template">
+    <span
+      *ngIf="this.formControl.value; else emptyValueTemplate"
+      class="read-only-template__value"
+    >
+      {{ this.formControl.value | date : 'dd/MM/yyyy' }}
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #emptyValueTemplate>
+  <span class="read-only-template__value--empty">-</span>
+</ng-template>

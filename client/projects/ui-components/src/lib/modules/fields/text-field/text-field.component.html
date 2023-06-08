@@ -1,0 +1,34 @@
+<span
+  [class.p-input-icon-left]="this.iconPosition === 'left' || (this.icon && this.iconPosition !== 'right')"
+  [class.p-input-icon-right]="this.iconPosition === 'right'"
+>
+  <i *ngIf="(this.loading$ | async) === 'PENDING'" class="pi pi-spinner pi-spin"></i>
+  <i *ngIf="(this.loading$ | async) !== 'PENDING'&& this.icon" class="pi {{ icon }}"></i>
+
+  <input
+    *ngIf="!this.isReadOnly; else readOnlyTemplate"
+    [formControl]="this.formControl"
+    [type]="this.type"
+    [id]="this.inputId"
+    [placeholder]="this.placeholder"
+    [attr.disabled]="this.disabled ? true : null"
+    class="input"
+    pInputText
+    (blur)="onBlur()"
+  />
+</span>
+
+
+<ng-template #readOnlyTemplate>
+  <div class="read-only-template">
+    <span
+      *ngIf="this.formControl.value; else emptyValueTemplate"
+      class="read-only-template__value"
+      >{{ this.formControl.value }}</span
+    >
+  </div>
+</ng-template>
+
+<ng-template #emptyValueTemplate>
+  <span class="read-only-template__value--empty">-</span>
+</ng-template>

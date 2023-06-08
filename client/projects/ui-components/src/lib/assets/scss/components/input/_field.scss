@@ -1,0 +1,82 @@
+.field{
+ // margin-bottom : 0; /* reset prime */
+  width : 100%; /* makes field fluid */
+
+  &__label{
+    display: block;
+  }
+
+  .p-dropdown, input , .p-multiselect, .drop-zone, .p-checkbox.p-component{
+    margin-bottom : 19px ;
+  }
+
+  .p-inputtextarea{
+    margin-bottom : 14px ;
+  }
+
+  .error-message,
+  .help-text{
+    font-family: Lato, "sans-serif";
+    font-size: 11px;
+    margin-top: -17px;
+  }
+
+  .help-text {
+    color: #4d4d4d;
+    display: block;
+  }
+
+  .error-message{
+    display: none;
+    color: #d72f3c;
+  }
+
+  .group-error-message{
+    display: block;
+    font-family: Lato, "sans-serif";
+    font-size: 11px;
+    margin-top: -17px;
+    color: #d72f3c;
+  }
+
+}
+
+.field:has(custom-text-field.error, custom-number-field.error, custom-text-area-field.error, custom-select-field.error, custom-checkbox-field.error, custom-file-upload.error, custom-date-field.error, .group-error-message) {
+  input, textarea, .p-dropdown.p-component, .p-checkbox-box, .p-dropdown-label, .p-placeholder{
+    @include invalid-input();
+    border-width: 1px;
+    border-color: #d72f3c;
+    color : #d72f3c;
+
+  }
+
+  .drop-zone{
+    border-width: 1px;
+    border-color: #d72f3c;
+  }
+  @include invalid-input();
+  .help-text{
+    display: none;
+  }
+
+  .error-message{
+    display: block;
+  }
+
+  & > .error-message ~ .error-message {
+    display: none;
+  }
+}
+
+.field > label {
+  display: block;
+}
+
+.required:after {
+  content:"*";
+  color: #d72f3c;
+}
+
+dynamic-form {
+  display: block;
+}
