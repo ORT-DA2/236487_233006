@@ -5,7 +5,6 @@ using Blog.IServices;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using Models.Out;
 
 namespace Blog.WebApi.Controllers
 {
