@@ -1,0 +1,5 @@
+<div class="private-page-container" *ngIf="user$ | async as u">
+    <h1>{{u.firstName}}'s Article list</h1>
+    <filter-articles (filtered)="onArticleFiltered($event, u.id)" />
+    <article-list [vm$]="vm$" />
+</div>

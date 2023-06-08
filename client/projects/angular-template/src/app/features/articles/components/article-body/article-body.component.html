@@ -1,0 +1,27 @@
+<h1
+  class="title"
+  [highlight]="(words$ | async) ?? []"
+  [text]="article.title"
+  [classToApply]="'offensive-word'"
+  [innerHTML]="article.title"
+>
+</h1>
+<div
+  class="first-image-and-text-container clearfix"
+  [class.image-bottom]="article.template === imagePosition.Top"
+>
+  <img
+    [src]="article.firstImage"
+    [class.image-left]="article.template === imagePosition.Left"
+    alt="Article image"
+  />
+
+  <p
+    class="content"
+    [class.text-right]="article.template === imagePosition.Left"
+    [highlight]="(words$ | async) ?? []"
+    [text]="article.content"
+    [classToApply]="'offensive-word'"
+    [innerHTML]="article.content"
+  ></p>
+</div>

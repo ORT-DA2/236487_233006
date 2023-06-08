@@ -1,0 +1,23 @@
+<ng-container *ngIf="this.vm$ | async as vm">
+  <div
+    *ngIf="vm.articles.length > 0; else noArticles"
+    class="article-list-container"
+  >
+    <article-list-item
+      *ngFor="let article of vm.articles"
+      [words$]="words$"
+      [article]="article"
+      [editing]="vm.editing"
+      [showFromAuthor]="vm.showFromAuthor && !vm.editing"
+      (deleted)="onDeleteRequest(article)"
+    />
+  </div>
+
+  <loading *ngIf="vm.loading" />
+
+  <ng-template #noArticles>
+    <div *ngIf="!vm.loading">No articles are here... yet.</div>
+  </ng-template>
+
+  <delete-dialog (deleted)="onDeleteConfirmation($event)" />
+</ng-container>
