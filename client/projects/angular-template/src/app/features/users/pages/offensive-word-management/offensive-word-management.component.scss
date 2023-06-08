@@ -1,0 +1,34 @@
+
+.private-page-container{
+  display: flex;
+  flex-direction: column;
+}
+.form-container{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+dynamic-form{
+  display: inline-flex;
+}
+p-button{
+  margin-left: 15px;
+  margin-top: -4px;
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+.m-auto{
+  margin-inline: auto;
+}
+
+:host::ng-deep .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  color: #4957b6;
+  background: #fffefc;
+}
+
+:host::ng-deep .p-inputtext{
+  width: 300px;
+}

@@ -1,0 +1,17 @@
+<p-overlayPanel #op>
+  <ng-template pTemplate="content">
+    <p-listbox
+            [options]="actions"
+            [(ngModel)]="selectedAction"
+            (onClick)="onActionSelected($event)"
+    >
+      <ng-template let-city pTemplate="item">
+        <div class="city-item">
+          <div>{{ city.label }}</div>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </ng-template>
+</p-overlayPanel>
+
+<p-button (click)="op.toggle($event)" styleClass="p-button-text" icon="pi pi-ellipsis-h" />

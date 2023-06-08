@@ -1,0 +1,36 @@
+<section class="private-page-container">
+    <h1>Offensive Word Management</h1>
+    <div class="inline-block m-auto">
+        <error-badge *ngIf="error$ | async as error" [error]="error" />
+        <div class="form-container">
+            <dynamic-form
+                    class="form"
+                    [data$]="data$"
+                    [structure$]="structure$"
+                    (updateForm)="updateForm($event)"
+					#dynamicForm
+            />
+            <p-button
+              label="Add"
+              (click)="submit()"
+            />
+        </div>
+        <p-listbox [options]="(words$ | async) ?? []" >
+            <ng-template let-ctx pTemplate="item">
+                <div class="flex align-items-center justify-content-between gap-2 w-100">
+                    <p class="word">{{ w$(ctx).word }}</p>
+                    <p-button
+                      styleClass="p-button-outlined p-button-rounded p-button-danger p-button-text p-button-sm "
+                      class="delete-button"
+                      icon="pi pi-times"
+                      (click)="deleteOffensiveWord(w$(ctx).id)"
+                    />
+                </div>
+            </ng-template>
+        </p-listbox>
+    </div>
+
+    <loading *ngIf="this.loading$ | async" />
+</section>
+
+
