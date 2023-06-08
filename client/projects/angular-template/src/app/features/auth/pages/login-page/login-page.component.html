@@ -1,0 +1,15 @@
+<div class="flex h-100">
+  <div class="surface-section w-full lg:w-7 xl:w-6 p-6 md:p-8 login-container">
+    <div class="mb-5">
+      <img src="assets/blogger-logo-icon.png" alt="Image" height="70" class="mb-3">
+      <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+      <span class="text-600 font-medium mr-2">Don't have an account?</span>
+      <a class="font-medium no-underline text-blue-500 cursor-pointer" (click)="openRegisterDialog()">Create one today!</a>
+    </div>
+    <loading *ngIf="loading$ | async" />
+    <login-form />
+  </div>
+  <div class="hidden md:block w-7 xl:w-full bg-no-repeat bg-cover" style="background-image: url('assets/images/blocks/signin/signin.jpg')"></div>
+</div>
+
+<register-dialog/>
