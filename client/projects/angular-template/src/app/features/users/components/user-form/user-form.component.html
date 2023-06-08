@@ -1,0 +1,12 @@
+<dynamic-form
+        [data$]="data$"
+        [structure$]="structure$"
+        (updateForm)="updateForm($event)"
+		#dynamicForm
+/>
+
+<p-button
+        class="button submit-button"
+        (click)="onSubmit()"
+        label="Submit"
+/>
