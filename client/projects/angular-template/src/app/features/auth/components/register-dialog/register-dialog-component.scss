@@ -1,0 +1,10 @@
+@media (max-width: 450px) {
+  .page-container {
+    padding: 0;
+  }
+
+  ::ng-deep .p-dialog .p-dialog-content{
+    padding: 20px 15px;
+    padding-top: 10px;
+  }
+}
