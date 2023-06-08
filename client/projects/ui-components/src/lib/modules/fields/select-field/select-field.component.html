@@ -1,0 +1,63 @@
+<ng-container *ngIf="!this.isReadOnly; else readOnlyTemplate">
+  <p-multiSelect
+    *ngIf="this.multiSelect; else singleSelectTemplate"
+    [options]="this.options"
+    [formControl]="this.formControl"
+    [defaultLabel]="this.placeholder || 'Seleccione una o multiples opciones'"
+    dataKey="id"
+    optionLabel="description"
+    display="chip"
+    [readonly]="this.isReadOnly"
+    [inputId]="this.inputId"
+    [disabled]="this.disabled"
+    (onChange)="this.onTouched()"
+    (onPanelHide)="this.onTouched()"
+  >
+  </p-multiSelect>
+  <ng-template #singleSelectTemplate>
+    <p-dropdown
+      [options]="this.options"
+      [formControl]="this.formControl"
+      [showClear]="this.showClear"
+      [placeholder]="this.placeholder || 'Seleccione una opción'"
+      dataKey="id"
+      optionLabel="description"
+      [readonly]="this.isReadOnly"
+      [inputId]="this.inputId"
+      [disabled]="this.disabled"
+      (onChange)="this.onTouched()"
+      (onHide)="this.onTouched()"
+    >
+    </p-dropdown>
+  </ng-template>
+</ng-container>
+
+<ng-template #readOnlyTemplate>
+  <div class="read-only-template">
+    <ng-container *ngIf="this.multiSelect; else singleSelectTemplate">
+      <ul
+        *ngIf="this.displayValue && this.displayValue.length; else emptyValueTemplate"
+        class="read-only-template__list"
+      >
+        <li
+          *ngFor="let value of displayValue"
+          class="read-only-template__list--item"
+        >
+          {{ value.description }}
+        </li>
+      </ul>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #singleSelectTemplate>
+  <span
+    *ngIf="this.displayValue; else emptyValueTemplate"
+    class="read-only-template__value"
+    >{{ this.displayValue.description }}</span
+  >
+</ng-template>
+
+<ng-template #emptyValueTemplate>
+  <span class="read-only-template__value--empty">-</span>
+</ng-template>

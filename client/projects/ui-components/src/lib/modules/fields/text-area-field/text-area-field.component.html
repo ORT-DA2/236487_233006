@@ -1,0 +1,25 @@
+<textarea
+  *ngIf="!isReadOnly; else readOnlyTemplate"
+  [formControl]="formControl"
+  pInputTextarea
+  [id]="this.inputId"
+  [placeholder]="this.placeholder"
+  (blur)="onBlur()"
+  rows="5"
+  cols="30"
+>
+</textarea>
+
+<ng-template #readOnlyTemplate>
+  <div class="read-only-template">
+    <span
+      *ngIf="this.formControl.value; else emptyValueTemplate"
+      class="read-only-template__value"
+    >{{ this.formControl.value }}</span
+    >
+  </div>
+</ng-template>
+
+<ng-template #emptyValueTemplate>
+  <span class="read-only-template__value--empty">-</span>
+</ng-template>

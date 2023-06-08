@@ -1,0 +1,154 @@
+// Theme Global Variables
+$primaryColor: #4957b6;
+$primaryDarkColor: #3a4692; /* hover, focus */
+$primaryDarkerColor: #2c346d; /* Used for Transitions. e.g: On Button Press */
+$primaryTextColor: #fffefc;
+
+$secondaryColor : #6B7C94;
+$darColor : #1a1a1a;
+$lightColor : #f8f9fa;
+$dangerColor : #DC3545;
+$warningColor : #FF9900;
+$successColor : #1f7a49;
+$helpColor : #8033cc;
+$infoColor: #0055ff;
+
+/// Font Title of the theme
+/// @group general
+$fontFamilyTitle: Lato, Helvetica, Arial, sans-serif;
+
+/// Font Text of the theme
+/// @group general
+$fontFamilyText: Quicksand, Helvetica, Arial, sans-serif;
+
+/// Size of the font
+/// @group general
+$fontSize: 1rem;
+
+/// Thickness of the texts
+/// @group general
+$fontWeight: normal;
+
+/// Primary text color
+/// @group general
+$textColor: #333;
+
+/// Secondary text color
+/// @group general
+$textSecondaryColor: #6c757d;
+
+/// Background of a highlighted item
+/// @group general
+$highlightBg: $primaryColor;
+
+/// Text color of a highlighted item
+/// @group general
+$highlightTextColor: $primaryTextColor;
+
+/// Radius of the corners
+/// @group general
+$borderRadius: 6px;
+
+/// Duration of the property transitions
+/// @group general
+$transitionDuration: .2s;
+
+/// Properties of a form element transition
+/// @group general
+$formElementTransition: background-color $transitionDuration, color $transitionDuration, border-color $transitionDuration, box-shadow $transitionDuration;
+
+/// Properties of a action icon transition
+/// @group general
+$actionIconTransition: background-color $transitionDuration, color $transitionDuration, box-shadow $transitionDuration;
+
+/// Properties of a list item transition
+/// @group general
+$listItemTransition: background-color $transitionDuration, border-color $transitionDuration, box-shadow $transitionDuration;
+
+/// Size of the Icons
+/// @group general
+$primeIconFontSize: 1rem;
+
+/// Separator border
+/// @group general
+$divider: 1px solid #dee2e6;
+
+/// Space between two inline items
+/// @group general
+$inlineSpacing: .5rem;
+
+/// Opacity of the disabled elements
+/// @group general
+$disabledOpacity: .4;
+
+/// Background of the modal layer
+/// @group general
+$maskBg: rgba(0, 0, 0, 0.4);
+
+/// Font size of the loading icons
+/// @group general
+$loadingIconFontSize: 2rem;
+
+/// Color to use on an invalid element e.g. invalid input
+/// @group general
+$errorColor: #d72f3c;
+
+/// Outline color of a focused element
+/// @group general
+$focusOutlineColor: #929ad3;
+
+/// Outline of a focused element
+/// @group general
+$focusOutline: 0 none;
+
+/// Outline offset of a focused element
+/// @group general
+$focusOutlineOffset: 0;
+
+/// Box shadow of a focused element
+/// @group general
+$focusShadow: 0 0 0 toRem(2px) $focusOutlineColor;
+
+/// Width of an action icon
+/// @group general
+$actionIconWidth: 2rem;
+
+/// Height of an action icon
+/// @group general
+$actionIconHeight: 2rem;
+
+/// Background of an action icon
+/// @group general
+$actionIconBg: transparent;
+
+/// Border of an action icon
+/// @group general
+$actionIconBorder: 0 none;
+
+/// Color of an action icon
+/// @group general
+$actionIconColor: $textSecondaryColor;
+
+/// Background of an action icon in hover state
+/// @group general
+$actionIconHoverBg: #f2f2f2;
+
+/// Border of an action icon in hover state
+/// @group general
+$actionIconHoverBorderColor: transparent;
+
+/// Color of an action icon in hover state
+/// @group general
+$actionIconHoverColor: $textColor;
+
+/// Border radius of an action icon
+/// @group general
+$actionIconBorderRadius: 50%;
+
+/// Scale factor of small component size
+/// @group general
+$scaleSM:0.875;
+
+/// Scale factor of small large size
+/// @group general
+$scaleLG:1.25;

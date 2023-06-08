@@ -1,0 +1,27 @@
+<p-inputNumber
+  *ngIf="!this.isReadOnly; else readOnlyTemplate"
+  [formControl]="this.formControl"
+  [inputId]="this.inputId"
+  [placeholder]="this.placeholder"
+  [locale]="this.locale"
+  [minFractionDigits]="this.minFractionDigits"
+  [maxFractionDigits]="this.maxFractionDigits"
+  [min]="this.min"
+  [max]="this.max"
+  [prefix]="this.prefix"
+  [suffix]="this.suffix"
+  (onBlur)="onBlur()"
+></p-inputNumber>
+<ng-template #readOnlyTemplate>
+  <div class="read-only-template">
+    <span
+      *ngIf="this.formControl.value; else emptyValueTemplate"
+      class="read-only-template__value"
+      >{{this.prefix}} {{ this.formControl.value }} {{this.suffix}}</span
+    >
+  </div>
+</ng-template>
+
+<ng-template #emptyValueTemplate>
+  <span class="read-only-template__value--empty">-</span>
+</ng-template>
