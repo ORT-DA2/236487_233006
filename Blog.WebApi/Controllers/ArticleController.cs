@@ -84,11 +84,19 @@ namespace Blog.WebApi.Controllers
                 if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
                     return Unauthorized("You are not authorized to perform this action");
                 }
-                if (!retrievedArticle.IsApproved && !retrievedArticle.Author.Equals(currentUser))
+
+                if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
                 {
                     return NotFound();
                 }
-                return Ok(new ArticleDetailModel(retrievedArticle));
+
+                if(retrievedArticle.IsApproved || retrievedArticle.Author.Equals(currentUser) || currentUser.IsInRole(RoleType.Admin) )
+                {
+                    return Ok(new ArticleDetailModel(retrievedArticle));
+                } else
+                {
+                    return NotFound();
+                }
             }
             catch (ResourceNotFoundException e)
             {
