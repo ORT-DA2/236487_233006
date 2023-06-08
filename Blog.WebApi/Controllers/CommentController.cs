@@ -2,7 +2,6 @@ using Blog.Domain;
 using Blog.Domain.Exceptions;
 using Blog.Domain.SearchCriterias;
 using Blog.IServices;
-using Blog.Services;
 using Blog.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -57,7 +56,7 @@ namespace Blog.WebApi.Controllers
                     return Unauthorized("You are not able to comment this article");
                 }
 
-                if (IsOffensive(newComment))
+                if (IsOffensive(newComment.ToEntity(currentUser, article)))
                 {
                     newComment.IsApproved = false;
                 }
@@ -90,6 +89,107 @@ namespace Blog.WebApi.Controllers
             {
                 var comment =  _commentService.GetSpecificComment(commentId);
                 return Ok(new CommentDetailModel(comment));
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        // Update - Update specific comment (/api/comments/{id})
+        [HttpPut("{commentId}")]
+        public IActionResult UpdateComment(int commentId, [FromBody] UpdateCommentModel updatedComment)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                Comment retrievedComment = _commentService.GetSpecificComment(commentId);
+
+                if (!retrievedComment.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+
+                if (IsOffensive(retrievedComment))
+                {
+                    updatedComment.IsApproved = false;
+                }
+                else
+                {
+                    updatedComment.IsApproved = true;
+                }
+
+                updatedComment.IsRejected = false;
+
+                var comment = _commentService.UpdateComment(commentId, updatedComment.ToUpdateEntity(retrievedComment.Author, retrievedComment.Article));
+                var commentModel = new CommentDetailModel(comment);
+                return Ok(commentModel);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        // Approve a comment (/api/comments/{id}/approve)
+        [HttpPost("{commentId}/approve")]
+        public IActionResult ApproveComment(int commentId)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                Comment retrievedComment = _commentService.GetSpecificComment(commentId);
+
+                if (!retrievedComment.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+
+                retrievedComment.IsApproved = true;
+                retrievedComment.IsRejected = false;
+
+                var comment = _commentService.UpdateComment(commentId, retrievedComment);
+                var commentModel = new CommentDetailModel(comment);
+                return Ok(commentModel);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        // Reject a comment (/api/comments/{id}/reject)
+        [HttpPost("{commentId}/reject")]
+        public IActionResult RejectComment(int commentId)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                Comment retrievedComment = _commentService.GetSpecificComment(commentId);
+
+                if (!retrievedComment.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+
+                retrievedComment.IsApproved = false;
+                retrievedComment.IsRejected = true;
+
+                var comment = _commentService.UpdateComment(commentId, retrievedComment);
+                var commentModel = new CommentDetailModel(comment);
+                return Ok(commentModel);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
             }
             catch (ResourceNotFoundException e)
             {
@@ -138,7 +238,7 @@ namespace Blog.WebApi.Controllers
             }
         }
 
-        private bool IsOffensive(CommentModel comment)
+        private bool IsOffensive(Comment comment)
         {
             if (_offensiveWordService.ContainsOffensiveWord(comment.Content))
             {

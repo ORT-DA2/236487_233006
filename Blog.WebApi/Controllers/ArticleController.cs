@@ -153,7 +153,7 @@ namespace Blog.WebApi.Controllers
                 User currentUser = _sessionService.GetCurrentUser();
                 Article retrievedArticle = _articleService.GetSpecificArticle(articleId);
 
-                if (!retrievedArticle.Author.Equals(currentUser))
+                if (!retrievedArticle.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
                 {
                     return Unauthorized("You are not authorized to perform this action");
                 }
@@ -167,9 +167,74 @@ namespace Blog.WebApi.Controllers
                     updatedArticle.IsApproved = true;
                 }
 
-                var returned = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(retrievedArticle.Author));
+                updatedArticle.IsRejected = false;
 
+                var returned = _articleService.UpdateArticle(articleId, updatedArticle.ToUpdateEntity(retrievedArticle.Author));
                 
+                var articleModel = new ArticleDetailModel(returned);
+                return Ok(articleModel);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        // Approve Article (/api/articles/{id}/approve)
+        [HttpPost("{articleId}/approve")]
+        public IActionResult ApproveArticle(int articleId)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                Article retrievedArticle = _articleService.GetSpecificArticle(articleId);
+
+                if (!retrievedArticle.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+
+                retrievedArticle.IsApproved = true;
+                retrievedArticle.IsRejected = false;
+
+                var returned = _articleService.UpdateArticle(articleId, retrievedArticle);
+
+                var articleModel = new ArticleDetailModel(returned);
+                return Ok(articleModel);
+            }
+            catch (InvalidResourceException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ResourceNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        // Reject Article (/api/articles/{id}/reject)
+        [HttpPost("{articleId}/reject")]
+        public IActionResult RejectArticle(int articleId)
+        {
+            try
+            {
+                User currentUser = _sessionService.GetCurrentUser();
+                Article retrievedArticle = _articleService.GetSpecificArticle(articleId);
+
+                if (!retrievedArticle.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
+                {
+                    return Unauthorized("You are not authorized to perform this action");
+                }
+
+                retrievedArticle.IsApproved = false;
+                retrievedArticle.IsRejected = true;
+
+                var returned = _articleService.UpdateArticle(articleId, retrievedArticle);
+
                 var articleModel = new ArticleDetailModel(returned);
                 return Ok(articleModel);
             }

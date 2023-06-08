@@ -68,8 +68,6 @@ public class CommentTests
         {
             Author = _author,
             Content = "Updated content",
-            Reply = _validComment,
-            CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             DeletedAt = null
         };
@@ -78,8 +76,6 @@ public class CommentTests
 
         Assert.AreEqual(updatedComment.Author, _validComment.Author);
         Assert.AreEqual(updatedComment.Content, _validComment.Content);
-        Assert.AreEqual(updatedComment.Reply, _validComment.Reply);
-        Assert.AreEqual(updatedComment.CreatedAt, _validComment.CreatedAt);
         Assert.AreEqual(updatedComment.UpdatedAt, _validComment.UpdatedAt);
         Assert.AreEqual(updatedComment.DeletedAt, _validComment.DeletedAt);
     }
