@@ -9,7 +9,6 @@ public class Comment
     public int Id { get; set; }
 
     [Required]
-    [JsonIgnore]
     public User Author { get; set; }
     
     public Comment? Reply { get; set; }
@@ -17,7 +16,6 @@ public class Comment
     [Required]
     public string Content { get; set; }
 
-    [JsonIgnore]
     public Article? Article { get; set; }
     public DateTime CreatedAt { get; set; }
     
@@ -45,10 +43,7 @@ public class Comment
 
     public void UpdateAttributes(Comment comment)
     {
-        Author = comment.Author;
         Content = comment.Content;
-        Reply = comment.Reply;
-        CreatedAt = comment.CreatedAt;
         UpdatedAt = comment.UpdatedAt;
         DeletedAt = comment.DeletedAt;
         IsViewed = comment.IsViewed;
