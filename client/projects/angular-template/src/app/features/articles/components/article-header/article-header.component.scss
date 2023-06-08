@@ -1,0 +1,25 @@
+:host::ng-deep .p-avatar.p-component.p-avatar-circle{
+  width: 90px;
+  height: 90px;
+
+  .p-avatar-text{
+    font-size: 2rem;
+  }
+}
+
+.actions-container{
+  display: flex;
+  flex-direction : column;
+}
+
+.button-bar{
+  display: flex;
+  column-gap: 10px;
+  margin-top: 25px;
+}
+
+
+//:host::ng-deep .p-button.p-button-sm{
+//  height : 1.8rem ;
+//  width : 1.8rem ;
+//}

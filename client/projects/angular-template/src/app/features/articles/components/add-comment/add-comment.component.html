@@ -1,0 +1,12 @@
+<div class="add-comment-container">
+  <dynamic-form
+    [data$]="data$"
+    [structure$]="structure$"
+    (updateForm)="updateForm.emit($event)"
+  />
+
+
+  <p-button label="Post Comment"
+    (click)="submitComment.emit({ articleId: article.id, authorId: article.authorId! })"
+  />
+</div>

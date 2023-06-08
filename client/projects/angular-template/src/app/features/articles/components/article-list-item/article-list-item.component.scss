@@ -1,0 +1,143 @@
+.card {
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 6px;
+  position: relative;
+}
+
+.card:hover {
+ // box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 9px 9px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 0 8px hsl(237, 42%, 43%);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  bottom: 0;
+  background: rgba(0,0,0,0.2);
+  border-radius: 100px / 20px;
+}
+
+.card:hover::before {
+  top: 0;
+}
+
+.card__publication {
+  position: relative;
+  height: 15rem;
+  overflow: hidden;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.card__publication img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.card:hover .card__publication img {
+  transform: scale(1.5);
+}
+.card__publication > div {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  inset: 0;
+  padding: 1rem;
+    border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.card__icon {
+  margin-right: 1rem;
+}
+.card__publication span {
+  display: block;
+}
+.card__author {
+  margin-bottom: 0.5rem;
+}
+.card__info {
+  position: relative;
+  padding: 1.5rem 1.5rem;
+  width: 100%;
+}
+.card__title {
+  font-size: 1.75rem;
+  margin-bottom: 2px;
+  color : #4957b6
+}
+.card__cta {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: bold;
+  color: #4957b6;
+  margin-top: 2rem;
+}
+
+.card__description{
+  line-height: 1.3;
+  font-family: Lato, "sans-serif";
+  font-weight: 300;
+  font-size: 14px;
+}
+.card__cta span {
+  display: inherit;
+  transition: transform 0.5s;
+}
+.card__cta:hover span {
+  transform: translateX(0.5rem);
+}
+@media screen and (min-width: 37.5em) {
+  .card {
+    display: flex;
+    max-width: 75rem;
+
+  }
+  .card__publication {
+    width: 25rem;
+    height: initial;
+  }
+}
+
+.button-bar{
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.edit-button{
+  height : 2.15rem ;
+  width : 2.15rem ;
+
+}
+
+:host::ng-deep .p-button.p-button-sm{
+  height : 1.8rem ;
+  width : 1.8rem ;
+}
+
+
+.read-more-container{
+  display: flex;
+  justify-content: space-between;
+
+  a{
+    display: flex;
+  }
+}
+
+.help-color{
+  color: #6d1b7b  ;
+}

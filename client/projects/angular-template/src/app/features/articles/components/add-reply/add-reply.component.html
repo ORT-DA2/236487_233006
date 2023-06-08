@@ -1,0 +1,20 @@
+<div class="container border-2  surface-border ">
+    <custom-text-area-field
+            placeholder="What are your thoughts?"
+            [formControl]="comment"
+
+    />
+
+    <div class="button-container">
+        <p-button
+                label="Cancel"
+                (click)="close.emit()"
+                styleClass="p-button-sm p-button-text"
+        />
+        <p-button
+                label="Reply"
+                (click)="onCommentReply()"
+                styleClass="p-button-sm"
+        />
+    </div>
+</div>

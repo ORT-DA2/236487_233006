@@ -1,0 +1,30 @@
+<article class="private-page-container" *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm.article">
+
+    <article-header
+            [author]="vm.author!" [article]="vm.article"
+            (articleApproved)="onArticleApprove($event)"
+            (articleRejected)="onArticleReject($event)"
+    />
+    <article-body [article]="vm.article" [words$]="words$" />
+
+    <add-comment
+      [article]="vm.article"
+      [data$]="data$"
+      [structure$]="structure$"
+      [currentUser]="vm.loggedUser!"
+      (submitComment)="submit($event)"
+      (updateForm)="updateForm($event)"
+    />
+
+    <article-comment
+      *ngFor="let comment of vm.article.comments"
+      [comment]="comment"
+      [showAddReply$]="this.showAddReply$"
+      [canReply]="vm.loggedUser?.id === vm.article.authorId"
+      [currentUser]="vm.loggedUser"
+    />
+
+    <loading *ngIf="vm.loading" />
+  </ng-container>
+</article>
