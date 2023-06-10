@@ -25,9 +25,10 @@ export class AddReplyComponent {
   constructor(private store : Store) {
   }
   onCommentReply(){
+    
     if(this.comment.value && this.comment.value?.length > 0){
       this.store.dispatch(articleActions.addReply({
-        commentId : this.commentId,
+        replyId : this.commentId,
         payload:{
           authorId: this.currentUser?.id!,
           content: this.comment.value

@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -7,13 +8,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormBuilder,
-  FormControl,
-  FormGroup, Validators,
-} from '@angular/forms';
-import {DEFAULT_ERROR_TYPES, Field, IDynamicForm, FormState, FieldType, defaultFieldValues} from '../shared';
+import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {DEFAULT_ERROR_TYPES, defaultFieldValues, Field, FieldType, FormState, IDynamicForm} from '../shared';
 import {
   BehaviorSubject,
   combineLatest,
@@ -21,13 +17,12 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  Observable, startWith,
+  Observable,
   Subject,
   tap,
 } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import {formsActions, ngrxFormsQuery} from "../state";
-import {Store} from "@ngrx/store";
+import {takeUntil} from 'rxjs/operators';
+import {FormService} from "../state/form-service";
 
 export enum FormStatus{
   INVALID = 'INVALID',
@@ -59,10 +54,14 @@ export class DynamicFormComponent implements IDynamicForm, OnInit, OnDestroy, Co
 
   @Output() formInitialized = new EventEmitter<FormGroup>();
 
-  constructor(private readonly fb: FormBuilder, private changeDetector: ChangeDetectorRef, private store : Store) {}
+  constructor(private readonly fb: FormBuilder, private changeDetector: ChangeDetectorRef, private formService : FormService ) {}
 
   ngOnInit() {
     this.watchForFormBuild();
+  
+    this.formService.resetForm$.pipe(takeUntil(this.formDestroyed$)).subscribe(() => {
+      this.form?.reset();
+    });
   }
 
   submitted() {

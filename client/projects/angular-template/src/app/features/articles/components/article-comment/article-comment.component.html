@@ -1,5 +1,5 @@
 
-<div class="mb-6">
+<div class="mb-6" *ngIf="comment.isApproved || isAdmin()">
     <div class="flex ">
         <div class="flex flex-column align-items-center" style="width:2rem">
             <div class="h-full bg-blue-500" style="width: 2px; min-height: 9rem"></div>
@@ -9,18 +9,42 @@
         <div class="w-100">
             <!-- Article Comment  -->
             <div class="ml-1 surface-card shadow-2 border-round p-3 flex-auto flex flex-column">
-                <div class="mb-3">
+                <div class="mb-3 flex justify-content-between">
+                <div>
                     <span class="text-900 font-medium inline-block mr-3"><p-avatar [label]="this.getAuthorInitials(comment.author)" class="avatar" shape="circle" styleClass="bg-blue-500 col" [style]="{ color: '#ffffff' }"/></span>
                     <span class="mr-2"><b class="color-main">{{comment.author?.firstName}} {{comment.author?.lastName}}</b></span>
                     <span class="text-500 text-sm">{{comment.updatedAt ? (comment.updatedAt | ago) : comment.createdAt | ago}}</span>
                 </div>
-                <div class="line-height-3 text-700 mb-3">
-                    {{comment.content}}
+                <div class="button-bar" *ngIf="!comment.isApproved && !comment.isRejected">
+                    <p-button
+                            styleClass="p-button-outlined p-button-success p-button-sm "
+                            [label]="'Approve'"
+                            class="edit-button"
+                            icon="pi pi-check"
+                            (click)="this.commentApproved.emit(comment.id)"
+                    />
+                    <p-button
+                            styleClass="p-button-outlined  p-button-danger  p-button-sm "
+                            label="Reject"
+                            class="delete-button"
+                            icon="pi pi-times"
+                            (click)="this.commentRejected.emit(comment.id)"
+                    />
                 </div>
+                </div>
+
+                <p
+                 class="line-height-3 text-700 mb-3"
+                 [highlight]="(words$ | async) ?? []"
+                 [text]="comment.content"
+                 [classToApply]="'offensive-word'"
+                 [innerHTML]="comment.content"
+                ></p>
+
                 <div class="text-500 flex align-items-center gap-4 align-self-end">
                     <div class="flex align-items-center gap-1">
                         <!--<i class="pi pi-heart"></i>-->
-                        <p-button *ngIf="comment.reply === null && canReply"
+                        <p-button *ngIf="comment.reply === null && canReply && comment.isApproved"
                                   label="Reply"
                                   (click)="this.showAddReply$.next(comment.id)"
                                   styleClass="p-button-text p-button-sm"
@@ -37,27 +61,48 @@
             />
 
             <!-- Reply            -->
-            <div *ngIf="comment.reply as reply" class="mb-5 mt-2 flex ml-n-16">
+            <ng-container *ngIf="comment.reply as reply">
+            <div  class="mb-5 mt-2 flex ml-n-16" *ngIf="reply.isApproved || isAdmin()">
                 <div class="flex flex-column align-items-center" style="width:2rem">
                     <div class="h-full bg-orange-500" style="width: 2px; min-height: 4rem"></div>
                 </div>
             <div class="ml-3 surface-card shadow-2 border-round p-3 flex-auto flex flex-column">
-                <div class="mb-3">
-                    <span class="text-900 font-medium inline-block mr-3"><p-avatar [label]="this.getAuthorInitials(reply.author)" class="avatar" shape="circle" styleClass="bg-orange-500 col" [style]="{ color: '#ffffff' }"/></span>
-                    <span class="mr-2"><b class="color-main">{{reply.author.firstName}} {{reply.author.lastName}}</b></span>
-                    <span class="text-500 text-sm">{{reply.updatedAt ? (reply.updatedAt | ago) : reply.createdAt | ago}}</span>
+                <div class="mb-3 flex justify-content-between">
+                    <div>
+                        <span class="text-900 font-medium inline-block mr-3"><p-avatar [label]="this.getAuthorInitials(reply.author)" class="avatar" shape="circle" styleClass="bg-orange-500 col" [style]="{ color: '#ffffff' }"/></span>
+                        <span class="mr-2"><b class="color-main">{{reply.author.firstName}} {{reply.author.lastName}}</b></span>
+                        <span class="text-500 text-sm">{{reply.updatedAt ? (reply.updatedAt | ago) : reply.createdAt | ago}}</span>
+                    </div>
+
+                    <div class="button-bar" *ngIf="!reply.isApproved && !reply.isRejected">
+                        <p-button
+                                styleClass="p-button-outlined p-button-success p-button-sm "
+                                [label]="'Approve'"
+                                class="edit-button"
+                                icon="pi pi-check"
+                                (click)="this.commentApproved.emit(reply.id)"
+                        />
+                        <p-button
+                                styleClass="p-button-outlined  p-button-danger  p-button-sm "
+                                label="Reject"
+                                class="delete-button"
+                                icon="pi pi-times"
+                                (click)="this.commentRejected.emit(reply.id)"
+                        />
+                    </div>
                 </div>
-<!--                <div class="line-height-3 text-700 mb-3"-->
-<!--                     highlight-->
-<!--                     [search]="'he'"-->
-<!--                     [text]="reply.content"-->
-<!--                     [classToApply]="'resaltado'"-->
-<!--                     [innerHTML]="reply.content"-->
-<!--                >-->
-<!--                </div>-->
+
+                <p
+                  class="line-height-3 text-700 mb-3"
+                  [highlight]="(words$ | async) ?? []"
+                  [text]="reply.content"
+                  [classToApply]="'offensive-word'"
+                  [innerHTML]="reply.content"
+                ></p>
 
             </div>
             </div>
+            </ng-container>
         </div>
 
     </div>

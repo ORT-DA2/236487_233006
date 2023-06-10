@@ -12,3 +12,14 @@
 .ml-n-16{
   margin-left: -9px;
 }
+
+
+.button-bar{
+  display: flex;
+  column-gap: 10px;
+}
+
+
+:host::ng-deep .p-button.p-button-sm{
+padding: 0.421875rem 0.875rem;
+  }
