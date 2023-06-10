@@ -29,7 +29,7 @@ export interface Comment {
 	isApproved ?: boolean
 	isRejected ?: boolean
 	
-	articleId?: number;
+	articleId: number;
 	author?: Author;
 	reply ?: Reply | null;
 }
@@ -50,5 +50,6 @@ export interface Reply{
 	articleId: number
 	author: Author
 	isApproved: boolean
+	isRejected ?: boolean
 }
 

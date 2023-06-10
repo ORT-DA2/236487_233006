@@ -32,7 +32,6 @@ export class AppComponent implements OnInit{
         }));
       }
     });
-    this.store.dispatch(wordsActions.loadWords())
   }
 }
 

@@ -14,7 +14,7 @@ import {authFeature} from '@auth/+data-access/store/auth.reducer'
 import {tokenInterceptor} from '@auth/+data-access/services/token-interceptor.service'
 import {AuthEffects} from '@auth/+data-access/store/auth.effects'
 import {ToastrModule} from 'ngx-toastr'
-import {ngrxFormsFeature} from "@ui-components";
+import {FormsEffects, ngrxFormsFeature} from "@ui-components";
 import {offensiveWordsFeature} from "@users/+data-access/store/offensive-words/offensive-words.reducers";
 import {OffensiveWordsEffects} from "@users/+data-access/store/offensive-words/offensive-words.effects";
 
@@ -50,7 +50,7 @@ bootstrapApplication(AppComponent, {
       ngrxForms: ngrxFormsFeature.reducer,
       offensiveWords : offensiveWordsFeature.reducer
     }),
-    provideEffects(AuthEffects, ErrorHandlerEffects, OffensiveWordsEffects),
+    provideEffects(AuthEffects, ErrorHandlerEffects, FormsEffects, OffensiveWordsEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

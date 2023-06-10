@@ -23,6 +23,9 @@
       [showAddReply$]="this.showAddReply$"
       [canReply]="vm.loggedUser?.id === vm.article.authorId"
       [currentUser]="vm.loggedUser"
+      [words$]="words$"
+      (commentApproved)="onCommentApprove($event)"
+      (commentRejected)="onCommentReject($event)"
     />
 
     <loading *ngIf="vm.loading" />

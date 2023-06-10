@@ -102,4 +102,12 @@ export default class ArticleComponent {
   onArticleReject(articleId : number){
     this.store.dispatch(articleActions.rejectArticle({articleId}))
   }
+  
+  onCommentApprove(commentId : number){
+    this.store.dispatch(articleActions.approveArticleComment({commentId}))
+  }
+  
+  onCommentReject(commentId : number){
+    this.store.dispatch(articleActions.rejectArticleComment({commentId}))
+  }
 }

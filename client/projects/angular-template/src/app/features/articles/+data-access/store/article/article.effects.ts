@@ -49,30 +49,46 @@ export class ArticleEffects {
     )
   );
   
+  
+  approveComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(articleActions.approveArticleComment),
+      concatMap(({ commentId }) =>
+        this.commentsService.approveComment(commentId).pipe(
+          map(( {articleId} ) => {
+            this.toast.success("Comment now is visible for all users", "Comment accepted")
+            
+            return articleActions.loadArticle({ articleId })
+          }),
+          catchError((error) => of(articleActions.loadArticleFailure(error)))
+        )
+      )
+    )
+  );
+  
+  rejectComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(articleActions.rejectArticleComment),
+      concatMap(({ commentId }) =>
+        this.commentsService.rejectComment(commentId).pipe(
+          map(({articleId} ) => {
+            this.toast.success("Comment has been rejected", "Comment Rejected")
+            return articleActions.loadArticle({articleId})
+          }),
+          catchError((error) => of(articleActions.loadArticleFailure(error)))
+        )
+      )
+    )
+  );
+  
   addComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.addComment),
       concatLatestFrom(() => this.store.select(ngrxFormsQuery.selectData)),
       exhaustMap(([{ articleId, authorId }, {comment}]) =>
         this.commentsService.addComment(articleId, authorId, comment).pipe(
-          map((comment) =>
-            articleActions.addCommentSuccess({articleId, comment} )
-          ),
+          map((comment) =>  articleActions.addCommentSuccess({articleId, comment})),
           catchError((error) => of(articleActions.addCommentFailure(error)))
-        )
-      )
-    )
-  );
-  
-  addReply$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(articleActions.addReply),
-      exhaustMap((action) =>
-        this.commentsService.addReply(action.commentId, action.payload).pipe(
-          map((comment) =>
-            articleActions.addReplySuccess()
-          ),
-          catchError((error) => of(articleActions.addReplyFailure(error)))
         )
       )
     )
@@ -81,22 +97,38 @@ export class ArticleEffects {
   addCommentSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.addCommentSuccess),
-      mergeMap(({articleId}) => [
-        articleActions.loadArticle({articleId}),
-        formsActions.resetForm()
-      ])
+      mergeMap(({articleId , comment}) =>{
+        if(!comment.isApproved) this.toast.info("Comment has been put under review because it contains offensive words. Once it is approved it will be visible for other users", "Comment under revision", { tapToDismiss : false, timeOut: 20000 , closeButton :true})
+        return [
+          articleActions.loadArticle({articleId}),
+          formsActions.resetForm()
+        ]
+      })
     )
   );
   
-  addCommentReply$ = createEffect(() =>
+  addReply$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(articleActions.addReply),
+      exhaustMap((action) =>
+        this.commentsService.addReply(action.replyId, action.payload).pipe(
+          map((reply) => articleActions.addReplySuccess({reply})),
+          catchError((error) => of(articleActions.addReplyFailure(error)))
+        )
+      )
+    )
+  );
+  
+  addReplySuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.addReplySuccess),
-      concatLatestFrom(() => this.store.select(articleQuery.selectData)),
-      mergeMap(([_,article]) => [
-        articleActions.loadArticle({articleId : article?.id!}),
-        formsActions.resetForm(),
-        
-      ])
+      mergeMap(({reply}) => {
+        if(!reply.isApproved) this.toast.info("Reply has been put under review because it contains offensive words. Once it is approved it will be visible for other users", "Reply under revision", { tapToDismiss : false, timeOut: 20000 , closeButton :true})
+        return[
+          articleActions.loadArticle({articleId : reply.articleId}),
+          formsActions.resetForm(),
+        ]
+      })
     )
   );
   
@@ -115,5 +147,6 @@ export class ArticleEffects {
     private store : Store,
     private articlesService: ArticleService,
     private commentsService: CommentsService,
+    private toast : ToastrService
   ) {}
 }
