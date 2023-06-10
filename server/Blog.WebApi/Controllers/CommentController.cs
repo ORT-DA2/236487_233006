@@ -216,6 +216,15 @@ namespace Blog.WebApi.Controllers
                     return Unauthorized("You are not able to reply this article");
                 }
 
+                if (IsOffensive(reply.ToCreateEntity(currentUser, article)))
+                {
+                    reply.IsApproved = false;
+                }
+                else
+                {
+                    reply.IsApproved = true;
+                }
+
                 reply.IsReply = true;
 
                 var createdComment = _commentService.CreateComment(reply.ToCreateEntity(currentUser, article));
