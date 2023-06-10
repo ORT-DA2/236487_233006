@@ -16,7 +16,7 @@ public class Comment
     [Required]
     public string Content { get; set; }
 
-    public Article? Article { get; set; }
+    public Article Article { get; set; }
     public DateTime CreatedAt { get; set; }
     
     public DateTime? UpdatedAt { get; set; }

@@ -12,9 +12,9 @@ public class RecentArticleModel
     public string Title { get; set; }
     
     public bool Private { get; set; }
-    
-    public ICollection<Comment>? Comments { get; set; }
-    
+
+    public List<CommentDetailModel>? Comments { get; set; }
+
     public string Content { get; set; }
     
     public string? FirstImage { get; set; }
@@ -40,12 +40,20 @@ public class RecentArticleModel
             throw new ArgumentNullException(nameof(article));
         }
 
+        List<CommentDetailModel>? comments = null;
+
+        if (article.Comments != null)
+        {
+            comments = article.Comments.Select(c => new CommentDetailModel(c)).ToList();
+        }
+
+
         Id = article.Id;
         Author = new UserDetailModelOut(article.Author);
         Title = article.Title;
         Content = article.Content;
         Private = article.Private;
-        Comments = article.Comments;
+        Comments = comments;
         FirstImage = article.FirstImage;
         SecondImage = article.SecondImage;
         Template = article.Template;
