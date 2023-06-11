@@ -6,13 +6,14 @@ import {wordsActions} from "@users/+data-access/store/offensive-words/offensive-
 import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
 import {authQuery} from "@auth/+data-access/store/auth.selectors";
 import {switchMap, tap} from "rxjs/operators";
-import {RoleType} from "@core";
+import {DialogService, DialogType, RoleType} from "@core";
+import {ArticleService} from "@articles/+data-access/services/article.service";
 
 
 
 @Injectable({ providedIn: 'root' })
 export class LoadOffensiveWords implements CanActivate {
-  constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store, private dialogService : DialogService, private articleService : ArticleService) {}
   
   waitForOffensiveWordsToLoad(): Observable<boolean> {
     return this.store.select(wordsQuery.selectLoaded).pipe(
@@ -21,12 +22,23 @@ export class LoadOffensiveWords implements CanActivate {
     );
   }
   
+  triggerAdminActionsModal(){
+    this.articleService.getOffensiveItems().subscribe(offensive =>{
+      if(offensive.articles + offensive.comments > 0) {
+        this.dialogService.openDialog(DialogType.AdminNotification, {
+          data : offensive
+        })
+      }
+    })
+  }
+  
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.store.select(authQuery.selectLoggedUser).pipe(
       switchMap(user => {
         if (user && user.roles.includes(RoleType.Admin)) {
           // If user is admin, dispatch loadWords action
           this.store.dispatch(wordsActions.loadWords());
+          this.triggerAdminActionsModal();
           // Wait for words to load, then return true
           return this.waitForOffensiveWordsToLoad();
         } else {

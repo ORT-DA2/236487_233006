@@ -3,12 +3,13 @@ import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {ArticleService} from '@articles/+data-access/services/article.service';
 import {catchError, exhaustMap, map, tap} from "rxjs/operators";
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
-import {concatMap, mergeMap, of} from "rxjs";
+import {concatMap, mergeMap, noop, of, withLatestFrom} from "rxjs";
 import {CommentsService} from "@articles/+data-access/services/comments.service";
 import {formsActions, ngrxFormsQuery} from "@ui-components";
 import {Store} from "@ngrx/store";
 import {articleQuery} from "@articles/+data-access/store/article/article.selectors";
 import {ToastrService} from "ngx-toastr";
+import {authQuery} from "@auth/+data-access/store/auth.selectors";
 
 @Injectable()
 export class ArticleEffects {
@@ -130,6 +131,17 @@ export class ArticleEffects {
         ]
       })
     )
+  );
+  
+  onMarkAllCommentsAsViewed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(articleActions.markAllCommentsAsViewed),
+      withLatestFrom(this.store.select(articleQuery.selectData)),
+      concatMap(([_, article]) =>
+        this.articlesService.markAllCommentsAsViewed(article?.id!)
+      )
+    ),
+    { dispatch: false }
   );
   
   

@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {articleQuery} from "@articles/+data-access/store/article/article.selectors";
 import {authQuery} from "@auth/+data-access/store/auth.selectors";
-import {BehaviorSubject, combineLatest, Observable} from "rxjs";
+import {BehaviorSubject, combineLatest, map, Observable} from "rxjs";
 import {Field, FieldType, formsActions, FormState, LoadingModule, ngrxFormsQuery} from "@ui-components";
 import {Store} from "@ngrx/store";
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
 import {Article, User} from "@shared/domain";
 import {AddCommentComponent} from "@articles/components/add-comment/add-comment.component";
 import {userActions} from "@users/+data-access/store/user/user.actions";
-import {tap} from "rxjs/operators";
+import {take, tap} from "rxjs/operators";
 import {userQuery} from "@users/+data-access/store/user/user.selectors";
 import {UserHeaderComponent} from "@users/components/user-header/user-header.component";
 import {ArticleHeaderComponent} from "@articles/components/article-header/article-header.component";
@@ -17,6 +17,8 @@ import {ArticleCommentComponent} from "@articles/components/article-comment/arti
 import {ArticleBodyComponent} from "@articles/components/article-body/article-body.component";
 import {CommentsService} from "@articles/+data-access/services/comments.service";
 import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
+import {RippleModule} from "primeng/ripple";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 interface ArticleVM {
   article: Article | null
@@ -38,31 +40,22 @@ const structure: Field[] = [
 @Component({
   selector: 'article-page',
   standalone: true,
-  imports: [CommonModule, AddCommentComponent, LoadingModule, UserHeaderComponent, ArticleHeaderComponent, ArticleCommentComponent, ArticleBodyComponent],
+  imports: [CommonModule, AddCommentComponent, LoadingModule, UserHeaderComponent, ArticleHeaderComponent, ArticleCommentComponent, ArticleBodyComponent, RippleModule, RouterLink, RouterLinkActive],
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class ArticleComponent {
-  
   showAddReply$ = this.commentsService.showAddReply$;
-  
-  private article$ = this.store.select(articleQuery.selectData).pipe(
-    tap(a => {
-      if (a && a.authorId) {
-        this.store.dispatch(userActions.loadUser({ userId: a.authorId }));
-      }
-    })
-  );
-  
   words$ = this.store.select(wordsQuery.selectWords)
   
+  private article$ = this.store.select(articleQuery.selectData)
   private loading$ = this.store.select(articleQuery.selectLoading)
   private error$ = this.store.select(articleQuery.selectError)
   
+  private loggedUser$ = this.store.select(authQuery.selectLoggedUser)
   private author$ = this.store.select(userQuery.selectData);
   
-  private loggedUser$ = this.store.select(authQuery.selectLoggedUser)
   
   vm$: Observable<ArticleVM> = combineLatest({
     article: this.article$,
@@ -80,6 +73,8 @@ export default class ArticleComponent {
   ngOnInit() {
     this.store.dispatch(formsActions.setStructure({ structure }));
     this.store.dispatch(formsActions.setData({ data: '' }));
+    this.handleInitializationActions();
+
   }
   
   ngOnDestroy(): void {
@@ -109,5 +104,26 @@ export default class ArticleComponent {
   
   onCommentReject(commentId : number){
     this.store.dispatch(articleActions.rejectArticleComment({commentId}))
+  }
+  
+  
+  private handleInitializationActions() {
+    combineLatest([this.article$, this.loggedUser$])
+      .pipe(
+        take(1),
+        // Map the emitted values to an object for easier access
+        map(([article, loggedUser]) => ({ article, loggedUser }))
+      )
+      .subscribe(({ article, loggedUser }) => {
+        if (article && article.authorId) {
+          // Dispatch loadUser action to fetch the article's author data
+          this.store.dispatch(userActions.loadUser({ userId: article.authorId }));
+          
+          // If the logged user is the author of the article, mark all comments as viewed
+          if (loggedUser && article.authorId === loggedUser.id) {
+            this.store.dispatch(articleActions.markAllCommentsAsViewed());
+          }
+        }
+      });
   }
 }

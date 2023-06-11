@@ -1,0 +1,8 @@
+<ng-container *ngIf="comments$ | async as comments">
+    <article-comment
+            *ngFor="let comment of comments"
+            [comment]="comment"
+            [canReply]="true"
+            [showAddReply$]="showAddReply$"
+    />
+</ng-container>

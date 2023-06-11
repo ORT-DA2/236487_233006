@@ -7,6 +7,8 @@ import {userFeature} from "@users/+data-access/store/user/user.reducers";
 import {RoleType} from "@core";
 import {UserEffects} from "@users/+data-access/store/user/user.effects";
 import {RoleGuard} from "@auth/utils/guards/role.guard";
+import {articleFeature} from "@articles/+data-access/store/article/article.reducers";
+import {ArticleEffects} from "@articles/+data-access/store/article/article.effects";
 
 export default [
 	{
@@ -25,6 +27,11 @@ export default [
 		path: 'article-management', //                        -> /users/me
 		loadComponent: () => import('@users/pages/article-management/article-management.component'),
 		providers: [provideState(userFeature), provideEffects(UserEffects)],
+	},
+	{
+		path: 'comments',
+		loadComponent: () => import('@users/pages/reply-to-comments/reply-to-comments.component'),
+		providers: [provideState(articleFeature), provideEffects(ArticleEffects)],
 	},
 	{
 		path: 'offensive-words', //                        -> /users/me

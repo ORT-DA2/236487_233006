@@ -1,6 +1,6 @@
 <article class="private-page-container" *ngIf="vm$ | async as vm">
   <ng-container *ngIf="vm.article">
-
+    <ng-container  *ngIf="!vm.article.isRejected; else articleRejectedTemplate">
     <article-header
             [author]="vm.author!" [article]="vm.article"
             (articleApproved)="onArticleApprove($event)"
@@ -27,7 +27,21 @@
       (commentApproved)="onCommentApprove($event)"
       (commentRejected)="onCommentReject($event)"
     />
-
+    </ng-container>
     <loading *ngIf="vm.loading" />
   </ng-container>
+
+  <ng-template #articleRejectedTemplate>
+    <div class="flex flex-column justify-content-center">
+      <h1 class="underline text-red-500">Article deleted</h1>
+      <a pRipple class="align-self-center cursor-pointer text-center h-full inline-flex align-items-center text-600 hover:border-500 transition-colors transition-duration-150 py-3 lg:py-0 px-3 no-underline"
+         [routerLink]="'/private/articles'"
+         routerLinkActive="border-blue-500"
+         [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="pi pi-home mr-2"></span>
+        <span class="font-medium">Go home</span>
+      </a>
+    </div>
+  </ng-template>
 </article>

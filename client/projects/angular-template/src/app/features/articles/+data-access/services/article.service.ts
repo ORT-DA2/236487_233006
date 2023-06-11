@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Observable} from 'rxjs'
+import {forkJoin, map, Observable} from 'rxjs'
 import {ApiService, FilterFrom} from '@core'
 
 import {Store} from '@ngrx/store'
@@ -56,10 +56,6 @@ export class ArticleService {
     }
   
     return this.api.get<Article[]>(`/articles?authorId=${userId}`)
-  }
-  
-  getOffensiveArticles() : Observable<Article[]>{
-    return this.api.get<Article[]>(`/articles?Isapproved=false`)
   }
   
   deleteArticle(articleId: number): Observable<void> {
@@ -128,5 +124,29 @@ export class ArticleService {
   
   rejectArticle(articleId : number): Observable<Article>{
     return this.api.post<Article, null>(`/articles/${articleId}/reject`);
+  }
+  
+  markAllCommentsAsViewed(articleId : number): Observable<Article>{
+    return this.api.post<Article, null>(`/articles/${articleId}/markAllCommentsAsViewed`);
+  }
+  
+  getOffensiveItems(): Observable<{articles: number, comments: number}> {
+    return forkJoin({
+      articles: this.getOffensiveArticles(),
+      comments: this.getOffensiveComments(),
+    }).pipe(
+      map(response => ({
+        articles: response.articles.length,
+        comments: response.comments.length
+      }))
+    )
+  }
+
+  getOffensiveArticles() : Observable<Article[]>{
+    return this.api.get<Article[]>(`/articles?Isapproved=false`)
+  }
+  
+  getOffensiveComments() : Observable<Comment[]>{
+    return this.api.get<Comment[]>(`/comments?Isapproved=false`)
   }
 }

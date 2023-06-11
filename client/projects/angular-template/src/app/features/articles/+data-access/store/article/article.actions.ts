@@ -26,5 +26,7 @@ export const articleActions = createActionGroup({
     'Add Reply': props<{replyId: number, payload: NewReply}>(),
     'Add Reply Success': props<{  reply: Comment }>(),
     'Add Reply Failure': props<{ error: string }>(),
+    
+    'Mark All Comments as Viewed' : emptyProps(),
   },
 });

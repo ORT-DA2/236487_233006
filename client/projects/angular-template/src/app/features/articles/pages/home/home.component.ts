@@ -11,6 +11,7 @@ import {combineLatest, Observable, of} from "rxjs";
 import {articleListQuery} from "@articles/+data-access/store/article-list/article-list.selectors";
 import {FilterFrom} from "@core";
 import {ArticleListVM, User} from "@shared/domain";
+import {UserService} from "@users/+data-access/services/user.service";
 
 @Component({
   selector: 'home',
@@ -38,11 +39,10 @@ export class HomeComponent implements OnInit{
     showFromAuthor : of(true)
   }).pipe(catchError(this.handleError))
   
-  constructor(private store: Store, private route: ActivatedRoute) {}
+  constructor(private store: Store) {}
   
   ngOnInit() {
-    this.store.dispatch(articleListActions.loadRecentArticles())
-  }
+    this.store.dispatch(articleListActions.loadRecentArticles())}
   
   onArticleFiltered(filterBy : string){
     const from = FilterFrom.Recent

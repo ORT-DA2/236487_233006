@@ -7,27 +7,28 @@ import {DialogPayload} from "../utils";
   providedIn: 'root'
 })
 export class DialogService {
-  private _payload: DialogPayload | null = null;
-  
   private dialogStateTracker$ = new BehaviorSubject<Dialog>(InitialDialogState);
+  private payloadState$ = new BehaviorSubject<DialogPayload | null>(null);
+  
   dialog$ = this.dialogStateTracker$.asObservable();
+  payload$ = this.payloadState$.asObservable();
   
   openDialog(dialogType: DialogType, payload: DialogPayload | null = null): void {
-    this._payload = payload;
+    this.payloadState$.next(payload);
     this.dialogStateTracker$.next({ ...this.dialogStateTracker$.value, [dialogType]: true });
   }
   
   closeDialog(dialogType: DialogType): void {
-    this._payload = null;
+    this.payloadState$.next(null);
     this.dialogStateTracker$.next({ ...this.dialogStateTracker$.value, [dialogType]: false });
   }
   
   get data() : any | null {
-    return this._payload?.data;
+    return this.payloadState$.value?.data;
   }
   
   get payload() : DialogPayload | null {
-    return this._payload;
+    return this.payloadState$.value;
   }
 }
 
