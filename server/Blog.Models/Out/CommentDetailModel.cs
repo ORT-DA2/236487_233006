@@ -21,6 +21,8 @@ public class CommentDetailModel
 
     public DateTime? DeletedAt { get; set; }
 
+    public bool IsReply { get; set; }
+
     public bool IsViewed { get; set; }
 
     public bool IsApproved { get; set; }
@@ -46,5 +48,6 @@ public class CommentDetailModel
         IsViewed = comment.IsViewed;
         IsApproved = comment.IsApproved;
         IsRejected = comment.IsRejected;
+        IsReply = comment.IsReply;
     }
 }

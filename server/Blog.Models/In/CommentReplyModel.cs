@@ -22,12 +22,11 @@ public class CommentReplyModel
 
     public bool IsReply { get; set; }
 
-    public Comment ToCreateEntity(User author, Article article) 
+    public Comment ToCreateEntity(User author) 
     {
         return new Comment()
         {
             Author = author,
-            Article = article,
             Content = Content,
             CreatedAt = DateTime.Now,
             IsViewed = IsViewed,

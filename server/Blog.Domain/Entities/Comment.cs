@@ -16,7 +16,7 @@ public class Comment
     [Required]
     public string Content { get; set; }
 
-    public Article Article { get; set; }
+    public Article? Article { get; set; }
     public DateTime CreatedAt { get; set; }
     
     public DateTime? UpdatedAt { get; set; }
@@ -38,7 +38,7 @@ public class Comment
 
         if (Author == null) throw new InvalidResourceException("Author empty");
 
-        if(Article == null) throw new InvalidResourceException("Article empty");
+        if(!IsReply && Article == null) throw new InvalidResourceException("Article empty");
     }
 
     public void UpdateAttributes(Comment comment)

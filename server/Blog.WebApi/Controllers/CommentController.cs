@@ -216,7 +216,9 @@ namespace Blog.WebApi.Controllers
                     return Unauthorized("You are not able to reply this article");
                 }
 
-                if (IsOffensive(reply.ToCreateEntity(currentUser, article)))
+                reply.IsReply = true;
+
+                if (IsOffensive(reply.ToCreateEntity(currentUser)))
                 {
                     reply.IsApproved = false;
                 }
@@ -225,17 +227,15 @@ namespace Blog.WebApi.Controllers
                     reply.IsApproved = true;
                 }
 
-                reply.IsReply = true;
+                var createdReply = _commentService.CreateComment(reply.ToCreateEntity(currentUser));
 
-                var createdComment = _commentService.CreateComment(reply.ToCreateEntity(currentUser, article));
-
-                comment.Reply = createdComment;
+                comment.Reply = createdReply;
 
                 _commentService.UpdateComment(commentId, comment);
 
-                var commentModel = new CommentDetailModel(createdComment);
+                CommentDetailModel createdReplyModel = new CommentDetailModel(createdReply);
 
-                return CreatedAtRoute("GetComment", new { commentId = commentModel.Id }, commentModel);
+                return CreatedAtRoute("GetComment", new { commentId = createdReplyModel.Id }, createdReplyModel);
             }
             catch (InvalidResourceException e)
             {
