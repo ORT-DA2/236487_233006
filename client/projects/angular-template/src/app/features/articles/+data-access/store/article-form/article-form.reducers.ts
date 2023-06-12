@@ -15,7 +15,7 @@ export const articleFormInitialState: ArticleFormState = {
 
 export const articleFormFeature = createFeature({
 	name: 'articleForm',
-	reducer: createReducer(
+	reducer: createReducer<ArticleFormState>(
 		articleFormInitialState,
 		on(articleFormActions.reset, () => articleFormInitialState),
 		on(articleFormActions.publishArticle, (state) => {

@@ -41,7 +41,7 @@ const structure: Field[] = [
 export default class OffensiveWordManagementComponent implements OnInit, OnDestroy {
   @ViewChild('dynamicForm', { static: true }) dynamicForm!: IDynamicForm
   
-  words$ : Observable<OffensiveWord[]> = this.store.select(wordsQuery.selectWords)
+  words$ : Observable<OffensiveWord[]> = this.store.select(wordsQuery.selectEntities)
   loading$ = this.store.select(wordsQuery.selectLoading)
   error$ = this.store.select(wordsQuery.selectError)
   

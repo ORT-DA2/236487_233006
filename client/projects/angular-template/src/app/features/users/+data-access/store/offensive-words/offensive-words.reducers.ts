@@ -1,18 +1,13 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
-import {articleListActions} from "@articles/+data-access/store/article-list/article-list.actions";
-import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
 import {OffensiveWord, User} from "@shared/domain";
 import {wordsActions} from "@users/+data-access/store/offensive-words/offensive-words.actions";
+import {EntityListState} from "@core";
 
-export interface OffensiveWordstState {
-  words: Array<OffensiveWord>;
-  loaded: boolean;
-  loading: boolean;
-  error : string | null
-}
+interface OffensiveWordsState extends EntityListState<OffensiveWord> {}
 
-export const offensiveWordsInitialState: OffensiveWordstState = {
-  words: [],
+
+export const offensiveWordsInitialState: OffensiveWordsState = {
+  entities: [],
   loaded: false,
   loading: false,
   error : null,
@@ -20,7 +15,7 @@ export const offensiveWordsInitialState: OffensiveWordstState = {
 
 export const offensiveWordsFeature = createFeature({
   name: 'offensiveWords',
-  reducer: createReducer(
+  reducer: createReducer<OffensiveWordsState>(
     offensiveWordsInitialState,
     on(wordsActions.reset, () => offensiveWordsInitialState),
     on(wordsActions.loadWords, (state) => {
@@ -32,7 +27,7 @@ export const offensiveWordsFeature = createFeature({
     on(wordsActions.loadWordsSuccess, (state, {words} ) => {
       return {
         ...state,
-        words : words,
+        entities : words,
         loaded: true,
         loading: false,
         error : null
@@ -41,7 +36,7 @@ export const offensiveWordsFeature = createFeature({
     on(wordsActions.loadWordsFailure, (state, action) => {
       return {
         ...state,
-        words: [],
+        entities: [],
         loaded: false,
         loading: false,
         error : action.error

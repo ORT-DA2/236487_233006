@@ -1,13 +1,9 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {User} from "@shared/domain";
 import {userActions} from "@users/+data-access/store/user/user.actions";
+import {EntityState} from "@core";
 
-interface UserState {
-  data: User | null;
-  loaded: boolean;
-  loading: boolean;
-  error: string | null;
-}
+interface UserState extends EntityState<User> {}
 
 export const userInitialState: UserState = {
   data: null,
@@ -18,7 +14,7 @@ export const userInitialState: UserState = {
 
 export const userFeature = createFeature({
   name: 'user',
-  reducer: createReducer(
+  reducer: createReducer<UserState>(
     userInitialState,
     on(userActions.reset, () => userInitialState),
     on(userActions.loadUser, (state) => {

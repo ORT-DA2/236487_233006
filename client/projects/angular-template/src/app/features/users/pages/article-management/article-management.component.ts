@@ -20,7 +20,7 @@ import {LoadingModule} from "@ui-components";
 })
 export default class ArticleManagementComponent implements OnInit, OnDestroy{
   
-  private articles$ = this.store.select(articleListQuery.selectArticles)
+  private articles$ = this.store.select(articleListQuery.selectEntities)
   loading$ = this.store.select(articleListQuery.selectLoading)
   
   vm$: Observable<ArticleListVM> = combineLatest({

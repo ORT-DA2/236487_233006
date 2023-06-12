@@ -1,14 +1,14 @@
 import {offensiveWordsFeature} from "@users/+data-access/store/offensive-words/offensive-words.reducers";
 
 const {
-  selectWords,
+  selectEntities,
   selectLoaded,
   selectLoading,
   selectError
 } = offensiveWordsFeature
 
 export const wordsQuery = {
-  selectWords,
+  selectEntities,
   selectLoaded,
   selectLoading,
   selectError

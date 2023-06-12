@@ -2,17 +2,14 @@ import {createFeature, createReducer, on} from '@ngrx/store';
 import {articleListActions} from "@articles/+data-access/store/article-list/article-list.actions";
 import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
 import {User} from "@shared/domain";
+import {EntityListState} from "@core";
 
-export interface UserListState {
-  users: Array<User>;
-  loaded: boolean;
-  loading: boolean;
-  error : string | null
-  dialogError : string | null
+interface UserListState extends EntityListState<User> {
+  dialogError: string | null;
 }
 
 export const userListInitialState: UserListState = {
-  users: [],
+  entities: [],
   loaded: false,
   loading: false,
   error : null,
@@ -21,7 +18,7 @@ export const userListInitialState: UserListState = {
 
 export const userListFeature = createFeature({
   name: 'userList',
-  reducer: createReducer(
+  reducer: createReducer<UserListState>(
     userListInitialState,
     on(userListActions.reset, () => userListInitialState),
     on(userListActions.loadUsers, (state) => {
@@ -33,7 +30,7 @@ export const userListFeature = createFeature({
     on(userListActions.loadUsersSuccess, (state, {users} ) => {
       return {
         ...state,
-        users : users,
+        entities : users,
         loaded: true,
         loading: false,
         error : null
@@ -42,7 +39,7 @@ export const userListFeature = createFeature({
     on(userListActions.loadUsersFailure, (state, action) => {
       return {
         ...state,
-        users: [],
+        entities: [],
         loaded: false,
         loading: false,
         error : action.error

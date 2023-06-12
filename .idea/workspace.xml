@@ -4,7 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Added comment approval" />
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Added comment approval">
+      <change afterPath="$PROJECT_DIR$/client/projects/core/src/lib/utils/types/store-entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-form/article-form.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-form/article-form.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.selectors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-list/article-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-list/article-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article/article.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article/article.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/personal-articles/personal-articles.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/personal-articles/personal-articles.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/auth/+data-access/store/auth.reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/auth/+data-access/store/auth.reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.selectors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.selectors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user/user.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user/user.reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/components/user-list/user-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/components/user-list/user-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/more-from-author/more-form-author.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/more-from-author/more-form-author.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/core/src/lib/utils/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/core/src/lib/utils/types/index.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,6 +105,9 @@
       <workItem from="1686505757717" duration="2132000" />
       <workItem from="1686513529178" duration="121000" />
       <workItem from="1686513667831" duration="47000" />
+      <workItem from="1686608192086" duration="316000" />
+      <workItem from="1686611523388" duration="1410000" />
+      <workItem from="1686613024092" duration="989000" />
     </task>
     <task id="LOCAL-00001" summary="Added comment approval">
       <created>1686513613929</created>

@@ -47,7 +47,7 @@ const structure: Field[] = [
 })
 export default class ArticleComponent {
   showAddReply$ = this.commentsService.showAddReply$;
-  words$ = this.store.select(wordsQuery.selectWords)
+  words$ = this.store.select(wordsQuery.selectEntities)
   
   private article$ = this.store.select(articleQuery.selectData)
   private loading$ = this.store.select(articleQuery.selectLoading)

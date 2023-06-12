@@ -1,13 +1,9 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
 import {Article} from "@shared/domain";
+import {EntityState} from "@core";
 
-interface ArticleState {
-  data: Article | null;
-  loaded: boolean;
-  loading: boolean;
-  error: string | null;
-}
+interface ArticleState extends EntityState<Article> {}
 
 export const articleInitialState: ArticleState = {
   data: null,
@@ -18,7 +14,7 @@ export const articleInitialState: ArticleState = {
 
 export const articleFeature = createFeature({
   name: 'article',
-  reducer: createReducer(
+  reducer: createReducer<ArticleState>(
     articleInitialState,
     on(articleActions.reset, () => articleInitialState),
     on(articleActions.loadArticle, (state) => {

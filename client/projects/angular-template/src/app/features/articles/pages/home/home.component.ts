@@ -1,17 +1,14 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core'
 import {CommonModule} from '@angular/common'
 import {FilterArticlesComponent} from '@articles/components/filter-articles/filter-articles.component'
-import {catchError, map, switchMap, tap} from 'rxjs/operators'
-import {ActivatedRoute, UrlSegment} from '@angular/router'
+import {catchError} from 'rxjs/operators'
 import {Store} from '@ngrx/store'
 import {articleListActions} from '@articles/+data-access/store/article-list/article-list.actions'
 import {ArticleListComponent} from "@articles/components/article-list/article-list.component";
-import {authQuery} from "@auth/+data-access/store/auth.selectors";
 import {combineLatest, Observable, of} from "rxjs";
 import {articleListQuery} from "@articles/+data-access/store/article-list/article-list.selectors";
 import {FilterFrom} from "@core";
-import {ArticleListVM, User} from "@shared/domain";
-import {UserService} from "@users/+data-access/services/user.service";
+import {ArticleListVM} from "@shared/domain";
 
 @Component({
   selector: 'home',
@@ -28,7 +25,7 @@ import {UserService} from "@users/+data-access/services/user.service";
 })
 export class HomeComponent implements OnInit{
 
-  private articles$ = this.store.select(articleListQuery.selectArticles)
+  private articles$ = this.store.select(articleListQuery.selectEntities)
   private loading$ = this.store.select(articleListQuery.selectLoading)
   private editing$ = this.store.select(articleListQuery.selectEditing)
   
