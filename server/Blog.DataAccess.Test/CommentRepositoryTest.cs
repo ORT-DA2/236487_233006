@@ -1,10 +1,6 @@
-using Blog.DataAccess;
 using Blog.DataAccess.Contexts;
 using Blog.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blog.DataAccess.Tests;
 

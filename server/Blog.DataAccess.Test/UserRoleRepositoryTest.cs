@@ -6,7 +6,6 @@ namespace Blog.DataAccess.Test;
 using Blog.DataAccess;
 using Blog.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq.Expressions;
 using System.Linq;
 using System.Collections.Generic;
 

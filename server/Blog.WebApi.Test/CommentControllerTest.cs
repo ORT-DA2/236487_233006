@@ -173,96 +173,219 @@ public class CommentControllerTest
 
 
     [TestMethod]
-public void CreateCommentWithAuthorizedUserShouldReturnCreatedAtRoute()
-{
-    var article = CreateArticle(1);
-    var author = CreateUser(1);
-    var newComment = new CommentModel { ArticleId = article.Id };
-    var createdComment = new Comment { Id = 1, Author = author, Article = article, Content = "Test comment" };
+    public void CreateCommentWithAuthorizedUserShouldReturnCreatedAtRoute()
+    {
+        var article = CreateArticle(1);
+        var author = CreateUser(1);
+        var newComment = new CommentModel { ArticleId = article.Id };
+        var createdComment = new Comment { Id = 1, Author = author, Article = article, Content = "Test comment" };
 
-    _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-    _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
-    _commentServiceMock.Setup(cs => cs.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
-    _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
+        _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
+        _commentServiceMock.Setup(cs => cs.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
-    var result = controller.CreateComment(newComment) as CreatedAtRouteResult;
+        var result = controller.CreateComment(newComment) as CreatedAtRouteResult;
 
-    Assert.IsNotNull(result);
-    Assert.AreEqual("GetComment", result.RouteName);
-    Assert.AreEqual(createdComment.Id, result.RouteValues["commentId"]);
+        Assert.IsNotNull(result);
+        Assert.AreEqual("GetComment", result.RouteName);
+        Assert.AreEqual(createdComment.Id, result.RouteValues["commentId"]);
 
-    var commentResult = result.Value as CommentDetailModel;
-    Assert.AreEqual(createdComment.Id, commentResult.Id);
-    Assert.AreEqual(createdComment.Content, commentResult.Content);
-}
+        var commentResult = result.Value as CommentDetailModel;
+        Assert.AreEqual(createdComment.Id, commentResult.Id);
+        Assert.AreEqual(createdComment.Content, commentResult.Content);
+    }
 
-[TestMethod]
-public void CreateCommentWithValidDataShouldReturnCreatedAtRoute()
-{
-    var article = CreateArticle(1);
-    var author = CreateUser(1);
-    var newComment = new CommentModel { ArticleId = 1 };
-    var createdComment = new Comment { Id = 1, Content = "Test comment", Article = article, Author = author };
+    [TestMethod]
+    public void CreateCommentWithValidDataShouldReturnCreatedAtRoute()
+    {
+        var article = CreateArticle(1);
+        var author = CreateUser(1);
+        var newComment = new CommentModel { ArticleId = 1 };
+        var createdComment = new Comment { Id = 1, Content = "Test comment", Article = article, Author = author };
 
-    _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
-    _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
-    _commentServiceMock.Setup(c => c.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
-    _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
+        _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(article);
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(author);
+        _commentServiceMock.Setup(c => c.CreateComment(It.IsAny<Comment>())).Returns(createdComment);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
-    var result = controller.CreateComment(newComment);
+        var result = controller.CreateComment(newComment);
 
-    var createdResult = result as CreatedAtRouteResult;
+        var createdResult = result as CreatedAtRouteResult;
 
-    Assert.AreEqual("GetComment", createdResult.RouteName);
-    Assert.AreEqual(createdComment.Id, createdResult.RouteValues["commentId"]);
+        Assert.AreEqual("GetComment", createdResult.RouteName);
+        Assert.AreEqual(createdComment.Id, createdResult.RouteValues["commentId"]);
 
-    var commentResult = createdResult.Value as CommentDetailModel;
-    Assert.AreEqual(createdComment.Id, commentResult.Id);
-    Assert.AreEqual(createdComment.Content, commentResult.Content);
-}
+        var commentResult = createdResult.Value as CommentDetailModel;
+        Assert.AreEqual(createdComment.Id, commentResult.Id);
+        Assert.AreEqual(createdComment.Content, commentResult.Content);
+    }
 
-[TestMethod]
-public void CreateCommentReplyWithUnauthorizedUserShouldReturnUnauthorized()
-{
-    var article = CreateArticle(1);
-    var author = CreateUser(1);
-    int commentId = 2;
-    var comment = new Comment { Id = commentId, Author = author, Article = article, Content = "My comment" };
+    [TestMethod]
+    public void CreateCommentReplyWithUnauthorizedUserShouldReturnUnauthorized()
+    {
+        var article = CreateArticle(1);
+        var author = CreateUser(1);
+        int commentId = 2;
+        var comment = new Comment { Id = commentId, Author = author, Article = article, Content = "My comment" };
 
-    var currentUser = new User { Id = 3 };
+        var currentUser = new User { Id = 3 };
 
-    _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Returns(comment);
-    _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
-    _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(comment.Article);
+        _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Returns(comment);
+        _sessionServiceMock.Setup(x => x.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(comment.Article);
 
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
-    var result = controller.CreateCommentReply(commentId, new CommentReplyModel() { AuthorId = author.Id, Content = "My reply" });
+        var result = controller.CreateCommentReply(commentId, new CommentReplyModel() { AuthorId = author.Id, Content = "My reply" });
 
-    Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
-    var message = ((UnauthorizedObjectResult)result).Value.ToString();
-    Assert.AreEqual("You are not able to reply this article", message);
-}
+        Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        var message = ((UnauthorizedObjectResult)result).Value.ToString();
+        Assert.AreEqual("You are not able to reply this article", message);
+    }
 
+    [TestMethod]
+    public void CreateCommentReplyWithNonExistingCommentShouldReturnNotFound()
+    {
+        var reply = new CommentReplyModel { Content = "test reply" };
+        int commentId = 1;
 
+        _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
-[TestMethod]
-public void CreateCommentReplyWithNonExistingCommentShouldReturnNotFound()
-{
-    var reply = new CommentReplyModel { Content = "test reply" };
-    int commentId = 1;
+        var result = controller.CreateCommentReply(commentId, reply) as NotFoundObjectResult;
 
-    _commentServiceMock.Setup(x => x.GetSpecificComment(It.IsAny<int>())).Throws(new ResourceNotFoundException("Comment not found"));
-    var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        Assert.IsNotNull(result);
+        Assert.AreEqual("Comment not found", result.Value);
+    }
 
-    var result = controller.CreateCommentReply(commentId, reply) as NotFoundObjectResult;
+    [TestMethod]
+    public void UpdateComment_WithValidCommentIdAndAuthorizedUser_ReturnsOkResultWithCommentDetailModel()
+    {
+        // Arrange
+        int commentId = 1;
+        User currentUser = new User { Id = 1, Username = "John" };
+        Comment retrievedComment = new Comment { Id = commentId, Content = "Test Comment", Author = currentUser };
+        UpdateCommentModel updatedComment = new UpdateCommentModel { Content = "Updated Comment" };
+        Comment updated = new Comment { Id = commentId, Content = "Updated Comment", Author = currentUser, IsApproved = true, IsRejected = false };
+        CommentDetailModel expectedCommentDetailModel = new CommentDetailModel(updated);
 
-    Assert.IsNotNull(result);
-    Assert.AreEqual("Comment not found", result.Value);
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(currentUser);
+        _commentServiceMock.Setup(m => m.GetSpecificComment(commentId)).Returns(retrievedComment);
+        _commentServiceMock.Setup(m => m.UpdateComment(commentId, It.IsAny<Comment>())).Returns(updated);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
+
+        // Act
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        IActionResult result = controller.UpdateComment(commentId, updatedComment);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        OkObjectResult okResult = (OkObjectResult)result;
+    }
+
+    [TestMethod]
+    public void UpdateComment_WithInvalidCommentId_ReturnsNotFoundResult()
+    {
+        // Arrange
+        int commentId = 1;
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(new User());
+        _commentServiceMock.Setup(m => m.GetSpecificComment(commentId)).Throws(new ResourceNotFoundException("Comment not found"));
+
+        // Act
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        IActionResult result = controller.UpdateComment(commentId, new UpdateCommentModel());
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
+        Assert.AreEqual("Comment not found", notFoundResult.Value);
+    }
+
+    [TestMethod]
+    public void ApproveComment_WithValidCommentIdAndAuthorizedUser_ReturnsOkResultWithCommentDetailModel()
+    {
+        // Arrange
+        int commentId = 1;
+        User currentUser = new User { Id = 1, Username = "John" };
+        Comment retrievedComment = new Comment { Id = commentId, Content = "Test Comment", Author = currentUser };
+        Comment updated = new Comment { Id = commentId, Content = "Test Comment", Author = currentUser, IsApproved = true, IsRejected = false };
+        CommentDetailModel expectedCommentDetailModel = new CommentDetailModel(updated);
+
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(currentUser);
+        _commentServiceMock.Setup(m => m.GetSpecificComment(commentId)).Returns(retrievedComment);
+        _commentServiceMock.Setup(m => m.UpdateComment(commentId, It.IsAny<Comment>())).Returns(updated);
+
+        // Act
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        IActionResult result = controller.ApproveComment(commentId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        OkObjectResult okResult = (OkObjectResult)result;
+    }
+
+    [TestMethod]
+    public void RejectComment_WithValidCommentIdAndAuthorizedUser_ReturnsOkResultWithCommentDetailModel()
+    {
+        // Arrange
+        int commentId = 1;
+        User currentUser = new User { Id = 1, Username = "John" };
+        Comment retrievedComment = new Comment { Id = commentId, Content = "Test Comment", Author = currentUser };
+        Comment updated = new Comment { Id = commentId, Content = "Test Comment", Author = currentUser, IsApproved = false, IsRejected = true };
+        CommentDetailModel expectedCommentDetailModel = new CommentDetailModel(updated);
+
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(currentUser);
+        _commentServiceMock.Setup(m => m.GetSpecificComment(commentId)).Returns(retrievedComment);
+        _commentServiceMock.Setup(m => m.UpdateComment(commentId, It.IsAny<Comment>())).Returns(updated);
+
+        // Act
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        IActionResult result = controller.RejectComment(commentId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        OkObjectResult okResult = (OkObjectResult)result;
+    }
+
+    [TestMethod]
+    public void ApproveComment_WithInvalidCommentId_ReturnsNotFoundResult()
+    {
+        // Arrange
+        int commentId = 1;
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(new User());
+        _commentServiceMock.Setup(m => m.GetSpecificComment(commentId)).Throws(new ResourceNotFoundException("Comment not found"));
+
+        // Act
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        IActionResult result = controller.ApproveComment(commentId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
+        Assert.AreEqual("Comment not found", notFoundResult.Value);
+    }
+
+    [TestMethod]
+    public void RejectComment_WithInvalidCommentId_ReturnsNotFoundResult()
+    {
+        // Arrange
+        int commentId = 1;
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(new User());
+        _commentServiceMock.Setup(m => m.GetSpecificComment(commentId)).Throws(new ResourceNotFoundException("Comment not found"));
+
+        // Act
+        var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
+        IActionResult result = controller.RejectComment(commentId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
+        Assert.AreEqual("Comment not found", notFoundResult.Value);
     }
 
     private Article CreateArticle(int articleId, bool isPrivate = false)
