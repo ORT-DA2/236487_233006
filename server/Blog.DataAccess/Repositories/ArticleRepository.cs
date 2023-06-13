@@ -35,8 +35,11 @@ public class ArticleRepository : BaseRepository<Article>
              .ThenInclude(c => c.Reply)
             .FirstOrDefault(expression);
 
-        article.Comments = FilterReplies(article.Comments.ToList());
-
+        if(article != null && article.Comments != null)
+        {
+            article.Comments = FilterReplies(article.Comments.ToList());
+        }
+        
         return article;
     }
     private List<Comment> FilterReplies(List<Comment> comments)
