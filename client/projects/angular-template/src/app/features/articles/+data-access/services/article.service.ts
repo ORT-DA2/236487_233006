@@ -147,6 +147,10 @@ export class ArticleService {
   }
   
   getOffensiveComments() : Observable<Comment[]>{
-    return this.api.get<Comment[]>(`/comments?Isapproved=false`)
+    return this.api.get<Comment[]>(`/comments?Isapproved=false&IsRejected=false`)
+  }
+  
+  getImporterOptions() : Observable<string[]>{
+    return this.api.get<string[]>(`/importers`)
   }
 }

@@ -1,24 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {articleQuery} from "@articles/+data-access/store/article/article.selectors";
 import {authQuery} from "@auth/+data-access/store/auth.selectors";
-import {BehaviorSubject, combineLatest, map, Observable} from "rxjs";
+import {combineLatest, map, Observable} from "rxjs";
 import {Field, FieldType, formsActions, FormState, LoadingModule, ngrxFormsQuery} from "@ui-components";
 import {Store} from "@ngrx/store";
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
-import {Article, User} from "@shared/domain";
+import {Article, CommentReply, User} from "@shared/domain";
 import {AddCommentComponent} from "@articles/components/add-comment/add-comment.component";
 import {userActions} from "@users/+data-access/store/user/user.actions";
-import {take, tap} from "rxjs/operators";
+import {take} from "rxjs/operators";
 import {userQuery} from "@users/+data-access/store/user/user.selectors";
 import {UserHeaderComponent} from "@users/components/user-header/user-header.component";
 import {ArticleHeaderComponent} from "@articles/components/article-header/article-header.component";
 import {ArticleCommentComponent} from "@articles/components/article-comment/article-comment.component";
 import {ArticleBodyComponent} from "@articles/components/article-body/article-body.component";
-import {CommentsService} from "@articles/+data-access/services/comments.service";
 import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
 import {RippleModule} from "primeng/ripple";
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {isAdmin} from "@users/utils/helpers/is-admin";
 
 interface ArticleVM {
   article: Article | null
@@ -45,10 +45,7 @@ const structure: Field[] = [
   styleUrls: ['./article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ArticleComponent {
-  showAddReply$ = this.commentsService.showAddReply$;
-  words$ = this.store.select(wordsQuery.selectEntities)
-  
+export default class ArticleComponent implements OnInit, OnDestroy{
   private article$ = this.store.select(articleQuery.selectData)
   private loading$ = this.store.select(articleQuery.selectLoading)
   private error$ = this.store.select(articleQuery.selectError)
@@ -65,10 +62,13 @@ export default class ArticleComponent {
     author : this.author$
   })
   
+  words$ = this.store.select(wordsQuery.selectEntities)
+  openedReplyBox$ = this.store.select(articleQuery.selectOpenedReplyBox)
+  
   structure$ = this.store.select(ngrxFormsQuery.selectStructure);
   data$ = this.store.select(ngrxFormsQuery.selectData);
   
-  constructor(private store: Store, private commentsService : CommentsService) {}
+  constructor(private store: Store) {}
   
   ngOnInit() {
     this.store.dispatch(formsActions.setStructure({ structure }));
@@ -98,12 +98,32 @@ export default class ArticleComponent {
     this.store.dispatch(articleActions.rejectArticle({articleId}))
   }
   
-  onCommentApprove(commentId : number){
-    this.store.dispatch(articleActions.approveArticleComment({commentId}))
+  onCommentApprove(commentId : number , articleId : number){
+    this.store.dispatch(articleActions.approveArticleComment({commentId, articleId}))
   }
   
-  onCommentReject(commentId : number){
-    this.store.dispatch(articleActions.rejectArticleComment({commentId}))
+  onCommentReject(commentId : number, articleId : number){
+    this.store.dispatch(articleActions.rejectArticleComment({commentId, articleId}))
+  }
+  
+  onCommentReply(commentReply : CommentReply, articleId : number){
+    this.store.dispatch(articleActions.addReply({commentReply, articleId}))
+  }
+  
+  onReplyBoxOpened(commentId : number){
+    this.store.dispatch(articleActions.openReplyBox({commentId}))
+  }
+  
+  onReplyBoxClosed(){
+    this.store.dispatch(articleActions.closeReplyBox())
+  }
+  
+  isAdmin(user : User){
+    return isAdmin(user.roles)
+  }
+  
+  isLoggedUserAuthor(user : User, article : Article){
+    return user?.id === article.authorId
   }
   
   

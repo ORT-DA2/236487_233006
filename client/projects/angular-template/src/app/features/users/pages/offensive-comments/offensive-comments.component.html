@@ -1,8 +1,20 @@
-<ng-container *ngIf="comments$ | async as comments">
-    <article-comment
-            *ngFor="let comment of comments"
-            [comment]="comment"
-            [canReply]="true"
-            [showAddReply$]="showAddReply$"
-    />
-</ng-container>
+<div class="private-page-container">
+    <h1>Offensive Comments</h1>
+    <ng-container *ngIf="comments$ | async as comments">
+
+        <error-badge *ngIf="error$ | async as error" [error]="error" />
+
+        <article-comment
+                *ngFor="let comment of comments"
+                [comment]="comment"
+                [canReply]="false"
+                [openedReplyBox$]="openedReplyBox$"
+                (commentApproved)="onCommentApprove($event)"
+                (commentRejected)="onCommentReject($event)"
+                (openedReplyBox)="onReplyBoxOpened($event)"
+                (closedReplyBox)="onReplyBoxClosed()"
+        />
+    </ng-container>
+    <loading *ngIf="loading$ | async" />
+
+</div>

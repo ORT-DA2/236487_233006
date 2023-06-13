@@ -1,11 +1,8 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {TextAreaFieldModule} from "@ui-components";
 import {ButtonModule} from "primeng/button";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {Store} from "@ngrx/store";
-import {articleActions} from "@articles/+data-access/store/article/article.actions";
-import {User} from "@shared/domain";
 
 @Component({
   selector: 'add-reply',
@@ -16,27 +13,18 @@ import {User} from "@shared/domain";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddReplyComponent {
-  @Input() articleId!: number
-  @Input() commentId !: number
-  @Input() currentUser : User | null = null
   @Output() close = new EventEmitter<void>()
+  @Output() replied = new EventEmitter<string>()
   
   comment = new FormControl('')
-  
-  constructor(private store : Store) {
-  }
+
   onCommentReply(){
-    
-    if(this.comment.value && this.comment.value?.length > 0){
-      this.store.dispatch(articleActions.addReply({
-        replyId : this.commentId,
-        articleId : this.articleId,
-        payload:{
-          authorId: this.currentUser?.id!,
-          content: this.comment.value,
-        }
-      }))
+    if(this.isValidReply()){
+     this.replied.emit(this.comment.value!)
     }
-    
+  }
+  
+  private isValidReply(): boolean {
+    return !!(this.comment.value && this.comment.value.length > 0);
   }
 }

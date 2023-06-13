@@ -54,9 +54,9 @@ export class ArticleEffects {
   approveComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.approveArticleComment),
-      concatMap(({ commentId }) =>
+      concatMap(({ commentId, articleId }) =>
         this.commentsService.approveComment(commentId).pipe(
-          map(( {articleId} ) => {
+          map((  ) => {
             this.toast.success("Comment now is visible for all users", "Comment accepted")
             
             return articleActions.loadArticle({ articleId })
@@ -70,9 +70,9 @@ export class ArticleEffects {
   rejectComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.rejectArticleComment),
-      concatMap(({ commentId }) =>
+      concatMap(({ commentId, articleId }) =>
         this.commentsService.rejectComment(commentId).pipe(
-          map(({articleId} ) => {
+          map(() => {
             this.toast.success("Comment has been rejected", "Comment Rejected")
             return articleActions.loadArticle({articleId})
           }),
@@ -111,9 +111,9 @@ export class ArticleEffects {
   addReply$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.addReply),
-      exhaustMap((action) =>
-        this.commentsService.addReply(action.replyId, action.payload).pipe(
-          map((reply) => articleActions.addReplySuccess({reply, articleId : action.articleId})),
+      exhaustMap(({articleId, commentReply}) =>
+        this.commentsService.addReply(commentReply.commentId, commentReply).pipe(
+          map((reply) => articleActions.addReplySuccess({reply, articleId })),
           catchError((error) => of(articleActions.addReplyFailure(error)))
         )
       )
@@ -148,9 +148,8 @@ export class ArticleEffects {
   // SideEffect that closes any opened reply box if opened
   onLoadArticleSuccess$ =createEffect(() =>
       this.actions$.pipe(ofType(articleActions.loadArticleSuccess),
-        tap(() => this.commentsService.showAddReply$.next(null)),
+        map(() => articleActions.closeReplyBox()),
       ),
-    {dispatch: false}
   )
   
 

@@ -4,12 +4,14 @@ const {
   selectEntities,
   selectLoaded,
   selectLoading,
-  selectError
+  selectError,
+  selectOpenedReplyBox
 } = commentListFeature;
 
 export const commentListQuery = {
   selectEntities,
   selectLoaded,
   selectLoading,
-  selectError
+  selectError,
+  selectOpenedReplyBox
 };

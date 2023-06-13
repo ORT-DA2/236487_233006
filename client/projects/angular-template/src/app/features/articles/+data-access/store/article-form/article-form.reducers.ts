@@ -5,12 +5,14 @@ export interface ArticleFormState {
 	loaded: boolean;
 	loading: boolean;
 	error : string | null
+	importerOptions : string[]
 }
 
 export const articleFormInitialState: ArticleFormState = {
 	loaded: false,
 	loading: false,
-	error : null
+	error : null,
+	importerOptions : []
 };
 
 export const articleFormFeature = createFeature({

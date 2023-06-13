@@ -85,6 +85,19 @@
                             <span class="font-medium">Set Offensive Words</span>
                         </a>
                     </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/articles/import'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+                            <i class="pi pi-users mr-2"></i>
+                            <span class="font-medium">Import Articles</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -114,7 +127,11 @@
                 >
                     <span class="pi pi-bell mr-2 lg:mr-0"></span>
                     <span class="font-medium inline lg:hidden">Notifications</span>
-                    <p-badge value="3" class="ml-2"></p-badge>
+                    <p-badge
+                       *ngIf="commentsService.userNotifications$ | async as notifications"
+                      [value]="notifications"
+                      class="ml-2"
+                    />
                 </a>
             </li>
             <li class="h-full relative"  (click)="this.showUserOptions$.next(true)">

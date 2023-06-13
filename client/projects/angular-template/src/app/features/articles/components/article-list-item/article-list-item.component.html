@@ -53,13 +53,13 @@
     </p>
     <div class="read-more-container">
       <a [routerLink]="['/private/articles/', article.id]" class="card__cta">
-        Read more<span>&rarr;</span>
+        Read more <span>&rarr;</span>
       </a>
       <a
         [routerLink]="['/private/users/', article.author?.id]"
-        class="card__cta help-color"
+        class="card__cta "
         *ngIf="showFromAuthor"
-        >More from Author</a
+        >More from Author!</a
       >
     </div>
   </div>

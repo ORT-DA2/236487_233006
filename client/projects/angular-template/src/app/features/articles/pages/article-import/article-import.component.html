@@ -1,0 +1,24 @@
+<section class="private-page-container">
+    <h1>Import Articles</h1>
+    <error-badge *ngIf="error$ | async as error" [error]="error" />
+
+    <dynamic-form
+            class="form"
+            [data$]="data$"
+            [structure$]="structure$"
+            (updateForm)="updateForm($event)"
+			#dynamicForm
+    />
+
+    <div>
+        <p-button
+                label="Import Articles"
+                [loading]="(loading$ | async) ?? false"
+                (click)="submit()"
+        />
+    </div>
+
+    <loading *ngIf="loading$ | async" />
+</section>
+
+

@@ -3,13 +3,16 @@ import {articleActions} from "@articles/+data-access/store/article/article.actio
 import {Article} from "@shared/domain";
 import {EntityState} from "@core";
 
-interface ArticleState extends EntityState<Article> {}
+interface ArticleState extends EntityState<Article> {
+  openedReplyBox : number | null
+}
 
 export const articleInitialState: ArticleState = {
   data: null,
   loaded: false,
   loading: false,
   error: null,
+  openedReplyBox : null
 };
 
 export const articleFeature = createFeature({
@@ -42,7 +45,7 @@ export const articleFeature = createFeature({
         error
       };
     }),
-    on(articleActions.addComment, articleActions.addReply, (state) => ({
+    on(articleActions.addComment, articleActions.addReply, articleActions.approveArticle, articleActions.rejectArticle, articleActions.approveArticleComment, articleActions.rejectArticleComment, (state) => ({
       ...state,
       loading: true
     })),
@@ -53,6 +56,15 @@ export const articleFeature = createFeature({
     on(articleActions.addCommentFailure, articleActions.addReplyFailure, (state) => ({
       ...state,
       loading: false
+    })),
+    
+    on(articleActions.openReplyBox, (state, {commentId}) => ({
+      ...state,
+      openedReplyBox : commentId
+    })),
+    on(articleActions.closeReplyBox, (state) => ({
+      ...state,
+      openedReplyBox : null
     }))
   ),
 });

@@ -9,12 +9,17 @@ import {UserListEffects} from "@users/+data-access/store/user-list/user-list.eff
 import {articleFeature} from "@articles/+data-access/store/article/article.reducers";
 import {ArticleEffects} from "@articles/+data-access/store/article/article.effects";
 import {LoadOffensiveWords} from "@layout/load-offensive-words.guard";
+import {commentListFeature} from "@articles/+data-access/store/comment-list/comment-list.reducers";
+import {CommentListEffects} from "@articles/+data-access/store/comment-list/comment-list.effects";
+import {userFeature} from "@users/+data-access/store/user/user.reducers";
+import {UserEffects} from "@users/+data-access/store/user/user.effects";
 
 export default [
   {
     path: '', //                             -> /private
     component: LayoutComponent,
     canActivate: [LoadOffensiveWords],
+    providers:[provideState(articleListFeature), provideEffects(ArticleListEffects)],
     children: [
       {
         path: '',
@@ -25,20 +30,16 @@ export default [
         path: 'articles',                         //            /private/articles
         loadChildren: () => import('@articles/articles.routes'),
         providers: [
-          provideState(articleListFeature),
-          provideState(articleFeature),
-          provideEffects(ArticleListEffects),
-          provideEffects(ArticleEffects)
+          provideState(articleFeature), provideEffects(ArticleEffects),
         ],
       },
       {
         path: 'users',                         //            /private/users
         loadChildren: () => import('@users/users.routes'),
         providers: [
-          provideState(userListFeature),
-          provideEffects(UserListEffects),
-          provideState(articleListFeature),
-          provideEffects(ArticleListEffects),
+          provideState(userListFeature), provideEffects(UserListEffects),
+          provideState(commentListFeature), provideEffects(CommentListEffects),
+          provideState(userFeature), provideEffects(UserEffects),
         ],
       },
     ]

@@ -3,13 +3,16 @@ import {EntityListState} from "@core";
 import {commentListActions} from "@articles/+data-access/store/comment-list/comment-list.actions";
 import {Comment} from "@shared/domain";
 
-interface CommentListState extends EntityListState<Comment> {}
+interface CommentListState extends EntityListState<Comment> {
+  openedReplyBox : number | null
+}
 
 export const commentListInitialState: CommentListState = {
   entities: [],
   loaded: false,
   loading: false,
   error : null,
+  openedReplyBox : null
 };
 
 export const commentListFeature = createFeature({
@@ -42,6 +45,29 @@ export const commentListFeature = createFeature({
         error : action.error
       };
     }),
+    on(commentListActions.addReply, commentListActions.approveComment, commentListActions.rejectComment, (state) => ({
+      ...state,
+      loading: true,
+      error : commentListInitialState.error
+    })),
+    on(commentListActions.addReplySuccess, (state) => ({
+      ...state,
+      loading: false,
+      error : commentListInitialState.error
+    })),
+    on( commentListActions.addReplyFailure, (state, action) => ({
+      ...state,
+      loading: false,
+      error : action.error
+    })),
+    on(commentListActions.openReplyBox, (state, {commentId}) => ({
+      ...state,
+      openedReplyBox : commentId
+    })),
+    on(commentListActions.closeReplyBox, (state) => ({
+      ...state,
+      openedReplyBox : null
+    }))
     
   ),
 });

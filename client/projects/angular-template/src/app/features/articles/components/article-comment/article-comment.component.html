@@ -1,5 +1,5 @@
 
-<div class="mb-6" *ngIf="comment.isApproved || isAdmin()">
+<div class="mb-6">
     <div class="flex ">
         <div class="flex flex-column align-items-center" style="width:2rem">
             <div class="h-full bg-blue-500" style="width: 2px; min-height: 9rem"></div>
@@ -47,7 +47,7 @@
                         <!--<i class="pi pi-heart"></i>-->
                         <p-button *ngIf="comment.reply === null && canReply && comment.isApproved"
                                   label="Reply"
-                                  (click)="this.showAddReply$.next(comment.id)"
+                                  (click)="this.openedReplyBox.emit(comment.id)"
                                   styleClass="p-button-text p-button-sm"
                                   icon="pi pi-comment"
                         />
@@ -62,16 +62,15 @@
                 </div>
             </ng-template>
 
-            <add-reply *ngIf="(showAddReply$ | async) === comment.id"
-                       [commentId]="comment.id"
-                       (close)="showAddReply$.next(null)"
-                       [currentUser]="currentUser"
-                       [articleId]="articleId"
+            <add-reply
+               *ngIf="(openedReplyBox$ | async) === comment.id"
+               (close)="closedReplyBox.emit()"
+               (replied)="onCommentReply($event)"
             />
 
             <!-- Reply            -->
             <ng-container *ngIf="comment.reply as reply">
-            <div  class="mb-5 mt-2 flex ml-n-16" *ngIf="reply.isApproved || isAdmin()">
+            <div  class="mb-5 mt-2 flex ml-n-16" *ngIf="reply.isApproved || hasAdminPrivileges">
                 <div class="flex flex-column align-items-center" style="width:2rem">
                     <div class="h-full bg-orange-500" style="width: 2px; min-height: 4rem"></div>
                 </div>
@@ -83,7 +82,7 @@
                         <span class="text-500 text-sm">{{reply.updatedAt ? (reply.updatedAt | ago) : reply.createdAt | ago}}</span>
                     </div>
 
-                    <div class="button-bar" *ngIf="!reply.isApproved && !reply.isRejected">
+                    <div class="button-bar" *ngIf="!reply.isApproved && !reply.isRejected && hasAdminPrivileges">
                         <p-button
                                 styleClass="p-button-outlined p-button-success p-button-sm "
                                 [label]="'Approve'"

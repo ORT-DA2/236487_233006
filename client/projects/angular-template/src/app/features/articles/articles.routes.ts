@@ -18,6 +18,11 @@ export default [
     path: 'personal',
     component: PersonalArticlesComponent,
   },
+  {
+    path: 'import',
+    loadComponent: () => import('@articles/pages/article-import/article-import.component'),
+    providers: [provideState(articleFormFeature), provideEffects(ArticleFormEffects)],
+  },
 
   // ------------------------ FORMS  ------------------------ //
   {
@@ -37,6 +42,7 @@ export default [
     providers: [provideState(articleFormFeature), provideEffects(ArticleFormEffects)],
     canActivate: [LoadArticleGuard]
   },
+  
 ] as Route[];
 
 

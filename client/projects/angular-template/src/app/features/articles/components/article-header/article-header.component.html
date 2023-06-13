@@ -16,13 +16,15 @@
             </div>
         </div>
 
-        <div class="actions-container" *requiredRoles="[roleType.Admin]">
+
+        <div class="actions-container" *ngIf="hasAdminPrivileges || isLoggedUserAuthor" >
             <!-- Badge -->
             <div class="flex justify-content-end">
                 <span [ngClass]="articleStatus" class="chip capitalize">{{articleStatus}}</span>
             </div>
 
-            <div class="button-bar" *ngIf="!article.isApproved && !article.isRejected">
+            <ng-container *requiredRoles="[roleType.Admin]">
+            <div class="button-bar" *ngIf="!article.isApproved && !article.isRejected" >
                 <p-button
                     styleClass="p-button-outlined p-button-success p-button-sm "
                     [label]="'Approve'"
@@ -38,6 +40,7 @@
                     (click)="this.articleRejected.emit(article.id)"
                 />
             </div>
+            </ng-container>
         </div>
     </div>
 </div>

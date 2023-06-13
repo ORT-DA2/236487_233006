@@ -38,6 +38,19 @@ export class ArticleFormEffects {
 		{dispatch: false}
 	)
 	
+	
+	onLoadImporterOptions$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(articleFormActions.loadImporterOptions),
+			concatMap(() =>
+				this.articlesService.getImporterOptions().pipe(
+					map((options) => articleFormActions.loadImporterOptionsSuccess({options})),
+					catchError((result) => of(articleFormActions.loadImporterOptionsFailure({ error: result.error }))),
+				),
+			),
+		),
+	);
+	
 	constructor(
 		private actions$: Actions,
 		private store: Store,

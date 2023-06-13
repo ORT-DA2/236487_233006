@@ -27,7 +27,7 @@ export const authActions = createActionGroup({
   
     // On browser refresh, save LoggedUser on store
     'Set Logged User' :  props<{ data: AuthData }>(),
-    'Update Logged User' : props<{ user: User }>()
+    'Update Logged User' : props<{ user: User }>(),
   },
 });
 

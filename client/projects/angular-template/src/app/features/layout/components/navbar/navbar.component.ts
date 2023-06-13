@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {StyleClassModule} from "primeng/styleclass";
 import {RippleModule} from "primeng/ripple";
 import {RouterLink, RouterLinkActive} from "@angular/router";
@@ -12,7 +12,8 @@ import {RoleType} from "@core";
 import {RequiredRolesDirective} from "@auth/utils/dierctives/required-roles.directive";
 import {User} from "@shared/domain";
 import {AvatarModule} from "primeng/avatar";
-import {tap} from "rxjs/operators";
+import {take, tap} from "rxjs/operators";
+import {CommentsService} from "@articles/+data-access/services/comments.service";
 
 
 
@@ -33,13 +34,13 @@ import {tap} from "rxjs/operators";
   templateUrl: './navbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy{
   user$ : Observable<User | null>= this.store.select(authQuery.selectLoggedUser)
 	
 	
   roleType = RoleType
   
-  constructor(private readonly store : Store) {}
+  constructor(private readonly store : Store, public commentsService : CommentsService) {}
   
   logout(){
     this.store.dispatch(authActions.logout())
@@ -47,4 +48,12 @@ export class NavbarComponent {
 	
 	showAdminOptions$ = new BehaviorSubject<boolean>(false);
 	showUserOptions$ = new BehaviorSubject<boolean>(false)
+	
+	
+	ngOnInit() {
+		this.commentsService.getUserNotifications().pipe(take(1)).subscribe(notifications => this.commentsService.userNotifications$.next(notifications.toString()))
+	}
+	
+	ngOnDestroy() {
+	}
 }

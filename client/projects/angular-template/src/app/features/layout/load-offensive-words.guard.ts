@@ -40,7 +40,7 @@ export class LoadOffensiveWords implements CanActivate {
           this.store.dispatch(wordsActions.loadWords());
           this.triggerAdminActionsModal();
           // Wait for words to load, then return true
-          return this.waitForOffensiveWordsToLoad();
+          return of(true);
         } else {
           // If user is not admin, return true immediately
           return of(true);

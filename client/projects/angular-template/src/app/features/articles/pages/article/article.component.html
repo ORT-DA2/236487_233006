@@ -1,33 +1,44 @@
 <article class="private-page-container" *ngIf="vm$ | async as vm">
   <ng-container *ngIf="vm.article">
+
     <ng-container  *ngIf="!vm.article.isRejected; else articleRejectedTemplate">
+
     <article-header
-            [author]="vm.author!" [article]="vm.article"
-            (articleApproved)="onArticleApprove($event)"
-            (articleRejected)="onArticleReject($event)"
+      [author]="vm.author!"
+      [article]="vm.article"
+      (articleApproved)="onArticleApprove($event)"
+      (articleRejected)="onArticleReject($event)"
+      [hasAdminPrivileges]="this.isAdmin(vm.loggedUser!)"
+      [isLoggedUserAuthor]="isLoggedUserAuthor(vm.loggedUser!, vm.article)"
     />
+
     <article-body [article]="vm.article" [words$]="words$" />
 
-    <add-comment *ngIf="vm.article.isApproved"
+    <add-comment
+      *ngIf="vm.article.isApproved"
+      [isLoggedUserAuthor]="isLoggedUserAuthor(vm.loggedUser!, vm.article)"
       [article]="vm.article"
       [data$]="data$"
       [structure$]="structure$"
-      [currentUser]="vm.loggedUser!"
-      (submitComment)="submit($event)"
+      (addComment)="submit($event)"
       (updateForm)="updateForm($event)"
     />
 
+    <ng-container *ngFor="let comment of vm.article.comments">
     <article-comment
-      *ngFor="let comment of vm.article.comments"
+      *ngIf="comment.isApproved || this.isAdmin(vm.loggedUser!)"
       [comment]="comment"
-      [showAddReply$]="this.showAddReply$"
-      [canReply]="vm.loggedUser?.id === vm.article.authorId"
-      [currentUser]="vm.loggedUser"
       [words$]="words$"
-      [articleId]="vm.article.id"
-      (commentApproved)="onCommentApprove($event)"
-      (commentRejected)="onCommentReject($event)"
+      [openedReplyBox$]="openedReplyBox$"
+      [canReply]="isLoggedUserAuthor(vm.loggedUser!, vm.article)"
+      [hasAdminPrivileges]="this.isAdmin(vm.loggedUser!)"
+      (commentApproved)="onCommentApprove($event, vm.article.id)"
+      (commentRejected)="onCommentReject($event, vm.article.id)"
+      (commentReplied)="onCommentReply($event, vm.article.id)"
+      (openedReplyBox)="onReplyBoxOpened($event)"
+      (closedReplyBox)="onReplyBoxClosed()"
     />
+    </ng-container>
 
     </ng-container>
     <loading *ngIf="vm.loading" />
