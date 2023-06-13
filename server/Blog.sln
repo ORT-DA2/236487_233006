@@ -17,15 +17,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Domain.Tests", "Blog.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.WebApi.Test", "Blog.WebApi.Test\Blog.WebApi.Test.csproj", "{77AB8124-DB59-46B0-A6BB-988830192BF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.DataAccess", "Blog.DataAccess\Blog.DataAccess.csproj", "{423C02C8-FAB1-4BBD-B297-31059AF5809B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.DataAccess", "Blog.DataAccess\Blog.DataAccess.csproj", "{423C02C8-FAB1-4BBD-B297-31059AF5809B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.IDataAccess", "Blog.IDataAccess\Blog.IDataAccess.csproj", "{DD912D01-1FC9-425D-AEDF-8DCCED4B5276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.IDataAccess", "Blog.IDataAccess\Blog.IDataAccess.csproj", "{DD912D01-1FC9-425D-AEDF-8DCCED4B5276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Factory", "Blog.Factory\Blog.Factory.csproj", "{A4901D2F-D084-433C-A360-2AA86F34FA0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Factory", "Blog.Factory\Blog.Factory.csproj", "{A4901D2F-D084-433C-A360-2AA86F34FA0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.DataAccess.Test", "Blog.DataAccess.Test\Blog.DataAccess.Test.csproj", "{34A78F1B-A434-4721-8099-18F33002C40B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.DataAccess.Test", "Blog.DataAccess.Test\Blog.DataAccess.Test.csproj", "{34A78F1B-A434-4721-8099-18F33002C40B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Services.Test", "Blog.Services.Test\Blog.Services.Test.csproj", "{A456CB86-06BD-4D42-9E0E-98D12DD5DFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Services.Test", "Blog.Services.Test\Blog.Services.Test.csproj", "{A456CB86-06BD-4D42-9E0E-98D12DD5DFE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IImporter", "IImporter\IImporter.csproj", "{8658593E-651F-4440-9135-A7EB63DC7367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonImporter", "JsonImporter\JsonImporter.csproj", "{F9327D8C-DB60-4189-93D2-A1E40C70CD19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,14 @@ Global
 		{A456CB86-06BD-4D42-9E0E-98D12DD5DFE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A456CB86-06BD-4D42-9E0E-98D12DD5DFE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A456CB86-06BD-4D42-9E0E-98D12DD5DFE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8658593E-651F-4440-9135-A7EB63DC7367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8658593E-651F-4440-9135-A7EB63DC7367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8658593E-651F-4440-9135-A7EB63DC7367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8658593E-651F-4440-9135-A7EB63DC7367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9327D8C-DB60-4189-93D2-A1E40C70CD19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9327D8C-DB60-4189-93D2-A1E40C70CD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9327D8C-DB60-4189-93D2-A1E40C70CD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9327D8C-DB60-4189-93D2-A1E40C70CD19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
