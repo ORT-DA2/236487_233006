@@ -58,7 +58,7 @@
 
             <ng-template #commentRejectedTemplate>
                 <div class="flex flex-column justify-content-center surface-card shadow-2 border-round p-3 " style="min-height: 9rem">
-                    <h2 class="underline text-red-500 text-center">Comment deleted</h2>
+                    <h2 class="underline text-red-500 text-center">Comment rejected</h2>
                 </div>
             </ng-template>
 
@@ -66,6 +66,7 @@
                        [commentId]="comment.id"
                        (close)="showAddReply$.next(null)"
                        [currentUser]="currentUser"
+                       [articleId]="articleId"
             />
 
             <!-- Reply            -->
@@ -115,7 +116,7 @@
 
                 <ng-template #replyRejectedTemplate>
                     <div class="flex flex-column justify-content-center surface-card shadow-2 border-round p-3 w-100 " style="min-height: 9rem">
-                        <h2 class="underline text-red-500 text-center">Reply deleted</h2>
+                        <h2 class="underline text-red-500 text-center">Reply rejected</h2>
                     </div>
                 </ng-template>
             </ng-container>

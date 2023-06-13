@@ -29,8 +29,13 @@ export class AdminNotificationDialogComponent  {
   }
   
   
-  goToArticles(){
-    this.router.navigate(['/private','users', 'article-management'])
+  goToOffensiveArticles(){
+    this.router.navigate(['/private','users', 'offensive-articles'])
+    this.closeDialog()
+  }
+  
+  goToOffensiveComments(){
+    this.router.navigate(['/private','users', 'offensive-comments'])
     this.closeDialog()
   }
   

@@ -47,7 +47,6 @@ export interface Reply{
 	deletedAt : Date | null;
 	updatedAt : Date | null
 	isViewed : boolean
-	articleId: number
 	author: Author
 	isApproved: boolean
 	isRejected ?: boolean

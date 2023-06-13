@@ -49,14 +49,27 @@
 
                     <li *ngIf="(showAdminOptions$ | async)">
                         <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
-                           [routerLink]="'/private/users/article-management'"
+                           [routerLink]="'/private/users/offensive-articles'"
                            routerLinkActive="border-blue-500"
                            [routerLinkActiveOptions]="{ exact: true }"
                            *requiredRoles="[roleType.Admin]"
                            (click)="this.showAdminOptions$.next(false)"
                         >
                             <i class="pi pi-users mr-2"></i>
-                            <span class="font-medium">Article Management</span>
+                            <span class="font-medium">Offensive Articles</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/offensive-comments'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+                            <i class="pi pi-users mr-2"></i>
+                            <span class="font-medium">Offensive Comments</span>
                         </a>
                     </li>
 
@@ -69,7 +82,7 @@
                            (click)="this.showAdminOptions$.next(false)"
                         >
                             <i class="pi pi-users mr-2"></i>
-                            <span class="font-medium">Offensive Words</span>
+                            <span class="font-medium">Set Offensive Words</span>
                         </a>
                     </li>
                 </ul>
@@ -95,7 +108,7 @@
             </li>
             <li class="h-full">
                 <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 py-3 lg:py-0 px-3 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150"
-                   [routerLink]="['/private', 'users', 'comments']"
+                   [routerLink]="['/private', 'users', 'notifications']"
                    routerLinkActive="border-blue-500"
                    [routerLinkActiveOptions]="{ exact: true }"
                 >

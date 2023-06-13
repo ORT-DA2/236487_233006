@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Article, Comment, MultipleCommentsResponse, NewReply, SingleCommentResponse} from "@shared/domain";
+import {Comment, MultipleCommentsResponse, NewReply} from "@shared/domain";
 import {ApiService} from "@core";
 import {BehaviorSubject, Observable} from "rxjs";
 
@@ -42,4 +42,11 @@ export class CommentsService {
 		return this.api.post<Comment, null>(`/comments/${commentId}/reject`);
 	}
 	
+	getMyComments() : Observable<Comment[]>{
+		return this.api.get<Comment[]>('/users/activities');
+	}
+	
+	getOffensiveComments() : Observable<Comment[]>{
+		return this.api.get<Comment[]>(`/comments?Isapproved=false`)
+	}
 }

@@ -23,8 +23,8 @@ export const articleActions = createActionGroup({
     'Add Comment Success': props<{ articleId: number , comment: Comment }>(),
     'Add Comment Failure': props<{ error: string }>(),
   
-    'Add Reply': props<{replyId: number, payload: NewReply}>(),
-    'Add Reply Success': props<{  reply: Comment }>(),
+    'Add Reply': props<{replyId: number, payload: NewReply, articleId : number}>(),
+    'Add Reply Success': props<{  reply: Comment, articleId : number }>(),
     'Add Reply Failure': props<{ error: string }>(),
     
     'Mark All Comments as Viewed' : emptyProps(),

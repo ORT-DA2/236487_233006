@@ -46,9 +46,6 @@ export class UserService {
     return this.api.put<User, User>('/users/' + user.id, this.toUserDTO(user));
   }
   
-  getUserActivities() : Observable<Comment[]>{
-    return this.api.get<Comment[]>('/users/activities');
-  }
   
   private toUserDTO(user: UserFormModel): User {
     return {

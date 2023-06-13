@@ -4,28 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Added comment approval">
-      <change afterPath="$PROJECT_DIR$/client/projects/core/src/lib/utils/types/store-entity.ts" afterDir="false" />
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Added generic interfaces to describe store models">
+      <change afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/comment-list/comment-list.actions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/comment-list/comment-list.effects.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/comment-list/comment-list.reducers.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/comment-list/comment-list.selectors.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.guard.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-form/article-form.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-form/article-form.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-list/article-list.selectors.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-list/article-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-list/article-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article/article.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article/article.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/home/home.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/personal-articles/personal-articles.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/personal-articles/personal-articles.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/auth/+data-access/store/auth.reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/auth/+data-access/store/auth.reducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.selectors.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user-list/user-list.selectors.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user/user.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/user/user.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/components/user-list/user-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/components/user-list/user-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/more-from-author/more-form-author.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/more-from-author/more-form-author.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/core/src/lib/utils/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/core/src/lib/utils/types/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/services/comments.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/services/comments.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article/article.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/add-reply/add-reply.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/add-reply/add-reply.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-body/article-body.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-body/article-body.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-comment/article-comment.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-comment/article-comment.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-comment/article-comment.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-comment/article-comment.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/load-article.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/load-article.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article/article.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article/article.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/layout/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/layout/components/navbar/navbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/shared/components/admin-notification-dialog/admin-notification-dialog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/shared/components/admin-notification-dialog/admin-notification-dialog.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/shared/components/admin-notification-dialog/admin-notification-dialog.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/shared/components/admin-notification-dialog/admin-notification-dialog.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/shared/domain/comments.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/shared/domain/comments.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/services/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/services/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-articles/offensive-articles.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-articles/offensive-articles.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/article-management/article-management.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-articles/offensive-articles.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-word-management/offensive-word-management.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/reply-to-comments/reply-to-comments.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/reply-to-comments/reply-to-comments.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-comments/offensive-comments.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/reply-to-comments/reply-to-comments.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-list-page/user-list-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-list-page/user-list-page.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/users.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/users.routes.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +90,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/236487_233006/client/projects/angular-template/src/app/features/shared/components&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/236487_233006/client/projects/angular-template/src/app/features/users/pages/user-notifications&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
@@ -88,7 +99,12 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\users\pages\user-notifications" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\articles\+data-access\store" />
       <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\shared\components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\users\pages\offensive-comments" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -107,7 +123,9 @@
       <workItem from="1686513667831" duration="47000" />
       <workItem from="1686608192086" duration="316000" />
       <workItem from="1686611523388" duration="1410000" />
-      <workItem from="1686613024092" duration="989000" />
+      <workItem from="1686613024092" duration="7334000" />
+      <workItem from="1686623895943" duration="278000" />
+      <workItem from="1686626416188" duration="2372000" />
     </task>
     <task id="LOCAL-00001" summary="Added comment approval">
       <created>1686513613929</created>
@@ -123,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686513688794</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added generic interfaces to describe store models">
+      <created>1686614072013</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686614072014</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +173,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added comment approval" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added comment approval" />
+    <MESSAGE value="Added generic interfaces to describe store models" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added generic interfaces to describe store models" />
   </component>
 </project>

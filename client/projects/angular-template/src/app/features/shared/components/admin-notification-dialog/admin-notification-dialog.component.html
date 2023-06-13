@@ -12,12 +12,12 @@
     <div class="body" >
       <div class="w-100 flex align-items-center justify-content-between" *ngIf="data?.articles">
         <p>We found {{ data.articles }} offensive articles</p>
-        <p-button  styleClass=" p-button-text p-button-sm" label="Manage Articles" (click)="goToArticles()"/>
+        <p-button  styleClass=" p-button-text p-button-sm" label="Manage Articles" (click)="goToOffensiveArticles()"/>
       </div>
 
       <div class="w-100 flex align-items-center justify-content-between" *ngIf="data?.comments" >
         <p>We found {{ data.comments }} offensive comments</p>
-        <p-button styleClass="p-button-text p-button-sm" label="Manage comments" (click)="goToArticles()"/>
+        <p-button styleClass="p-button-text p-button-sm" label="Manage comments" (click)="goToOffensiveComments()"/>
       </div>
     </div>
   </article>

@@ -19,6 +19,7 @@ import {isAdmin} from "@users/utils/helpers/is-admin";
 })
 export class ArticleCommentComponent {
   @Input() comment!: Comment
+  @Input() articleId!: number
   @Input() showAddReply$ !: BehaviorSubject<number | null>
   @Input() canReply = false
   @Input() currentUser : User | null = null

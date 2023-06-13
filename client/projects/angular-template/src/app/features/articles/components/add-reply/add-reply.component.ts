@@ -16,6 +16,7 @@ import {User} from "@shared/domain";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddReplyComponent {
+  @Input() articleId!: number
   @Input() commentId !: number
   @Input() currentUser : User | null = null
   @Output() close = new EventEmitter<void>()
@@ -29,9 +30,10 @@ export class AddReplyComponent {
     if(this.comment.value && this.comment.value?.length > 0){
       this.store.dispatch(articleActions.addReply({
         replyId : this.commentId,
+        articleId : this.articleId,
         payload:{
           authorId: this.currentUser?.id!,
-          content: this.comment.value
+          content: this.comment.value,
         }
       }))
     }

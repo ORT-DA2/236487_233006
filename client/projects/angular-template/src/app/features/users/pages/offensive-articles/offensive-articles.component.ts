@@ -14,11 +14,11 @@ import {LoadingModule} from "@ui-components";
   selector: 'article-management',
   standalone: true,
   imports: [CommonModule, ArticleListComponent, LoadingModule],
-  templateUrl: './article-management.component.html',
-  styleUrls: ['./article-management.component.scss'],
+  templateUrl: './offensive-articles.component.html',
+  styleUrls: ['./offensive-articles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ArticleManagementComponent implements OnInit, OnDestroy{
+export default class OffensiveArticlesComponent implements OnInit, OnDestroy{
   
   private articles$ = this.store.select(articleListQuery.selectEntities)
   loading$ = this.store.select(articleListQuery.selectLoading)

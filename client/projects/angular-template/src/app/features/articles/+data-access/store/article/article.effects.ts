@@ -113,7 +113,7 @@ export class ArticleEffects {
       ofType(articleActions.addReply),
       exhaustMap((action) =>
         this.commentsService.addReply(action.replyId, action.payload).pipe(
-          map((reply) => articleActions.addReplySuccess({reply})),
+          map((reply) => articleActions.addReplySuccess({reply, articleId : action.articleId})),
           catchError((error) => of(articleActions.addReplyFailure(error)))
         )
       )
@@ -123,10 +123,10 @@ export class ArticleEffects {
   addReplySuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(articleActions.addReplySuccess),
-      mergeMap(({reply}) => {
+      mergeMap(({reply, articleId}) => {
         if(!reply.isApproved) this.toast.info("Reply has been put under review because it contains offensive words. Once it is approved it will be visible for other users", "Reply under revision", { tapToDismiss : false, timeOut: 20000 , closeButton :true})
         return[
-          articleActions.loadArticle({articleId : reply.articleId}),
+          articleActions.loadArticle({articleId}),
           formsActions.resetForm(),
         ]
       })

@@ -34,11 +34,11 @@ const structure: Field[] = [
   selector: 'offensive-word-management',
   standalone: true,
   imports: [CommonModule, DynamicFormModule, ErrorBadgeComponent, ButtonModule, ListboxModule, LoadingModule],
-  templateUrl: './offensive-word-management.component.html',
-  styleUrls: ['./offensive-word-management.component.scss'],
+  templateUrl: './offensive-words.component.html',
+  styleUrls: ['./offensive-words.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class OffensiveWordManagementComponent implements OnInit, OnDestroy {
+export default class OffensiveWordsComponent implements OnInit, OnDestroy {
   @ViewChild('dynamicForm', { static: true }) dynamicForm!: IDynamicForm
   
   words$ : Observable<OffensiveWord[]> = this.store.select(wordsQuery.selectEntities)

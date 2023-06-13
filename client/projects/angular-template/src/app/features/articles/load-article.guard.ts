@@ -22,9 +22,6 @@ export class LoadArticleGuard implements CanActivate {
   }
   
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    
-    
-    
     const articleId = route.params['articleId'];
     this.store.dispatch(articleActions.loadArticle({ articleId }));
     
