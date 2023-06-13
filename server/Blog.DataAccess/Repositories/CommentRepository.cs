@@ -54,7 +54,7 @@ public class CommentRepository : ICommentRepository
 
     public void MarkAllArticleCommentsAsViewed(int articleId)
     {
-        var comments = _context.Set<Comment>().Where(c => c.Article.Id == articleId).ToList();
+        var comments = _context.Set<Comment>().Where(c => c.Article != null && c.Article.Id == articleId).ToList();
         comments.ForEach(c => c.IsViewed = true);
         _context.SaveChanges();
     }
