@@ -114,7 +114,7 @@ namespace Blog.Services
             return offensive;
         }
 
-        private List<IImporterInterface> GetImporterImplementations()
+        public List<IImporterInterface> GetImporterImplementations()
         {
             List<IImporterInterface> availableImporters = new List<IImporterInterface>();
             string importersPath = "./Importers";

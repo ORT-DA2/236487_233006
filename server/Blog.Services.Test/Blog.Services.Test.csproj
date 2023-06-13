@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Blog.DataAccess\Blog.DataAccess.csproj" />
       <ProjectReference Include="..\Blog.Services\Blog.Services.csproj" />
     </ItemGroup>
 

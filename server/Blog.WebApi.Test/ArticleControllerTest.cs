@@ -514,6 +514,89 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
         // Assert
         Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
     }
+
+    [TestMethod]
+    public void ApproveArticle_WithValidArticleIdAndAuthorizedUser_ReturnsOkResultWithArticleDetailModel()
+    {
+        // Arrange
+        int articleId = 1;
+        var currentUser = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
+        Article retrievedArticle = new Article { Id = articleId, Title = "Test Article", Author = currentUser };
+        Article updatedArticle = new Article { Id = articleId, Title = "Test Article", Author = currentUser, IsApproved = true, IsRejected = false };
+        ArticleDetailModel expectedArticleDetailModel = new ArticleDetailModel(updatedArticle);
+
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(m => m.GetSpecificArticle(articleId)).Returns(retrievedArticle);
+        _articleServiceMock.Setup(m => m.UpdateArticle(articleId, retrievedArticle)).Returns(updatedArticle);
+
+        // Act
+        IActionResult result = _articleController.ApproveArticle(articleId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        OkObjectResult okResult = (OkObjectResult)result;
+        ArticleDetailModel actualArticleDetailModel = (ArticleDetailModel)okResult.Value;
+        Assert.AreEqual(expectedArticleDetailModel, actualArticleDetailModel);
+    }
+
+    [TestMethod]
+    public void ApproveArticle_WithInvalidArticleId_ReturnsNotFoundResult()
+    {
+        // Arrange
+        int articleId = 1;
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(new User());
+        _articleServiceMock.Setup(m => m.GetSpecificArticle(articleId)).Throws(new ResourceNotFoundException("Article not found"));
+
+        // Act
+        IActionResult result = _articleController.ApproveArticle(articleId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
+        Assert.AreEqual("Article not found", notFoundResult.Value);
+    }
+
+    [TestMethod]
+    public void RejectArticle_WithValidArticleIdAndAuthorizedUser_ReturnsOkResultWithArticleDetailModel()
+    {
+        // Arrange
+        int articleId = 1;
+        var currentUser = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
+        Article retrievedArticle = new Article { Id = articleId, Title = "Test Article", Author = currentUser };
+        Article updatedArticle = new Article { Id = articleId, Title = "Test Article", Author = currentUser, IsApproved = false, IsRejected = true };
+        ArticleDetailModel expectedArticleDetailModel = new ArticleDetailModel(updatedArticle);
+
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(m => m.GetSpecificArticle(articleId)).Returns(retrievedArticle);
+        _articleServiceMock.Setup(m => m.UpdateArticle(articleId, retrievedArticle)).Returns(updatedArticle);
+
+        // Act
+        IActionResult result = _articleController.RejectArticle(articleId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        OkObjectResult okResult = (OkObjectResult)result;
+        ArticleDetailModel actualArticleDetailModel = (ArticleDetailModel)okResult.Value;
+        Assert.AreEqual(expectedArticleDetailModel, actualArticleDetailModel);
+    }
+
+    [TestMethod]
+    public void RejectArticle_WithInvalidArticleId_ReturnsNotFoundResult()
+    {
+        // Arrange
+        var currentUser = new User { Id = 1, Username = "testuser", Email = "testuser@example.com" };
+        int articleId = 1;
+        _sessionServiceMock.Setup(m => m.GetCurrentUser(null)).Returns(currentUser);
+        _articleServiceMock.Setup(m => m.GetSpecificArticle(articleId)).Throws(new ResourceNotFoundException("Article not found"));
+
+        // Act
+        IActionResult result = _articleController.RejectArticle(articleId);
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+        NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
+        Assert.AreEqual("Article not found", notFoundResult.Value);
+    }
 }
 
 
