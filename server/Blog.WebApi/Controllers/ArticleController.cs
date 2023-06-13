@@ -35,7 +35,7 @@ namespace Blog.WebApi.Controllers
             {
                 User currentUser = _sessionService.GetCurrentUser();
                 var result = _articleService.GetAllArticles(searchCriteria, orderBy, direction, limit);
-                result = result.Where(a => !a.Private || a.Private && a.Author.Equals(currentUser)).ToList();
+                result = result.Where(a => !a.Private || (a.Private && (a.Author.Equals(currentUser) || currentUser.IsInRole(RoleType.Admin)))).ToList();
                 return Ok(result.Select(a => new ArticleDetailModel(a)));
             }
             catch (ResourceNotFoundException e)
@@ -80,13 +80,13 @@ namespace Blog.WebApi.Controllers
             {
                 User currentUser = _sessionService.GetCurrentUser();
                 var retrievedArticle = _articleService.GetSpecificArticle(articleId);
-                if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser)) { 
-                    return Unauthorized("You are not authorized to perform this action");
-                }
 
-                if(retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser) && !currentUser.IsInRole(RoleType.Admin))
+                if(!currentUser.IsInRole(RoleType.Admin))
                 {
-                    return NotFound();
+                    if (retrievedArticle.Private && !retrievedArticle.Author.Equals(currentUser))
+                    {
+                        return Unauthorized("You are not authorized to perform this action");
+                    }
                 }
 
                 if(retrievedArticle.IsApproved || retrievedArticle.Author.Equals(currentUser) || currentUser.IsInRole(RoleType.Admin) )

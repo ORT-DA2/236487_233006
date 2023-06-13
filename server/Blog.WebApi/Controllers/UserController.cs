@@ -73,7 +73,7 @@ public class UserController : ControllerBase
         {
             if(a.Comments != null)
             {
-                List<Comment> newComments = a.Comments.Where(c => !c.IsViewed && !c.Author.Equals(currentUser)).ToList();
+                List<Comment> newComments = a.Comments.Where(c => !c.IsViewed).ToList();
                 comments.AddRange(newComments);
             }
         });
