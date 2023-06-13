@@ -155,6 +155,7 @@ public class CommentControllerTest
         _articleServiceMock.Setup(x => x.GetSpecificArticle(It.IsAny<int>())).Returns(comment.Article);
         _commentServiceMock.Setup(cs => cs.CreateComment(It.IsAny<Comment>())).Returns(reply);
         _commentServiceMock.Setup(c => c.UpdateComment(It.IsAny<int>(), It.IsAny<Comment>())).Returns(comment);
+        _offensiveWordServiceMock.Setup(ow => ow.ContainsOffensiveWord(It.IsAny<string>())).Returns(false);
 
         var controller = new CommentController(_articleServiceMock.Object, _commentServiceMock.Object, _sessionServiceMock.Object, _offensiveWordServiceMock.Object);
 
