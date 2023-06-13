@@ -30,6 +30,7 @@ public class FactoryService
         serviceCollection.AddTransient<ICommentService, CommentService>();
         serviceCollection.AddTransient<IUserRoleService, UserRoleService>();
         serviceCollection.AddTransient<IOffensiveWordService, OffensiveWordService>();
+        serviceCollection.AddTransient<IImporterService, ImporterService>();
 
         // scoped ya que este service maneja estado, tiene el currentUser
         serviceCollection.AddScoped<ISessionService, SessionService>();

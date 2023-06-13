@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <PackageReference Include="Moq" Version="4.18.4" />
+      <Compile Include="In\ImporterModel.cs" />
       <Compile Include="In\UpdateCommentModel.cs" />
       <Compile Include="In\UpdateArticleModel.cs" />
       <Compile Include="In\CreateArticleModel.cs" />
