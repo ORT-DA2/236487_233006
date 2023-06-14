@@ -95,4 +95,96 @@ public class OffensiveWordControllerTest
         Assert.AreEqual("GetOffensiveWord", result.RouteName);
         Assert.AreEqual(word.Id, result.RouteValues["offensiveWordId"]);
     }
+
+    [TestMethod]
+    public void UpdateOffensiveWord_ValidIdAndUpdatedWord_ReturnsOk()
+    {
+        // Arrange
+        int offensiveWordId = 1;
+        var updatedWord = new OffensiveWord { Id = offensiveWordId, Word = "UpdatedWord" };
+        var retrievedWord = new OffensiveWord { Id = offensiveWordId, Word = "OriginalWord" };
+        _offensiveWordServiceMock.Setup(s => s.UpdateOffensiveWord(offensiveWordId, updatedWord)).Returns(retrievedWord);
+
+        // Act
+        var controller = new OffensiveWordController(_offensiveWordServiceMock.Object);
+        var result = controller.UpdateOffensiveWord(offensiveWordId, updatedWord) as OkObjectResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(200, result.StatusCode);
+        Assert.IsInstanceOfType(result.Value, typeof(OffensiveWordDetailModel));
+        var offensiveWordModel = result.Value as OffensiveWordDetailModel;
+        Assert.AreEqual(retrievedWord.Id, offensiveWordModel.Id);
+        Assert.AreEqual(retrievedWord.Word, offensiveWordModel.Word);
+    }
+
+    [TestMethod]
+    public void UpdateOffensiveWord_InvalidId_ReturnsNotFound()
+    {
+        // Arrange
+        int offensiveWordId = 1;
+        var updatedWord = new OffensiveWord { Id = offensiveWordId, Word = "UpdatedWord" };
+        _offensiveWordServiceMock.Setup(s => s.UpdateOffensiveWord(offensiveWordId, updatedWord)).Throws(new ResourceNotFoundException("Word not found"));
+
+        // Act
+        var controller = new OffensiveWordController(_offensiveWordServiceMock.Object);
+        var result = controller.UpdateOffensiveWord(offensiveWordId, updatedWord) as NotFoundObjectResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(404, result.StatusCode);
+        Assert.AreEqual("Word not found", result.Value);
+    }
+
+    [TestMethod]
+    public void UpdateOffensiveWord_InvalidResource_ReturnsBadRequest()
+    {
+        // Arrange
+        int offensiveWordId = 1;
+        var updatedWord = new OffensiveWord { Id = offensiveWordId, Word = "UpdatedWord" };
+        _offensiveWordServiceMock.Setup(s => s.UpdateOffensiveWord(offensiveWordId, updatedWord)).Throws(new InvalidResourceException("Invalid word"));
+
+        // Act
+        var controller = new OffensiveWordController(_offensiveWordServiceMock.Object);
+        var result = controller.UpdateOffensiveWord(offensiveWordId, updatedWord) as BadRequestObjectResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(400, result.StatusCode);
+        Assert.AreEqual("Invalid word", result.Value);
+    }
+
+    [TestMethod]
+    public void DeleteOffensiveWord_ValidId_ReturnsNoContent()
+    {
+        // Arrange
+        int offensiveWordId = 1;
+        _offensiveWordServiceMock.Setup(s => s.GetSpecificOffensiveWord(offensiveWordId)).Returns(new OffensiveWord { Id = offensiveWordId });
+        _offensiveWordServiceMock.Setup(s => s.DeleteOffensiveWord(offensiveWordId));
+
+        // Act
+        var controller = new OffensiveWordController(_offensiveWordServiceMock.Object);
+        var result = controller.DeleteOffensiveWord(offensiveWordId) as NoContentResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(204, result.StatusCode);
+    }
+
+    [TestMethod]
+    public void DeleteOffensiveWord_InvalidId_ReturnsNotFound()
+    {
+        // Arrange
+        int offensiveWordId = 1;
+        _offensiveWordServiceMock.Setup(s => s.GetSpecificOffensiveWord(offensiveWordId)).Throws(new ResourceNotFoundException("Word not found"));
+
+        // Act
+        var controller = new OffensiveWordController(_offensiveWordServiceMock.Object);
+        var result = controller.DeleteOffensiveWord(offensiveWordId) as NotFoundObjectResult;
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(404, result.StatusCode);
+        Assert.AreEqual("Word not found", result.Value);
+    }
 }
