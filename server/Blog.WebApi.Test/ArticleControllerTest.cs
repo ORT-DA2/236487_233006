@@ -647,6 +647,7 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
         // Arrange
         Article article = new Article { Title = "Offensive Title", Content = "Some content" };
         _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Title)).Returns(true);
+        _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Content)).Returns(false);
 
         // Act
         bool result = _articleController.IsOffensive(article);
@@ -661,6 +662,7 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
         // Arrange
         Article article = new Article { Title = "Some title", Content = "Offensive content" };
         _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Content)).Returns(true);
+        _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Title)).Returns(false);
 
         // Act
         bool result = _articleController.IsOffensive(article);
