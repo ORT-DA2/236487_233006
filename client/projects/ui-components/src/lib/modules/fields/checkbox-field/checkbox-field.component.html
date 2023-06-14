@@ -1,0 +1,19 @@
+<div class="checkbox-template">
+  <p-checkbox
+    *ngIf="!this.isReadOnly; else readOnlyTemplate"
+    [binary]="true"
+    [disabled]="this.disabled"
+    [formControl]="this.formControl"
+    [inputId]="this.inputId"
+    [label]="this.label"
+    (onChange)="this.onCheckChange()"
+  >
+  </p-checkbox>
+</div>
+
+<ng-template #readOnlyTemplate>
+  <div>
+    <span *ngIf="this.formControl.value"><i class="pi pi-check"></i></span>
+    <span *ngIf="!this.formControl.value"><i class="pi pi-times"></i></span>
+  </div>
+</ng-template>

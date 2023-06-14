@@ -1,0 +1,185 @@
+<div class="surface-overlay shadow-2 flex relative lg:static justify-content-between nav navbar" style="min-height: 55px" *ngIf="(user$ | async) as user">
+    <a pRipple class="cursor-pointer inline-flex align-items-center px-3 lg:hidden text-700" pStyleClass="@next" enterClass="hidden" leaveToClass="hidden" [hideOnOutsideClick]="true">
+        <i class="pi pi-bars text-2xl"></i>
+    </a>
+    <div class="hidden lg:flex absolute lg:static w-full surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">
+        <ul class="flex list-none p-0 m-0 flex-column lg:flex-row">
+            <li class="h-full">
+                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150 py-3 lg:py-0 px-3 no-underline"
+                   [routerLink]="'articles'"
+                   routerLinkActive="border-blue-500"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    <span class="pi pi-home mr-2"></span>
+                    <span class="font-medium">Home</span>
+                </a>
+            </li>
+            <li class="h-full">
+                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150 py-3 lg:py-0 px-3 no-underline"
+                   [routerLink]="'articles/new'"
+                   routerLinkActive="border-blue-500"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    <span class="pi pi-cog mr-2"></span>
+                    <span class="font-medium">New Post</span>
+                </a>
+            </li>
+
+            <li class="lg:relative" (click)="this.showAdminOptions$.next(true)" *requiredRoles="[roleType.Admin]">
+                <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150"
+                   pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+                    <i class="pi pi-users mr-2"></i>
+                    <span class="font-medium">Admin</span>
+<!--                    <p-badge value="3" class="ml-2"></p-badge>-->
+                    <i class="pi pi-angle-down ml-auto lg:ml-3"></i>
+                </a>
+                <ul class="list-none py-0 pl-3 m-0 lg:px-0 lg:py-0 border-round shadow-0 lg:shadow-2 lg:border-1 border-50 lg:absolute surface-overlay hidden origin-top w-full lg:w-15rem cursor-pointer no-underline">
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Users</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/offensive-articles'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Offensive Articles</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/offensive-comments'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Offensive Comments</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/offensive-words'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Set Offensive Words</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/articles/import'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Import Articles</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/ranking'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+                            <span class="font-medium">Users Ranking</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+
+    <a pRipple class="cursor-pointer inline-flex align-items-center px-3 lg:hidden text-700" pStyleClass="@next" enterClass="hidden" leaveToClass="hidden" [hideOnOutsideClick]="true">
+        <i class="pi pi-ellipsis-v text-xl"></i>
+    </a>
+    <div class="hidden lg:flex lg:justify-content-end absolute lg:static w-full surface-overlay left-0 top-100 z-1 shadow-2 lg:shadow-none">
+        <ul class="flex list-none p-0 m-0 flex-column lg:flex-row">
+            <li class="h-full">
+                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 py-3 lg:py-0 px-3 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150 no-underline"
+                   [routerLink]="['articles', 'personal']"
+                   routerLinkActive="border-blue-500"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    <span class="pi pi-inbox mr-2"></span>
+                    <span class="font-medium inline">My Posts</span>
+                </a>
+            </li>
+            <li class="h-full">
+                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 py-3 lg:py-0 px-3 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150 no-underline"
+                   [routerLink]="['/private', 'users', 'notifications']"
+                   routerLinkActive="border-blue-500"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    <span class="pi pi-bell mr-2"></span>
+                    <span class="font-medium inline ">Notifications</span>
+                    <p-badge
+                       *ngIf="commentsService.userNotifications$ | async as notifications"
+                      [value]="notifications"
+                      class="ml-2"
+                    />
+                </a>
+            </li>
+            <li class="h-full relative"  (click)="this.showUserOptions$.next(true)">
+                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 py-3 lg:py-0 px-3 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150"
+                   pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true" >
+
+                    <p-avatar [label]="user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()" styleClass="mr-2" shape="circle" class="lg:mr-0"></p-avatar>
+
+                    <span class="mx-2 font-medium text-900">{{user.firstName}} {{user.lastName}}</span>
+                    <i class="pi pi-angle-down"></i>
+                </a>
+                <div class="hidden static lg:absolute w-full surface-overlay left-0 top-100 z-1 shadow-none lg:shadow-2 origin-top border-round pl-3 lg:pl-0">
+                    <ul class="list-none p-0 m-0">
+                        <li *ngIf="showUserOptions$ | async">
+                            <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 border-left-2 border-transparent hover:border-500 transition-colors transition-duration-150 p-3 no-underline"
+                               (click)="this.showUserOptions$.next(false)"
+                               [routerLink]="['/private', 'users', 'profile']"
+                            >
+                                <span class="pi pi-user mr-2"></span>
+                                <span class="font-medium">Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 border-left-2 border-transparent hover:border-500 transition-colors transition-duration-150 p-3"
+                               (click)="logout()"
+                            >
+                                <span class="pi pi-sign-out mr-2"></span>
+                                <span class="font-medium">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!--<loading *ngIf="vm.loading || vm.loadArticle" />-->

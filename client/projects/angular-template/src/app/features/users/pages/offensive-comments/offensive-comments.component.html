@@ -1,0 +1,27 @@
+<div class="private-page-container">
+    <h1>Offensive Comments</h1>
+    <ng-container *ngIf="comments$ | async as comments">
+
+        <ng-container *ngIf="comments.length > 0; else noComments" >
+        <error-badge *ngIf="error$ | async as error" [error]="error" />
+
+        <article-comment
+                *ngFor="let comment of comments"
+                [comment]="comment"
+                [canReply]="false"
+                [hasAdminPrivileges]="true"
+                [openedReplyBox$]="openedReplyBox$"
+                (commentApproved)="onCommentApprove($event)"
+                (commentRejected)="onCommentReject($event)"
+                (openedReplyBox)="onReplyBoxOpened($event)"
+                (closedReplyBox)="onReplyBoxClosed()"
+        />
+        </ng-container>
+    </ng-container>
+    <loading *ngIf="loading$ | async" />
+
+
+    <ng-template #noComments>
+        <div *ngIf="!(loading$ | async)" class="text-center">No comments here... yet.</div>
+    </ng-template>
+</div>

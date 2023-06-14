@@ -1,0 +1,10 @@
+<div class="private-page-container">
+    <div>
+        <p-button label="New User" (click)="onCreateRequested()" />
+    </div>
+
+    <user-list (actionEvent)="onActionSelected($event)"/>
+</div>
+
+<user-dialog />
+<delete-dialog (deleted)="onDeleteConfirmation($event)" />

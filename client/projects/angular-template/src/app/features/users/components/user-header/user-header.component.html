@@ -1,0 +1,18 @@
+
+<div class="surface-section px-4 py-5 md:px-6 lg:px-8 border-bottom-1 surface-border">
+    <div class="flex align-items-start flex-column lg:flex-row lg:justify-content-between">
+        <div class="flex align-items-start flex-column md:flex-row">
+            <p-avatar [label]="this.initials" class="mr-5 mb-3 lg:mb-0 avatar" shape="circle"></p-avatar>
+
+            <div>
+                <span class="text-900 font-medium text-3xl">{{this.user?.firstName}} {{this.user?.lastName}}</span>
+                <div class="flex align-items-center flex-wrap text-sm">
+                    <div class="mr-5 mt-1">
+                        <span class="font-medium text-500">EMAIL</span>
+                        <div class="text-700">{{this.user?.email}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

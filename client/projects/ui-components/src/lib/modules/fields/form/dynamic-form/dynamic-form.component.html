@@ -1,0 +1,214 @@
+<form [formGroup]="form" class="form" autocomplete="off">
+  <div
+    *ngFor="let field of structure$ | async"
+    class="field"
+    [ngClass]="field.name"
+    [class.read-only-form]="formReadOnly"
+  >
+
+    <ng-container *ngIf="(!!field.hide ? !field.hide(this.form) : true) && field.name">
+
+      <label
+         class="field__label"
+         [for]="field.name"
+         [class.required]="hasValidator(field.name)"
+      >{{ field.label }}</label>
+
+      <ng-container [ngSwitch]="field.type">
+        <!-- ------------ Number Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.NUMBER">
+            <custom-number-field
+              [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched"
+              [max]="field.number?.max!"
+              [maxFractionDigits]="field.number?.maxFractionDigits!"
+              [readonly]="field.readonly || formReadOnly"
+              class="form-group__input"
+              [formControlName]="field.name"
+              [placeholder]="field.placeholder!"
+              [inputId]="field.name"
+            ></custom-number-field>
+        </ng-container>
+        <!-- ------------ Number Field Ends ------------ -->
+
+        <!-- ------------ Checkbox Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.CHECK">
+          <custom-checkbox-field
+            [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched"
+            [readonly]="field.readonly || formReadOnly"
+            class="form-group__input"
+            [formControlName]="field.name"
+            [inputId]="field.name"
+          ></custom-checkbox-field>
+        </ng-container>
+
+        <!-- ------------ Date Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.DATE">
+          <custom-date-field [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched"
+                  [readonly]="field.readonly || formReadOnly"
+                  class="form-group__input"
+                  [formControlName]="field.name"
+                  [inputId]="field.name"
+                  [placeholder]="field.placeholder!"
+          ></custom-date-field>
+        </ng-container>
+        <!-- ------------ Date Ends ------------ -->
+
+        <!-- ------------ TextArea Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.TEXTAREA">
+          <custom-text-area-field
+            [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched "
+            [readonly]="field.readonly || formReadOnly"
+            class="form-group__input"
+            [formControlName]="field.name"
+            [inputId]="field.name"
+            [placeholder]="field.placeholder!"
+          ></custom-text-area-field>
+        </ng-container>
+        <!-- ------------ TextArea Ends ------------ -->
+
+        <!-- ------------ Select Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.SELECT">
+          <custom-select-field
+            [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched
+            "
+            [options]="field.select?.options ?? []"
+            [showClear]="field.select?.showClear ?? false"
+            [readonly]="field.readonly || formReadOnly"
+            class="form-group__input"
+            [formControlName]="field.name"
+            [inputId]="field.name"
+            [placeholder]="field.placeholder!"
+          ></custom-select-field>
+        </ng-container>
+        <!-- ------------ Select Field Ends ------------ -->
+
+        <!-- ------------ Multi Select Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.MULTI_SELECT">
+          <custom-select-field
+            [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched"
+            [readonly]="field.readonly || formReadOnly"
+            class="form-group__input"
+            [options]="field.select?.options ?? []"
+            [formControlName]="field.name"
+            [inputId]="field.name"
+            [multiSelect]="true"
+            [placeholder]="field.placeholder!"
+          ></custom-select-field>
+        </ng-container>
+        <!-- ------------ Multi Select Field Ends ------------ -->
+
+        <!-- ------------ File Field Starts ------------ -->
+        <ng-container *ngSwitchCase="fieldType.FILE_UPLOAD">
+          <custom-file-upload
+                  [class.error]="
+                      this.form.controls[field.name].invalid &&
+                      this.form.controls[field.name].touched"
+                  class="form-group__input"
+                  [formControlName]="field.name"
+                  [accept]="field.file?.accept!"
+                  [placeholder]="field.placeholder!"
+          ></custom-file-upload>
+        </ng-container>
+        <!-- ------------ File Field Ends ------------ -->
+
+        <!-- -------------- Edge Case Starts -------------- -->
+        <!-- This is for passing id as form value if needed -->
+        <ng-container *ngSwitchCase="fieldType.INVISIBLE"></ng-container>
+        <!-- --------------- Edge Case Ends --------------- -->
+
+        <!-- -------------- Default Case Starts (Classic input) -------------- -->
+        <ng-container *ngSwitchDefault>
+          <custom-text-field
+            [class.error]="
+              this.form.controls[field.name].invalid &&
+              this.form.controls[field.name].touched
+            "
+            [readonly]="field.readonly || formReadOnly"
+            class="form-group__input"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''"
+            [icon]="field.attrs?.icon "
+            [iconPosition]="field.attrs?.iconPosition "
+            [type]="field.attrs?.type"
+            [inputId]="field.name"
+            [loading$]="this.form.controls[field.name].statusChanges"
+          ></custom-text-field>
+<!--          <pre>{{this.form.controls[field.name].errors | json}}</pre>-->
+        </ng-container>
+        <!-- -------------- Default Case Ends (Classic input) -------------- -->
+
+
+
+        <!-- -------------- FormControl (Field) Error Starts -------------- -->
+        <ng-container *ngFor="let error of (field.errors ?? []).concat(this.defaultErrors)">
+          <ng-container *ngIf="this.form.controls[field.name].hasError(error.type) &&  !field.readonly && !formReadOnly">
+          <!-- Common error -->
+          <small class="error-message" *ngIf="!error?.showOnSubmit">{{ field.label }} {{ error.message }}</small>
+
+          <!-- Error showed on submit-->
+          <small class="error-message" *ngIf="error?.showOnSubmit && (this.formSubmitted$ | async)">{{ field.label }} {{ error.message }}</small>
+
+            <!-- Error for maxlength -->
+<!--            <small class="error-message"-->
+<!--                   *ngIf="!error?.showOnSubmit && error.type === 'maxlength' && form.controls[field.name]?.errors?.['maxlength']"-->
+<!--            >-->
+<!--              The maximum value allowed is {{ form.controls[field.name].errors?.['maxlength']?.['requiredLength'] }}. However, the actual value provided is {{ form.controls[field.name].errors?.['maxlength']?.['actualLength'] }}. Please provide a value less than or equal to the maximum allowed value.-->
+<!--            </small>-->
+          </ng-container>
+        </ng-container>
+        <!-- -------------- FormControl (Field) Error Ends -------------- -->
+
+
+        <!-- FormControl (Field) ".groupErrors[]" Starts -->
+        <ng-container *ngIf="field.groupErrors">
+          <ng-container *ngFor="let groupError of field.groupErrors">
+            <small
+              class="group-error-message"
+              *ngIf="
+            form.invalid &&
+            form.hasError(groupError.type) &&
+            form.controls[field.name].touched &&
+            !form.controls[field.name].errors &&
+            !groupError?.showOnSubmit &&
+            (formSubmitted$ | async)
+          "
+            >
+              {{ groupError.message }}
+            </small>
+          </ng-container>
+        </ng-container>
+        <!-- FormControl (Field) ".groupErrors[]" Ends -->
+
+      </ng-container>
+    </ng-container>
+  </div>
+
+
+<!--    FIXME : I should write css to hide this error if there is a field related error being showed-->
+  <!-- Errors associated to FormGroup Starts -->
+<!--  <div class="form-group-errors" *ngIf="form.invalid && form.errors">-->
+<!--    <ng-container *ngFor="let field of structure$ | async">-->
+<!--      <ng-container *ngIf="!field.name && field.errors">-->
+<!--        <ng-container *ngFor="let error of field.errors">-->
+<!--          <small class="error-message" *ngIf="form.hasError(error.type)">-->
+<!--              {{ error.message }}-->
+<!--          </small>-->
+<!--        </ng-container>-->
+<!--      </ng-container>-->
+<!--    </ng-container>-->
+<!--  </div>-->
+  <!-- Errors associated to FormGroup ends -->
+
+</form>

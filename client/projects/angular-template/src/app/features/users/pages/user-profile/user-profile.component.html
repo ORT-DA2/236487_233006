@@ -1,0 +1,6 @@
+<div class="private-page-container">
+    <h1 *ngIf="initUserForm$ | async as u">{{u.firstName}} Profile</h1>
+    <error-badge *ngIf="error$ | async as error" [error]="error"/>
+    <user-form (submitted)="onProfileSubmit($event)" />
+    <loading *ngIf="loading$ | async"/>
+</div>

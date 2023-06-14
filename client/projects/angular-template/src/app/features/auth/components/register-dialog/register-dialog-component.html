@@ -1,0 +1,23 @@
+<p-dialog
+        *ngIf="(dialog$ | async)?.register"
+        [visible]="true"
+        [modal]="true"
+        [draggable]="false"
+        [resizable]="false"
+        [style]="{maxWidth: '680px'}"
+        [showHeader]="false"
+>
+  <article class="dialog-container">
+    <header>
+      <h1 class="color-main">Register</h1>
+      <p-button
+              icon="pi pi-times"
+              styleClass="p-button-rounded p-button-outlined p-button-text p-button-sm"
+              (click)="closeDialog()"
+      />
+    </header>
+
+    <register-form />
+
+  </article>
+</p-dialog>

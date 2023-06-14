@@ -1,0 +1,28 @@
+<div class="form-container">
+  <p-messages
+    *ngIf="error$ | async as error"
+    [value]="[{ severity: 'error', summary: 'Error', detail: error }]"
+    [showTransitionOptions]="'300ms'"
+    [hideTransitionOptions]="'300ms'"
+  />
+
+  <dynamic-form
+    class="form"
+    [data$]="data$"
+    [structure$]="structure$"
+    (updateForm)="updateForm($event)"
+    #dynamicForm
+  />
+
+  <div>
+    <p-button
+      label="Sign In"
+      icon="pi pi-sign-in"
+      [loading]="
+        (this.dynamicForm.form.statusChanges | async) === 'PENDING' &&
+        ((this.dynamicForm.formSubmitted$ | async) ?? false)
+      "
+      (click)="submit()"
+    />
+  </div>
+</div>

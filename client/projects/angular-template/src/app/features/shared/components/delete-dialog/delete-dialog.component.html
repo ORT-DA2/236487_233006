@@ -1,0 +1,34 @@
+<p-dialog
+  *ngIf="(dialog$ | async)?.delete"
+  [visible]="true"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ maxWidth: '680px' }"
+  [showHeader]="false"
+>
+  <article class="dialog-container">
+    <header>
+      <h1 class="color-main">{{ payload?.title }}</h1>
+      <p-button
+        icon="pi pi-times"
+        class="close-dialog"
+        styleClass="p-button-rounded p-button-outlined p-button-text p-button-sm"
+        (click)="this.closeDialog()"
+      />
+    </header>
+    <div class="body">
+      <p>{{ payload?.text }}</p>
+    </div>
+    <footer>
+      <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm" label="Delete" (click)="onDelete()" />
+
+      <p-button
+        icon="pi pi-times"
+        label="Close"
+        styleClass="p-button p-button-outlined p-button-secondary p-button-sm"
+        (click)="this.closeDialog()"
+      />
+    </footer>
+  </article>
+</p-dialog>

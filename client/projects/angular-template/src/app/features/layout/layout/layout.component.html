@@ -1,0 +1,19 @@
+<div class="min-h-screen flex flex-column surface-ground relative">
+<navbar/>
+    <p-dialog
+            *ngIf="(dialog$ | async)?.adminNotification"
+            [visible]="true"
+            [modal]="true"
+            [draggable]="false"
+            [resizable]="false"
+            [style]="{ maxWidth: '680px' }"
+            [showHeader]="false"
+    >
+    <admin-notification-dialog />
+    </p-dialog>
+<div class="px-0 py-4 md:px-4 flex flex-column flex-auto relative" >
+    <div class="surface-border border-round surface-card full-content-height relative"  style="min-height: 20rem">
+        <router-outlet/>
+    </div>
+</div>
+</div>

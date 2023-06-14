@@ -1,0 +1,77 @@
+* {
+	box-sizing: border-box;
+}
+
+.p-component {
+    font-family: $fontFamilyText;
+    font-size: $fontSize;
+    font-weight: $fontWeight;
+}
+
+.p-component-overlay {
+    background-color: $maskBg;
+    transition-duration: $transitionDuration;
+}
+
+.p-disabled, .p-component:disabled {
+    opacity: $disabledOpacity;
+}
+
+.input:disabled, input[disabled]{
+    border: solid 1px #b3b3b3;
+    background-color: #f2f2f2;
+    color: #b3b3b3;
+}
+
+input, .input, .p-input-icon-left , .p-input-icon-right{
+    width : 100%;
+}
+.p-error {
+    color: $errorColor;
+}
+
+.p-text-secondary {
+    color: $textSecondaryColor;
+}
+
+.pi {
+    font-size: $primeIconFontSize;
+}
+
+.p-link {
+    font-size: $fontSize;
+    font-family: $fontFamilyText;
+    border-radius: $borderRadius;
+
+    &:focus {
+        @include focused();
+    }
+}
+
+.p-component-overlay-enter {
+    animation: p-component-overlay-enter-animation 150ms forwards;
+}
+
+.p-component-overlay-leave {
+    animation: p-component-overlay-leave-animation 150ms forwards;
+}
+
+.p-component-overlay {
+    @keyframes p-component-overlay-enter-animation {
+        from {
+            background-color: transparent;
+        }
+        to {
+            background-color: var(--maskbg);
+        }
+    }
+
+    @keyframes p-component-overlay-leave-animation {
+        from {
+            background-color: var(--maskbg);
+        }
+        to {
+            background-color: transparent;
+        }
+    }
+}

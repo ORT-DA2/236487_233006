@@ -1,0 +1,42 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 99999999;
+
+  &--full-screen {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.53);
+  }
+
+  .loader {
+    &__text {
+      color: #4f5c67;
+      display: block;
+      font-size: 16px;
+      margin-top: 3px;
+      font-weight: 500;
+
+      &--full-screen {
+        color: white;
+      }
+    }
+  }
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .loader__spinner--full-screen .p-progress-spinner-circle {
+  stroke: white !important;
+}
+
+:host ::ng-deep .p-progress-spinner-circle {
+  stroke: #384495 !important;
+}

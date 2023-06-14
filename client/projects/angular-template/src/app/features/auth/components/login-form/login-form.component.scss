@@ -1,0 +1,15 @@
+@media screen and (min-width: 1200px) {
+  .login-container {
+    max-width: 550px;
+  }
+}
+
+
+.form-container{
+  display: flex;
+  flex-direction: column;
+  .form{
+    margin-bottom: 12px;
+  }
+
+}

@@ -1,0 +1,17 @@
+<div class="overlay flex-center" [class.overlay--full-screen]="isFullScreen" *ngIf="this.show$ | async">
+    <div class="loader flex-center">
+        <p-progressSpinner
+                class="loader__spinner"
+                [style]="{ width: '50px', height: '50px' }"
+                styleClass="custom-spinner"
+                strokeWidth="4"
+                animationDuration="1.65s"
+                [class.loader__spinner--full-screen]="isFullScreen"
+        ></p-progressSpinner>
+        <span
+                class="loader__text"
+                [class.loader__text--full-screen]="isFullScreen"
+        >{{ text }}</span
+        >
+    </div>
+</div>

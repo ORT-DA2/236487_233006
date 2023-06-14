@@ -1,0 +1,248 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";
+@import 'ngx-toastr/toastr';
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+
+/* It’s useful for the <body> to fill the viewport, even when empty, so I do that by setting the min-height to 100vh. */
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+body,
+body .p-component
+{
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+}
+
+section {
+  // Trick to allow children to position absolute relative to this element
+  position: relative;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+
+
+// ---------------------------------------
+// ---------- START SCROLL  --------------
+// ---------------------------------------
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(155, 155, 155, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(201, 201, 201);
+  outline: 1px solid rgb(201, 201, 201);
+  border-radius: 10px;
+}
+
+// --------------------------------------
+// ---------- END SCROLL  ---------------
+// --------------------------------------
+
+// ---------------------------------------
+// ---------- START UTILS  ---------------
+// ---------------------------------------
+.h-100{
+  min-height: 100vh;
+}
+
+
+@media screen and (min-width: 650px) {
+  .p-dialog {
+    width: 50vw !important;
+  }
+}
+
+
+// prime-flex resets
+
+.field {
+  margin-bottom: 0;
+}
+
+.field > label {
+  margin-bottom: 0;
+}
+
+.color-main{ color : #4957b6 }
+
+
+.private-page-container{
+  position: relative;
+  margin : 10px 30px 20px 30px;
+  margin-inline: auto;
+  padding: 0 15px;
+  max-width: 900px;
+
+  h1{
+    font-size: clamp(36px, 5.5vw, 43px);
+    text-align: center;
+    margin-bottom: 8px;
+    color: #4957b6;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .private-page-container {
+    padding: 0 5px; /* Makes private-page-container semi-fluid */
+  }
+}
+
+
+
+.full-content-height{
+  height: auto;
+  flex: 1;
+}
+
+dynamic-form{
+  margin-bottom: 10px;
+}
+
+.dialog-container{
+  min-width: 300px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+
+  h1{
+    font-size: 32px;
+    text-align: center;
+    color: #4957b6;
+    margin-bottom: 0;
+  }
+
+  header{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .close-dialog{
+    position : absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .submit-button{
+    margin-left: auto;
+  }
+}
+
+.w-100{
+  width: 100%;
+}
+
+.approved {
+  background-color: green;
+}
+
+$color-green: #51a351;
+$color-green-bg: #d5f5c9;
+$color-green-border: #aee098;
+
+$color-yellow: #d0912c;
+$color-yellow-bg: #f5ecc9;
+$color-yellow-border: #e0d198;
+
+$color-red: #f2056b;
+$color-red-bg: #f5c9c9;
+$color-red-border: #f4a1a3;
+
+.approved{
+  color: $color-green;
+  background: $color-green-bg;
+  border: 1px solid $color-green-border;
+}
+
+.pending {
+  color: $color-yellow;
+  background: $color-yellow-bg;
+  border: 1px solid $color-yellow-border;
+}
+
+.rejected {
+  color: $color-red;
+  background: $color-red-bg;
+  border: 1px solid $color-red-border
+}
+
+.offensive-word {
+  color: $color-red;
+  text-decoration: underline;
+  text-decoration-color: $color-red;
+  text-underline-position: under;
+  font-weight: bold;
+}
+
+.undefined {
+  background-color: gray;
+}
+
+.chip{
+  font-weight: 600;
+  padding: 0rem 0.7rem;
+  border-radius: 5px;
+}

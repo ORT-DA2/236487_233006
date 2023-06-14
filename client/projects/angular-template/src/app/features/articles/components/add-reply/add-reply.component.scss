@@ -1,0 +1,17 @@
+.container{
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f7f8;
+
+  .button-container{
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 5px;
+
+    p-button{
+      margin-right: 16px;
+    }
+  }
+  border-radius: 8px;
+}

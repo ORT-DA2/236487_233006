@@ -1,0 +1,35 @@
+[
+  {
+    "title": "My first article",
+    "Private": false,
+    "content": "My first content",
+    "image": "https://example.com/article-1.jpg",
+    "template": 1,
+    "createdAt": "2023-04-15T12:00:00Z",
+    "Author": {
+      "id": 1
+    }
+  },
+  {
+    "title": "My second article",
+    "Private": false,
+    "content": "My second content",
+    "image": "https://example.com/article-2.jpg",
+    "template": 1,
+    "createdAt": "2023-04-15T12:00:00Z",
+    "Author": {
+      "id": 1
+    }
+  },
+  {
+    "title": "My third article",
+    "Private": false,
+    "content": "My third content",
+    "image": "https://example.com/article-3.jpg",
+    "template": 1,
+    "createdAt": "2023-04-15T12:00:00Z",
+    "Author": {
+      "id": 1
+    }
+  }
+]

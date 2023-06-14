@@ -1,0 +1,66 @@
+<article class="card hover:border-blue-200">
+  <div class="card__publication">
+    <img [src]="article.firstImage" [alt]="article.title + ' image'" />
+  </div>
+  <div class="card__info">
+    <span class="button-bar" *ngIf="this.editing">
+      <p-button
+        styleClass="p-button-outlined p-button-rounded  p-button-text p-button-sm "
+        class="edit-button"
+        icon="pi pi-pencil"
+        [routerLink]="['/private', 'articles', article.id, 'edit']"
+      />
+      <p-button *ngIf="canDelete"
+        styleClass="p-button-outlined p-button-rounded p-button-danger p-button-text p-button-sm "
+        class="delete-button"
+        icon="pi pi-times"
+        (click)="this.deleted.emit(article.id)"
+      />
+    </span>
+
+    <div class="">
+      <span class="text-500 text-sm">Posted </span>
+      <ng-container *ngIf="article.author">
+        <span class="text-500 text-sm">by </span>
+        <span class="text-500 text-sm"
+          >{{ article.author.firstName }} {{ article.author.lastName }}</span
+        >
+      </ng-container>
+      <span class="text-500 text-sm">
+        {{
+          article.updatedAt
+            ? (article.updatedAt | ago)
+            : (article.createdAt | ago)
+        }}</span
+      >
+    </div>
+    <h2
+      class="card__title"
+      [highlight]="(words$ | async) ?? []"
+      [text]="article.title"
+      [classToApply]="'offensive-word'"
+      [innerHTML]="article.title"
+    >
+    </h2>
+    <p
+      class="card__description"
+      [highlight]="(words$ | async) ?? []"
+      [text]="article.content"
+      [classToApply]="'offensive-word'"
+      [innerHTML]="article.content"
+    >
+      {{ article.content | truncate : 285 : true }}
+    </p>
+    <div class="read-more-container">
+      <a [routerLink]="['/private/articles/', article.id]" class="card__cta">
+        Read more <span>&rarr;</span>
+      </a>
+      <a
+        [routerLink]="['/private/users/', article.author?.id]"
+        class="card__cta "
+        *ngIf="showFromAuthor"
+        >More from Author!</a
+      >
+    </div>
+  </div>
+</article>

@@ -1,0 +1,60 @@
+<article class="private-page-container" *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm.article">
+
+    <ng-container  *ngIf="!vm.article.isRejected; else articleRejectedTemplate">
+
+    <article-header
+      [author]="vm.author!"
+      [article]="vm.article"
+      (articleApproved)="onArticleApprove($event)"
+      (articleRejected)="onArticleReject($event)"
+      [hasAdminPrivileges]="this.isAdmin(vm.loggedUser!)"
+      [isLoggedUserAuthor]="isLoggedUserAuthor(vm.loggedUser!, vm.article)"
+    />
+
+    <article-body [article]="vm.article" [words$]="words$" />
+
+    <add-comment
+      *ngIf="vm.article.isApproved"
+      [isLoggedUserAuthor]="isLoggedUserAuthor(vm.loggedUser!, vm.article)"
+      [article]="vm.article"
+      [data$]="data$"
+      [structure$]="structure$"
+      (addComment)="submit($event)"
+      (updateForm)="updateForm($event)"
+    />
+
+    <ng-container *ngFor="let comment of vm.article.comments">
+    <article-comment
+      *ngIf="comment.isApproved || this.isAdmin(vm.loggedUser!)"
+      [comment]="comment"
+      [words$]="words$"
+      [openedReplyBox$]="openedReplyBox$"
+      [canReply]="isLoggedUserAuthor(vm.loggedUser!, vm.article)"
+      [hasAdminPrivileges]="this.isAdmin(vm.loggedUser!)"
+      (commentApproved)="onCommentApprove($event, vm.article.id)"
+      (commentRejected)="onCommentReject($event, vm.article.id)"
+      (commentReplied)="onCommentReply($event, vm.article.id)"
+      (openedReplyBox)="onReplyBoxOpened($event)"
+      (closedReplyBox)="onReplyBoxClosed()"
+    />
+    </ng-container>
+
+    </ng-container>
+    <loading *ngIf="vm.loading" />
+  </ng-container>
+
+  <ng-template #articleRejectedTemplate>
+    <div class="flex flex-column justify-content-center">
+      <h1 class="underline text-red-500">Article rejected</h1>
+      <a pRipple class="align-self-center cursor-pointer text-center h-full inline-flex align-items-center text-600 hover:border-500 transition-colors transition-duration-150 py-3 lg:py-0 px-3 no-underline"
+         [routerLink]="'/private/articles'"
+         routerLinkActive="border-blue-500"
+         [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="pi pi-home mr-2"></span>
+        <span class="font-medium">Go home</span>
+      </a>
+    </div>
+  </ng-template>
+</article>
