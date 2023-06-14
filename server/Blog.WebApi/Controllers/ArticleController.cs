@@ -277,10 +277,11 @@ namespace Blog.WebApi.Controllers
             }
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)] // Exclude this method from Swagger
         public bool IsOffensive(Article article)
         {
             bool offensive = false;
-            
+
             if (_offensiveWordService.ContainsOffensiveWord(article.Title))
             {
                 offensive = true;
