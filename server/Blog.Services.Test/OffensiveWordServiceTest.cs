@@ -126,4 +126,65 @@ public class OffensiveWordServiceTest
         Assert.IsInstanceOfType(result, typeof(List<OffensiveWord>));
         Assert.AreEqual(0, result.Count);
     }
+
+    [TestMethod]
+    public void DeleteOffensiveWord_ValidId_DeletesWord()
+    {
+        // Arrange
+        var wordId = 1;
+        var word = new OffensiveWord { Id = wordId };
+
+        _repoMock.Setup(r => r.Delete(It.IsAny<OffensiveWord>())).Verifiable();
+        _repoMock.Setup(r => r.Save()).Verifiable();
+        _repoMock.Setup(r => r.GetOneBy(It.IsAny<Expression<Func<OffensiveWord, bool>>>())).Returns(word);
+
+        // Act
+        _offensiveWordService.DeleteOffensiveWord(wordId);
+
+        // Assert
+        _repoMock.Verify(r => r.Delete(word), Times.Once);
+        _repoMock.Verify(r => r.Save(), Times.Once);
+    }
+
+    [TestMethod]
+    public void ContainsOffensiveWord_TextContainsOffensiveWord_ReturnsTrue()
+    {
+        // Arrange
+        var offensiveWords = new List<OffensiveWord>
+        {
+            new OffensiveWord { Word = "offensive" },
+            new OffensiveWord { Word = "word" }
+        };
+
+        var text = "This text contains an offensive word.";
+
+        _repoMock.Setup(r => r.GetAll()).Returns(offensiveWords);
+
+        // Act
+        var result = _offensiveWordService.ContainsOffensiveWord(text);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public void ContainsOffensiveWord_TextDoesNotContainOffensiveWord_ReturnsFalse()
+    {
+        // Arrange
+        var offensiveWords = new List<OffensiveWord>
+        {
+            new OffensiveWord { Word = "offensive" },
+            new OffensiveWord { Word = "word" }
+        };
+
+        var text = "This text is clean.";
+
+        _repoMock.Setup(r => r.GetAll()).Returns(offensiveWords);
+
+        // Act
+        var result = _offensiveWordService.ContainsOffensiveWord(text);
+
+        // Assert
+        Assert.IsFalse(result);
+    }
 }
