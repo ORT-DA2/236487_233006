@@ -59,7 +59,7 @@ public class ArticleServicesTest
 
         _repoMock.Setup(repo => repo.GetAllBy(It.IsAny<Expression<Func<Article, bool>>>())).Returns(articles.AsQueryable());
 
-        var result = _articleService.GetRecentArticles(searchCriteria, limit);
+        var result = _articleService.GetRecentArticles(searchCriteria);
 
         Assert.AreEqual(expectedRecentArticles.Count, result.Count);
         Assert.IsTrue(expectedRecentArticles.SequenceEqual(result));

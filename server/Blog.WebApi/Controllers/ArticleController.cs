@@ -56,9 +56,9 @@ namespace Blog.WebApi.Controllers
             try
             {
                 User currentUser = _sessionService.GetCurrentUser();
-                var recentArticles = _articleService.GetRecentArticles(searchCriteria, 10);
+                var recentArticles = _articleService.GetRecentArticles(searchCriteria);
 
-                recentArticles = recentArticles.Where(a => !a.Private || (a.Private && a.Author.Equals(currentUser))).ToList();
+                recentArticles = recentArticles.Where(a => !a.Private || (a.Private && a.Author.Equals(currentUser))).Take(10).ToList();
 
                 return Ok(recentArticles.Select(a => new RecentArticleModel(a)));
             }
