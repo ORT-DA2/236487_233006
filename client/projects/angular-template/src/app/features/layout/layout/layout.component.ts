@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {RippleModule} from 'primeng/ripple';
@@ -11,8 +11,7 @@ import {LoadingModule} from "@ui-components";
 import {
 	AdminNotificationDialogComponent,
 } from "@shared/components/admin-notification-dialog/admin-notification-dialog.component";
-import {DialogService, DialogType} from "@core";
-import {ArticleService} from "@articles/+data-access/services/article.service";
+import {DialogService} from "@core";
 import {DialogModule} from "primeng/dialog";
 
 @Component({
@@ -46,12 +45,8 @@ import {DialogModule} from "primeng/dialog";
 	`],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent implements OnInit{
+export class LayoutComponent {
 	
 	dialog$ = this.dialogService.dialog$
-	constructor(private dialogService : DialogService, private articleService : ArticleService) {}
-	
-	ngOnInit() {
-	
-	}
+	constructor(private dialogService : DialogService) {}
 }
