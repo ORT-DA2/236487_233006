@@ -1,0 +1,31 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl } from '@angular/forms';
+import { CalendarTypeView } from 'primeng/calendar';
+import * as i0 from "@angular/core";
+export declare class DateFieldComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    isReadOnly: boolean;
+    inputId: string;
+    disabled: boolean;
+    showIcon: boolean;
+    minDate: Date;
+    maxDate: Date;
+    dateFormat: string;
+    view: CalendarTypeView;
+    placeholder: string;
+    formControl: FormControl<Date | null>;
+    isDisabled: boolean;
+    onChange: (value: Date | null) => void;
+    onTouched: () => void;
+    private _componentDestroyed$;
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    writeValue(value: Date): void;
+    registerOnChange(fn: any): void;
+    registerOnTouched(fn: any): void;
+    setDisabledState?(isDisabled: boolean): void;
+    onBlur(): void;
+    private _enableFormControl;
+    private _disableFormControl;
+    static ɵfac: i0.ɵɵFactoryDeclaration<DateFieldComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DateFieldComponent, "custom-date-field", never, { "isReadOnly": "readonly"; "inputId": "inputId"; "disabled": "disabled"; "showIcon": "showIcon"; "minDate": "min"; "maxDate": "max"; "dateFormat": "format"; "view": "view"; "placeholder": "placeholder"; }, {}, never, never, false, never>;
+}

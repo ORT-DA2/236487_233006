@@ -770,10 +770,19 @@
           "Blog.Domain": "1.0.0",
           "Blog.IDataAccess": "1.0.0",
           "Blog.IServices": "1.0.0",
+          "IImporter": "1.0.0",
           "Moq": "4.18.4"
         },
         "runtime": {
           "Blog.Services.dll": {}
+        }
+      },
+      "IImporter/1.0.0": {
+        "dependencies": {
+          "Blog.Domain": "1.0.0"
+        },
+        "runtime": {
+          "IImporter.dll": {}
         }
       }
     }
@@ -1291,6 +1300,11 @@
       "sha512": ""
     },
     "Blog.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IImporter/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
