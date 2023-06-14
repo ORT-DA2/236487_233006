@@ -114,7 +114,7 @@ public class ArticleControllerTest
         };
 
         _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
-        _articleServiceMock.Setup(a => a.GetRecentArticles(It.IsAny<ArticleSearchCriteria>(), It.IsAny<int>())).Returns(expectedArticles);
+        _articleServiceMock.Setup(a => a.GetRecentArticles(It.IsAny<ArticleSearchCriteria>())).Returns(expectedArticles);
 
         var result = _articleController.GetRecentArticles(criteria);
 

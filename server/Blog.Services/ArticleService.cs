@@ -96,7 +96,7 @@ public class ArticleService : IArticleService
         _repository.Save();
     }
 
-    public List<Article> GetRecentArticles(ArticleSearchCriteria searchCriteria, int limit)
+    public List<Article> GetRecentArticles(ArticleSearchCriteria searchCriteria)
     {
         var articles = _repository.GetAllBy(searchCriteria.Criteria());
 
@@ -105,7 +105,6 @@ public class ArticleService : IArticleService
         var recentArticles = articles
         // Order by UpdatedAt if it exists, otherwise order by CreatedAt
         .OrderByDescending(a => a.UpdatedAt ?? a.CreatedAt)
-        .Take(limit)
         .ToList();
 
         return recentArticles.ToList();

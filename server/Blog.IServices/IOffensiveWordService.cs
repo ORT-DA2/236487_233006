@@ -10,5 +10,5 @@ public interface IArticleService
     Article CreateArticle(Article article);
     Article UpdateArticle(int id, Article updatedArticle);
     void DeleteArticle(int id);
-    List<Article> GetRecentArticles(ArticleSearchCriteria searchCriteria, int limit);
+    List<Article> GetRecentArticles(ArticleSearchCriteria searchCriteria);
 }
