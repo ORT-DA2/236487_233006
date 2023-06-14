@@ -9,6 +9,7 @@ const {
   selectLoaded,
   selectLoading,
   selectError,
+  selectOpenedReplyBox
 } = articleFeature;
 
 export const selectAuthorId = createSelector(selectData, (data) => data?.authorId);
@@ -22,4 +23,5 @@ export const articleQuery = {
   selectLoaded,
   selectLoading,
   selectError,
+  selectOpenedReplyBox
 };

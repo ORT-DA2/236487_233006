@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {RippleModule} from 'primeng/ripple';
@@ -8,8 +8,11 @@ import {StyleClassModule} from 'primeng/styleclass';
 import {NavbarComponent} from "@layout/components/navbar/navbar.component";
 import {RequiredRolesDirective} from "@auth/utils/dierctives/required-roles.directive";
 import {LoadingModule} from "@ui-components";
-import {Store} from "@ngrx/store";
-import {wordsActions} from "@users/+data-access/store/offensive-words/offensive-words.actions";
+import {
+	AdminNotificationDialogComponent,
+} from "@shared/components/admin-notification-dialog/admin-notification-dialog.component";
+import {DialogService} from "@core";
+import {DialogModule} from "primeng/dialog";
 
 @Component({
   selector: 'layout',
@@ -25,6 +28,8 @@ import {wordsActions} from "@users/+data-access/store/offensive-words/offensive-
 		RequiredRolesDirective,
 		NavbarComponent,
 		LoadingModule,
+		AdminNotificationDialogComponent,
+		DialogModule,
 	],
   templateUrl: './layout.component.html',
 	styles:[`
@@ -40,4 +45,8 @@ import {wordsActions} from "@users/+data-access/store/offensive-words/offensive-
 	`],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent {}
+export class LayoutComponent {
+	
+	dialog$ = this.dialogService.dialog$
+	constructor(private dialogService : DialogService) {}
+}

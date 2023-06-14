@@ -1,0 +1,24 @@
+
+  <article class="dialog-container">
+    <header>
+      <h1 class="color-main">Offensive Words detected</h1>
+      <p-button
+        icon="pi pi-times"
+        class="close-dialog"
+        styleClass="p-button-rounded p-button-outlined p-button-text p-button-sm"
+        (click)="this.closeDialog()"
+      />
+    </header>
+    <div class="body" >
+      <div class="w-100 flex align-items-center justify-content-between" *ngIf="data?.articles">
+        <p>We found {{ data.articles }} offensive articles</p>
+        <p-button  styleClass=" p-button-text p-button-sm" label="Manage Articles" (click)="goToOffensiveArticles()"/>
+      </div>
+
+      <div class="w-100 flex align-items-center justify-content-between" *ngIf="data?.comments" >
+        <p>We found {{ data.comments }} offensive comments</p>
+        <p-button styleClass="p-button-text p-button-sm" label="Manage comments" (click)="goToOffensiveComments()"/>
+      </div>
+    </div>
+  </article>
+

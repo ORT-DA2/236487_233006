@@ -36,7 +36,7 @@ export const authInitialState: AuthState = {
 
 export const authFeature = createFeature({
   name: 'auth',
-  reducer: createReducer(
+  reducer: createReducer<AuthState>(
     authInitialState,
     on(authActions.setLoggedUser, (state, { data }) => {
       return { ...state, data, loggedIn: true };

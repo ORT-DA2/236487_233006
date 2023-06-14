@@ -1,7 +1,335 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="" />
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Fix sintaxis">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/auth/pages/login-page/login-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/auth/pages/login-page/login-page.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/layout/layout/layout.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/layout/layout/layout.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-1@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-2@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-3@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-f-4@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-m-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-m-1@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-m-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-m-2@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-m-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle-big/avatar-m-3@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-10@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-11@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-12@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-1@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-2@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-3@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-4@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-5@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-6@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-7@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-8@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-f-9@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-10@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-11@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-12@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-1@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-2@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-3@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-4@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-5@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-6@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-7-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-7@2x-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-7@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-8@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/circle/avatar-m-9@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/square/avatar-f-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/square/avatar-f-1@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/square/avatar-f-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/square/avatar-f-2@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/square/avatar-m-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/avatars/square/avatar-m-1@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/blog/blog-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/chart/chart-bar.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/chart/chart-line.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/crypto/btc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/crypto/doge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/crypto/eth.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/crypto/xlm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/cta/cta-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/cta/cta-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/cta/cta-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/cta/cta-browser.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/cta/cta-building.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/cta/row.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/dialog/dialog-1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/dialog/dialog-2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypage/categorypage-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-23.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-25.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-29.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-30.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-31.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/categorypreview/category-preview-1-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/checkoutform/checkoutform-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/checkoutform/checkoutform-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/checkoutform/checkoutform-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/checkoutform/checkoutform-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/checkoutform/checkoutform-1-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/orderhistory/orderhistory-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/orderhistory/orderhistory-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/orderhistory/orderhistory-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/orderhistory/orderhistory-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/orderhistory/orderhistory-1-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/orderhistory/orderhistory-1-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/ordersummary/order-summary-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/ordersummary/order-summary-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/ordersummary/order-summary-2-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/ordersummary/order-summary-3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/ordersummary/order-summary-3-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/ordersummary/visa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productfeature/product-features-1-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-2-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-2-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-2-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-2-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-3-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-3-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-3-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-3-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-3-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-4-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-4-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-4-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-4-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-4-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-4-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-5-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-5-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-5-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-5-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-6-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-6-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-6-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-6-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-6-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-6-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-7-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-7-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-7-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-7-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-8-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-8-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-8-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-8-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-9-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-9-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-9-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productlist/product-list-9-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-2-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-2-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-2-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-2-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-3-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-3-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-3-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-4-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-4-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-overview-4-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productoverview/product-suggestion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productpage/productpage-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productpage/productpage-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productpage/productpage-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productpage/productpage-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-2-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-2-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-2-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-2-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-2-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/productquickview/product-quickview-2-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-1-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-2-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-3-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-4-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-4-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-4-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-4-4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-4-5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-5-1-x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-5-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-5-2-x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-5-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/promosection/promo-section-6-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/review/review-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/review/review-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/review/review-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/review/review-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/review/review-1-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/review/review-1-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-2-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-2-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-3-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-4-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-4-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-5-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-5-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-5-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/shoppingcart/shopping-cart-5-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-20.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-21.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-22.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-23.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-24.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-25.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storefront/storefront-1-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-1-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-2-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-2-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-2-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-2-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-3-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/ecommerce/storenavigation/storenavigation-3-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/ai.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/atom.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/code.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/excel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/one.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/ps.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/file/word.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/footer/footer-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/footer/footer-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/live-collaboration.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/notification-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/notification-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/real-time-collaboration.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/security.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/stats-illustration-1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/stats-illustration-2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/stats-illustration-3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/stats-illustration-4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/stats-illustration-5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/stats-illustration-6.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/subscribe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/illustration/windows.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/blocks/signin/signin.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/assets/images/signin.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/assets/iso_logo_SW.png" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,6 +339,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
     <option name="recentBranches">
       <RecentBranches>
         <option name="branchesForRepo">
@@ -18,6 +347,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/delete-assets" />
+                    <option name="lastUsedInstant" value="1686774733" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/add-angular-client" />
                     <option name="lastUsedInstant" value="1686264292" />
@@ -48,15 +381,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/dev/after90",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/236487_233006/client/projects/angular-template/src/app/features/layout&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\236487_233006\\client\\node_modules\\typescript\\lib&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\layout" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\users\pages\user-notifications" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\articles\+data-access\store" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\shared\components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\236487_233006\client\projects\angular-template\src\assets\images" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\assets" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\users\pages\offensive-comments" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,11 +415,71 @@
       <option name="presentableId" value="Default" />
       <updated>1686264032507</updated>
       <workItem from="1686264034309" duration="305000" />
+      <workItem from="1686432550739" duration="7386000" />
+      <workItem from="1686449606751" duration="6156000" />
+      <workItem from="1686505757717" duration="2132000" />
+      <workItem from="1686513529178" duration="121000" />
+      <workItem from="1686513667831" duration="47000" />
+      <workItem from="1686608192086" duration="316000" />
+      <workItem from="1686611523388" duration="1410000" />
+      <workItem from="1686613024092" duration="7334000" />
+      <workItem from="1686623895943" duration="278000" />
+      <workItem from="1686626416188" duration="2372000" />
+      <workItem from="1686772489364" duration="1676000" />
     </task>
+    <task id="LOCAL-00001" summary="Added comment approval">
+      <created>1686513613929</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686513613929</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added comment approval">
+      <created>1686513688794</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1686513688794</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added generic interfaces to describe store models">
+      <created>1686614072013</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686614072014</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Cosas finales">
+      <created>1686697137728</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1686697137728</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Cosas finales ++">
+      <created>1686764789460</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1686764789460</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fix sintaxis">
+      <created>1686772502857</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1686772502857</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="additionalRoots">
+      <list>
+        <option value="$PROJECT_DIR$/client/dist/core" />
+        <option value="$PROJECT_DIR$/client/dist/ui-components" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -82,5 +491,24 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added comment approval" />
+    <MESSAGE value="Added generic interfaces to describe store models" />
+    <MESSAGE value="Cosas finales" />
+    <MESSAGE value="Cosas finales ++" />
+    <MESSAGE value="Fix sintaxis" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix sintaxis" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-list-item/article-list-item.component.ts</url>
+          <line>18</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

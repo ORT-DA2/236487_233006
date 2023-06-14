@@ -13,12 +13,12 @@ import {
 import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
 import {UserFormModel} from "@users/utils/types/user";
 import {Store} from "@ngrx/store";
-import {UserListComponent} from "@users/components/user-list/user-list.component";
 import {User} from "@shared/domain";
 import {ButtonModule} from "primeng/button";
 import {DeleteDialogComponent} from "@shared/components/delete-dialog/delete-dialog.component";
 import {UserDialogComponent} from "@users/components/user-dialog/user-dialog-component";
 import {Validators} from "@angular/forms";
+import {UserListComponent} from "@users/components/user-list/user-list.component";
 
 const structure: Field[] = [
   {
@@ -77,7 +77,7 @@ const structure: Field[] = [
 @Component({
   selector: 'user-list-page',
   standalone: true,
-  imports: [CommonModule, DeleteDialogComponent, UserListComponent, ButtonModule, UserDialogComponent],
+  imports: [CommonModule, DeleteDialogComponent, UserListPageComponent, ButtonModule, UserDialogComponent, UserListPageComponent, UserListComponent],
   templateUrl: './user-list-page.component.html',
   styleUrls: ['./user-list-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

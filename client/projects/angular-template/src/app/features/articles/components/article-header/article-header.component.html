@@ -2,25 +2,29 @@
     <div class="flex align-items-start flex-column lg:flex-row lg:justify-content-between relative">
         <div class="flex align-items-start flex-column md:flex-row">
             <p-avatar [label]="this.initials" class="mr-5 mb-3 lg:mb-0 avatar" shape="circle" styleClass="bg-orange-500 col" [style]="{ color: '#ffffff' }"></p-avatar>
-
             <div>
                 <span class="text-900 font-medium text-3xl">{{this.author?.firstName}} {{this.author?.lastName}}</span>
                 <div class="flex align-items-center flex-wrap text-sm">
                     <div class="mr-5 mt-1">
                         <span class="font-medium text-500">Updated at:</span>
-                        <p> {{article.updatedAt ? (article.updatedAt | ago) : article.createdAt | ago}}</p>
+                        <span> {{article.updatedAt ? (article.updatedAt | ago) : article.createdAt | ago}}</span>
                     </div>
                 </div>
+                <p class="font-medium text-500 underline font-italic"
+                   *ngIf="article.isApproved && article.updatedAt"
+                >Edited</p>
             </div>
         </div>
 
-        <div class="actions-container" *requiredRoles="[roleType.Admin]">
+
+        <div class="actions-container" *ngIf="hasAdminPrivileges || isLoggedUserAuthor" >
             <!-- Badge -->
             <div class="flex justify-content-end">
                 <span [ngClass]="articleStatus" class="chip capitalize">{{articleStatus}}</span>
             </div>
 
-            <div class="button-bar" *ngIf="!article.isApproved && !article.isRejected">
+            <ng-container *requiredRoles="[roleType.Admin]">
+            <div class="button-bar" *ngIf="!article.isApproved && !article.isRejected" >
                 <p-button
                     styleClass="p-button-outlined p-button-success p-button-sm "
                     [label]="'Approve'"
@@ -36,6 +40,7 @@
                     (click)="this.articleRejected.emit(article.id)"
                 />
             </div>
+            </ng-container>
         </div>
     </div>
 </div>

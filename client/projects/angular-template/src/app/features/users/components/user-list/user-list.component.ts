@@ -24,7 +24,7 @@ import {User} from "@shared/domain";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserListComponent {
-  users$ = this.store.select(userListQuery.selectUsers)
+  users$ = this.store.select(userListQuery.selectEntities)
   loading$ = this.store.select(userListQuery.selectLoading)
   
   @Output() actionEvent: EventEmitter<{selectedAction: DialogActionValue, user: User}> = new EventEmitter();

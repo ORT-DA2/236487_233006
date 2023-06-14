@@ -30,7 +30,8 @@ import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-wo
 })
 export class ArticleListComponent implements OnDestroy {
   @Input() vm$ !: Observable<ArticleListVM>
-  words$ = this.store.select(wordsQuery.selectWords)
+  @Input() canDelete = true;
+  words$ = this.store.select(wordsQuery.selectEntities)
 
   constructor(private store: Store, private dialogService: DialogService) {}
 

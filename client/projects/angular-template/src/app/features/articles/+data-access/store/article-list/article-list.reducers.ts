@@ -1,18 +1,15 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {articleListActions} from "@articles/+data-access/store/article-list/article-list.actions";
 import {Article} from "@shared/domain";
+import {EntityListState} from "@core";
 
-export interface ArticleListState {
-  articles: Article[];
-  loaded: boolean;
-  loading: boolean;
-  error : string | null
-  count : number
-  editing : boolean
+interface ArticleListState extends EntityListState<Article> {
+  count: number;
+  editing: boolean;
 }
 
 export const articleListInitialState: ArticleListState = {
-  articles: [],
+  entities: [],
   count : 0,
   loaded: false,
   loading: false,
@@ -22,7 +19,7 @@ export const articleListInitialState: ArticleListState = {
 
 export const articleListFeature = createFeature({
   name: 'articleList',
-  reducer: createReducer(
+  reducer: createReducer<ArticleListState>(
     articleListInitialState,
     on(articleListActions.reset, () => articleListInitialState),
     on(articleListActions.loadRecentArticles, (state) => {
@@ -49,7 +46,7 @@ export const articleListFeature = createFeature({
     on(articleListActions.loadArticlesSuccess, (state, {articles} ) => {
       return {
         ...state,
-        articles: articles,
+        entities: articles,
         count : 10,
         loaded: true,
         loading: false,
@@ -59,7 +56,7 @@ export const articleListFeature = createFeature({
     on(articleListActions.loadArticlesFailure, (state, action) => {
       return {
         ...state,
-        articles: articleListInitialState.articles,
+        entities: articleListInitialState.entities,
         loaded: false,
         loading: false,
         error : action.error

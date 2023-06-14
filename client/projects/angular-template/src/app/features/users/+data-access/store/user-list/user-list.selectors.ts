@@ -4,7 +4,7 @@ const {
   selectUserListState,
   selectLoaded,
   selectLoading,
-  selectUsers,
+  selectEntities,
   selectError,
   selectDialogError
 } = userListFeature;
@@ -13,7 +13,7 @@ export const userListQuery = {
   selectUserListState,
   selectLoaded,
   selectLoading,
-  selectUsers,
+  selectEntities,
   selectError,
   selectDialogError
 };

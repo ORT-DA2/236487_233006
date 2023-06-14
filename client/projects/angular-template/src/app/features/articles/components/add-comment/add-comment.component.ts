@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {DynamicFormModule, Field} from "@ui-components";
 import {ButtonModule} from "primeng/button";
-import {Article, User} from "@shared/domain";
+import {Article} from "@shared/domain";
 import {Observable} from "rxjs";
 
 @Component({
@@ -15,12 +15,12 @@ import {Observable} from "rxjs";
 })
 export class AddCommentComponent {
   @Input() article!: Article;
-  @Input() currentUser!: User;
+  
   @Input() data$!: Observable<any>;
   @Input() structure$!: Observable<Field[]>;
-  @Input() touchedForm$!: Observable<boolean>;
+  @Input() isLoggedUserAuthor = true;
   
-  @Output() submitComment: EventEmitter<{articleId: number, authorId: number}> = new EventEmitter();
+  @Output() addComment: EventEmitter<{articleId: number, authorId: number}> = new EventEmitter();
   @Output() updateForm: EventEmitter<any> = new EventEmitter();
   
 }

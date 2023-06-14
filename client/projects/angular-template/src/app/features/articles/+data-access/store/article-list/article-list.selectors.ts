@@ -4,7 +4,7 @@ import {articleListFeature} from "@articles/+data-access/store/article-list/arti
 
 const {
   selectArticleListState,
-  selectArticles,
+  selectEntities,
   selectLoaded,
   selectLoading,
   selectEditing
@@ -14,7 +14,7 @@ const {
 // import the selectors file, since we are only going to need to import the generalQuery object.
 export const articleListQuery = {
   selectArticleListState,
-  selectArticles,
+  selectEntities,
   selectLoaded,
   selectLoading,
   selectEditing

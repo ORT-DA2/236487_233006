@@ -15,7 +15,8 @@ export const ASSETS = {
 export enum DialogType {
   User = 'user',
   Delete = 'delete',
-  Register = 'register'
+  Register = 'register',
+  AdminNotification = 'adminNotification'
 }
 
 export type Dialog = {
@@ -26,6 +27,7 @@ export const InitialDialogState: Dialog = {
   [DialogType.Register]: false,
   [DialogType.User]: false,
   [DialogType.Delete]: false,
+  [DialogType.AdminNotification]: false,
   // ... other initial dialog states
 }
 
