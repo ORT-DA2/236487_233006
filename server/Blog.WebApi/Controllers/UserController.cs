@@ -19,13 +19,15 @@ public class UserController : ControllerBase
     private readonly IRoleService _roleService;
     private readonly IUserRoleService _userRoleService;
     private readonly ISessionService _sessionService;
+    private readonly IArticleService _articleService;
 
-    public UserController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService, ISessionService sessionService)
+    public UserController(IUserService userService, IRoleService roleService, IUserRoleService userRoleService, ISessionService sessionService, IArticleService articleService)
     {
         _userService = userService;
         _roleService = roleService;
         _userRoleService = userRoleService;
         _sessionService = sessionService;
+        _articleService = articleService;
     }
 
     // Index - Get all users (/api/users)
@@ -69,7 +71,9 @@ public class UserController : ControllerBase
     {
         User currentUser = _sessionService.GetCurrentUser();
         List<Comment> comments =  new List<Comment>();
-        currentUser.Articles.ToList().ForEach(a =>
+        ArticleSearchCriteria searchCriteria = new ArticleSearchCriteria() { authorId = currentUser.Id };
+        List<Article> articles = _articleService.GetAllArticles(searchCriteria, null, null, null);
+        articles.ToList().ForEach(a =>
         {
             if(a.Comments != null)
             {
