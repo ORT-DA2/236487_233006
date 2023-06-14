@@ -72,6 +72,7 @@ namespace Blog.WebApi.Controllers
             }
         }
 
+
         // Show - Get specific article (/api/articles/{id})
         [HttpGet("{articleId}", Name = "GetArticle")]
         public IActionResult GetArticle(int articleId)
@@ -276,7 +277,7 @@ namespace Blog.WebApi.Controllers
             }
         }
 
-        private bool IsOffensive(Article article)
+        public bool IsOffensive(Article article)
         {
             bool offensive = false;
             

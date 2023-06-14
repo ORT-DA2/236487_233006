@@ -128,6 +128,49 @@ public class ArticleControllerTest
     }
 
     [TestMethod]
+    public void GetRecentArticles_ValidSearchCriteria_ReturnsOkResult()
+    {
+        // Arrange
+        var currentUser = new User(); // Create a sample user for testing
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Returns(currentUser);
+
+        var articles = new List<Article>(); // Create sample articles for testing
+        _articleServiceMock.Setup(s => s.GetRecentArticles(It.IsAny<ArticleSearchCriteria>())).Returns(articles);
+
+        // Act
+        var result = _articleController.GetRecentArticles(new ArticleSearchCriteria());
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+    }
+
+    [TestMethod]
+    public void GetRecentArticles_ResourceNotFoundException_ReturnsNotFoundResult()
+    {
+        // Arrange
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Throws(new ResourceNotFoundException(""));
+
+        // Act
+        var result = _articleController.GetRecentArticles(new ArticleSearchCriteria());
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+    }
+
+    [TestMethod]
+    public void GetRecentArticles_InvalidResourceException_ReturnsBadRequestResult()
+    {
+        // Arrange
+        _sessionServiceMock.Setup(s => s.GetCurrentUser(null)).Throws(new InvalidResourceException(""));
+
+        // Act
+        var result = _articleController.GetRecentArticles(new ArticleSearchCriteria());
+
+        // Assert
+        Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+    }
+
+    [TestMethod]
     public void CreateNewArticleReturnCreatedAtRoutedWithCreatedArticleAsExpected()
     {
         var article = CreateArticle(1);
@@ -596,6 +639,49 @@ private Article CreateArticle(int articleId, bool isPrivate = false)
         Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
         NotFoundObjectResult notFoundResult = (NotFoundObjectResult)result;
         Assert.AreEqual("Article not found", notFoundResult.Value);
+    }
+
+    [TestMethod]
+    public void IsOffensive_WithOffensiveTitle_ReturnsTrue()
+    {
+        // Arrange
+        Article article = new Article { Title = "Offensive Title", Content = "Some content" };
+        _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Title)).Returns(true);
+
+        // Act
+        bool result = _articleController.IsOffensive(article);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public void IsOffensive_WithOffensiveContent_ReturnsTrue()
+    {
+        // Arrange
+        Article article = new Article { Title = "Some title", Content = "Offensive content" };
+        _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Content)).Returns(true);
+
+        // Act
+        bool result = _articleController.IsOffensive(article);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public void IsOffensive_WithNonOffensiveTitleAndContent_ReturnsFalse()
+    {
+        // Arrange
+        Article article = new Article { Title = "Some title", Content = "Some content" };
+        _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Title)).Returns(false);
+        _offensiveWordServiceMock.Setup(s => s.ContainsOffensiveWord(article.Content)).Returns(false);
+
+        // Act
+        bool result = _articleController.IsOffensive(article);
+
+        // Assert
+        Assert.IsFalse(result);
     }
 }
 
