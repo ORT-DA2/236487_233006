@@ -1,0 +1,34 @@
+import { OnDestroy, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl } from '@angular/forms';
+import * as i0 from "@angular/core";
+export declare class NumberFieldComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    placeholder: string;
+    minFractionDigits: number;
+    maxFractionDigits: number;
+    min: number;
+    max: number;
+    maxLength: number;
+    locale: string;
+    prefix: string;
+    suffix: string;
+    set disabled(disabled: boolean);
+    useGrouping: boolean;
+    inputId: string;
+    isReadOnly: boolean;
+    formControl: FormControl<number | null>;
+    isDisabled: boolean;
+    onChange: (value: number | null) => void;
+    onTouched: () => void;
+    private _destroyed$;
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    writeValue(value: number): void;
+    registerOnChange(fn: any): void;
+    registerOnTouched(fn: any): void;
+    setDisabledState?(disabled: boolean): void;
+    onBlur(): void;
+    private _enableFormControl;
+    private _disableFormControl;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NumberFieldComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<NumberFieldComponent, "custom-number-field", never, { "placeholder": "placeholder"; "minFractionDigits": "minFractionDigits"; "maxFractionDigits": "maxFractionDigits"; "min": "min"; "max": "max"; "maxLength": "maxLength"; "locale": "locale"; "prefix": "prefix"; "suffix": "suffix"; "disabled": "disabled"; "useGrouping": "useGrouping"; "inputId": "inputId"; "isReadOnly": "readonly"; }, {}, never, never, false, never>;
+}

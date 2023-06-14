@@ -1,0 +1,42 @@
+{
+  "name": "ui-components",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^15.1.0",
+    "@angular/core": "^15.1.0",
+    "@ngrx/effects": "^15.1.0",
+    "@ngrx/store": "^15.1.0",
+    "primeicons": "^6.0.1",
+    "primeng": "^15.2.1"
+  },
+  "author": {
+    "name": "Agustin Campon",
+    "email": "acampon@switch.com.uy"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "exports": {
+    "./styles": {
+      "sass": "./src/lib/assets/scss"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ui-components.mjs",
+      "es2020": "./fesm2020/ui-components.mjs",
+      "es2015": "./fesm2015/ui-components.mjs",
+      "node": "./fesm2015/ui-components.mjs",
+      "default": "./fesm2020/ui-components.mjs"
+    }
+  },
+  "module": "fesm2015/ui-components.mjs",
+  "es2020": "fesm2020/ui-components.mjs",
+  "esm2020": "esm2020/ui-components.mjs",
+  "fesm2020": "fesm2020/ui-components.mjs",
+  "fesm2015": "fesm2015/ui-components.mjs",
+  "typings": "index.d.ts"
+}

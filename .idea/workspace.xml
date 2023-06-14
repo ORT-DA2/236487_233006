@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="delete assets">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="entrega-2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,6 +22,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/entrega-2" />
+                    <option name="lastUsedInstant" value="1686779530" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/delete-assets" />
                     <option name="lastUsedInstant" value="1686774733" />
@@ -103,6 +105,7 @@
       <workItem from="1686623895943" duration="278000" />
       <workItem from="1686626416188" duration="2372000" />
       <workItem from="1686772489364" duration="1676000" />
+      <workItem from="1686779091693" duration="446000" />
     </task>
     <task id="LOCAL-00001" summary="Added comment approval">
       <created>1686513613929</created>
@@ -146,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686772502857</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="entrega-2">
+      <created>1686779519797</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1686779519798</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,7 +185,8 @@
     <MESSAGE value="Cosas finales" />
     <MESSAGE value="Cosas finales ++" />
     <MESSAGE value="Fix sintaxis" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix sintaxis" />
+    <MESSAGE value="entrega-2" />
+    <option name="LAST_COMMIT_MESSAGE" value="entrega-2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
