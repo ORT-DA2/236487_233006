@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {ArticleCommentComponent} from "@articles/components/article-comment/article-comment.component";
 import {Store} from "@ngrx/store";
 import {commentListQuery} from "@articles/+data-access/store/comment-list/comment-list.selectors";
-import {CommentReply} from "@shared/domain";
+import {Comment, CommentReply} from "@shared/domain";
 import {commentListActions} from "@articles/+data-access/store/comment-list/comment-list.actions";
 import {LoadingModule} from "@ui-components";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {CommentsService} from "@articles/+data-access/services/comments.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'reply-to-comments',
@@ -19,7 +20,7 @@ import {CommentsService} from "@articles/+data-access/services/comments.service"
 })
 export default class UserNotificationsComponent  implements OnInit, OnDestroy{
   
-  comments$  = this.store.select(commentListQuery.selectEntities)
+  comments$ : Observable<Comment[]> = this.store.select(commentListQuery.selectEntities)
   loading$ = this.store.select(commentListQuery.selectLoading)
   error$ = this.store.select(commentListQuery.selectError)
   openedReplyBox$ = this.store.select(commentListQuery.selectOpenedReplyBox)

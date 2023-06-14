@@ -46,6 +46,11 @@ export class UserService {
     return this.api.put<User, User>('/users/' + user.id, this.toUserDTO(user));
   }
   
+  
+  getUserRankings(startDate : Date , endDate : Date) : Observable<User[]>{
+    return this.api.get(`/users/ranking?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+  }
+  
   private toUserDTO(user: UserFormModel): User {
     return {
       id: user.id,

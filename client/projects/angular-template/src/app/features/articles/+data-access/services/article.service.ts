@@ -4,8 +4,9 @@ import {ApiService, FilterFrom} from '@core'
 
 import {Store} from '@ngrx/store'
 import {authQuery} from '@auth/+data-access/store/auth.selectors'
-import {ArticleForm, NewArticle} from '@articles/utils/types/article-form'
+import {ArticleForm, FormImportData, ImportRequest, NewArticle} from '@articles/utils/types/article-form'
 import {Article, User} from '@shared/domain'
+import {IOption} from "@ui-components";
 
 @Injectable({
   providedIn: 'root',
@@ -150,7 +151,14 @@ export class ArticleService {
     return this.api.get<Comment[]>(`/comments?Isapproved=false&IsRejected=false`)
   }
   
-  getImporterOptions() : Observable<string[]>{
-    return this.api.get<string[]>(`/importers`)
+  getImporterOptions(): Observable<IOption[]> {
+    return this.api.get<string[]>(`/importers`).pipe(
+      map(strings => strings.map((description, id) => ({ id, description })))
+    );
+  }
+  
+  
+  importArticles(data : ImportRequest) {
+    return this.api.post<any, ImportRequest>(`/importers/import`, data);
   }
 }

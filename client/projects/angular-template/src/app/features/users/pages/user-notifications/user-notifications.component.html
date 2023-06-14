@@ -4,8 +4,9 @@
 
         <error-badge *ngIf="error$ | async as error" [error]="error" />
 
+        <ng-container *ngFor="let comment of comments">
         <article-comment
-                *ngFor="let comment of comments"
+                *ngIf="!comment.isRejected && comment.isApproved"
                 [comment]="comment"
                 [canReply]="true"
                 [openedReplyBox$]="openedReplyBox$"
@@ -13,6 +14,7 @@
                 (openedReplyBox)="onReplyBoxOpened($event)"
                 (closedReplyBox)="onReplyBoxClosed()"
         />
+        </ng-container>
     </ng-container>
     <loading *ngIf="loading$ | async" />
 

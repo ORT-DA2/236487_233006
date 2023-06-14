@@ -10,7 +10,7 @@
         icon="pi pi-pencil"
         [routerLink]="['/private', 'articles', article.id, 'edit']"
       />
-      <p-button
+      <p-button *ngIf="canDelete"
         styleClass="p-button-outlined p-button-rounded p-button-danger p-button-text p-button-sm "
         class="delete-button"
         icon="pi pi-times"

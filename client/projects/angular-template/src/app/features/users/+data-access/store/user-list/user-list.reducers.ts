@@ -21,7 +21,7 @@ export const userListFeature = createFeature({
   reducer: createReducer<UserListState>(
     userListInitialState,
     on(userListActions.reset, () => userListInitialState),
-    on(userListActions.loadUsers, (state) => {
+    on(userListActions.loadUsers, userListActions.loadUsersRanking, (state) => {
       return {
         ...state,
         loading: true,

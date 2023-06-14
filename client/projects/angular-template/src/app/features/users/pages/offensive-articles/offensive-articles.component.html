@@ -1,5 +1,5 @@
 <div class="private-page-container">
     <h1>Article Management</h1>
-    <article-list [vm$]="vm$"/>
+    <article-list [vm$]="vm$" [canDelete]="false"/>
     <loading *ngIf="this.loading$ | async" />
 </div>

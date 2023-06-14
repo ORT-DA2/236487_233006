@@ -31,6 +31,12 @@ export default [
 		data : { requiredRoles : [RoleType.Admin] },
 	},
 	{
+		path: 'ranking',
+		loadComponent: () => import('@users/pages/users-ranking/users-ranking.component'),
+		canActivate : [RoleGuard],
+		data : { requiredRoles : [RoleType.Admin] },
+	},
+	{
 		path: 'offensive-comments',
 		loadComponent: () => import('@users/pages/offensive-comments/offensive-comments.component'),
 		canActivate: [OffensiveCommentsGuard, RoleGuard],

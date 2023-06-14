@@ -35,3 +35,12 @@ export enum TemplateOption{
 }
 
 
+export interface ImportRequest{
+	importerName : string;
+	filePath : string
+}
+
+export interface FormImportData{
+	importerName : number;
+	filePath : string
+}

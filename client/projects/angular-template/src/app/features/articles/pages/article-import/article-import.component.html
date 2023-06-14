@@ -1,6 +1,5 @@
 <section class="private-page-container">
     <h1>Import Articles</h1>
-    <error-badge *ngIf="error$ | async as error" [error]="error" />
 
     <dynamic-form
             class="form"
@@ -18,7 +17,8 @@
         />
     </div>
 
-    <loading *ngIf="loading$ | async" />
+    <error-badge *ngIf="error$ | async as error" [error]="error" />
 </section>
+<loading *ngIf="loading$ | async" />
 
 

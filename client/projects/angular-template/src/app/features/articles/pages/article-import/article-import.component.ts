@@ -1,47 +1,25 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {
   DynamicFormModule,
   Field,
   FieldType,
   formsActions,
   FormState,
-  IDynamicForm, LoadingModule,
+  IDynamicForm,
+  LoadingModule,
   ngrxFormsQuery,
 } from "@ui-components";
 import {articleFormQuery} from "@articles/+data-access/store/article-form/article-form.selectors";
 import {Store} from "@ngrx/store";
 import {ToastrService} from "ngx-toastr";
-import {articleQuery} from "@articles/+data-access/store/article/article.selectors";
-import {first} from "rxjs/operators";
-import {noop} from "rxjs";
 import {articleFormActions} from "@articles/+data-access/store/article-form/article-form.actions";
-import {Article} from "@shared/domain";
-import {articleActions} from "@articles/+data-access/store/article/article.actions";
 import {Validators} from "@angular/forms";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {ButtonModule} from "primeng/button";
-import {TemplateOption} from "@articles/utils/types/article-form";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 
-const structure: Field[] = [
-  {
-    type: FieldType.TEXT,
-    name: 'title',
-    label: 'Title',
-    placeholder: "Title",
-    validators: [Validators.required],
-  },
-  {
-    type: FieldType.SELECT,
-    name: 'importer',
-    label: 'Importer',
-    validators: [Validators.required],
-    placeholder: "Select An importer",
-    select: {
-      options: [],
-    },
-  },
-]
 
 @Component({
   selector: 'article-import',
@@ -51,7 +29,7 @@ const structure: Field[] = [
   styleUrls: ['./article-import.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ArticleImportComponent implements OnInit, OnDestroy {
+export default class ArticleImportComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('dynamicForm', { static: true }) dynamicForm!: IDynamicForm
   
   structure$ = this.store.select(ngrxFormsQuery.selectStructure)
@@ -59,21 +37,43 @@ export default class ArticleImportComponent implements OnInit, OnDestroy {
   loading$ = this.store.select(articleFormQuery.selectLoading)
   error$ = this.store.select(articleFormQuery.selectError)
   
+  private componentDestroyed$ = new Subject<void>();
+  
+  
   constructor(private store: Store, private toast: ToastrService) {}
   
   ngOnInit() {
     this.store.dispatch(articleFormActions.loadImporterOptions())
-    this.store.dispatch(formsActions.setStructure({ structure }))
-    
-    // If editing patchValue
+  }
+  
+  ngAfterViewInit() {
     this.store
-      .select(articleFormQuery.selectImporterOptions)
-      .pipe(first())
+      .select(articleFormQuery.selectImporterOptions).pipe(takeUntil(this.componentDestroyed$))
       .subscribe((options) => {
-          this.store.dispatch(formsActions.setData({ data: {
-            importer : options
-            } }))
-      })
+        const structure: Field[] = [
+          {
+            type: FieldType.TEXT,
+            name: 'filePath',
+            label: 'Path',
+            placeholder: "Path to your importer",
+            validators: [Validators.required],
+          },
+          {
+            type: FieldType.SELECT,
+            name: 'importerName',
+            label: 'Importer',
+            validators: [Validators.required],
+            placeholder: "Select An importer",
+            select: {
+              options
+            }
+          },
+        ]
+      
+        this.store.dispatch(formsActions.setStructure({
+          structure
+        }));
+      });
   }
   
   updateForm(state: FormState) {
@@ -84,11 +84,9 @@ export default class ArticleImportComponent implements OnInit, OnDestroy {
     this.dynamicForm.submitted()
     
     this.dynamicForm.form.valid
-      ? this.store.dispatch(articleFormActions.publishArticle())
+      ? this.store.dispatch(articleFormActions.importArticles())
       : this.handleInvalidForm()
   }
-  
-
   
   private handleInvalidForm() {
     this.toast.error(
@@ -100,5 +98,8 @@ export default class ArticleImportComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(articleFormActions.reset())
     this.store.dispatch(formsActions.resetForm())
+  
+    this.componentDestroyed$.next();
+    this.componentDestroyed$.complete();
   }
 }

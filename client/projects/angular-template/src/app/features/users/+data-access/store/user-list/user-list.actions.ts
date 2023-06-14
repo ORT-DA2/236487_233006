@@ -9,6 +9,8 @@ export const userListActions = createActionGroup({
 		'Reset' : emptyProps(),
 		
 		'Load Users': emptyProps(),
+		'Load Users Ranking' : emptyProps(),
+		
 		'Load Users Success': props<{ users: User[] }>(),
 		'Load Users Failure': props<{ error: string }>(),
 		

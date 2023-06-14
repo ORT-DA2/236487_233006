@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
-import {of} from 'rxjs';
+import {of, withLatestFrom} from 'rxjs';
 import {catchError, concatMap, map, tap} from 'rxjs/operators';
 import {ArticleService} from '../../services/article.service';
-import {Store} from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 import {articleFormActions} from "@articles/+data-access/store/article-form/article-form.actions";
-import {ngrxFormsQuery} from "@ui-components";
+import {IOption, ngrxFormsQuery} from "@ui-components";
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
 import {ToastrService} from "ngx-toastr";
+import {FormImportData, ImportRequest} from "@articles/utils/types/article-form";
+import {articleFormQuery} from "@articles/+data-access/store/article-form/article-form.selectors";
 
 @Injectable()
 export class ArticleFormEffects {
@@ -28,6 +30,29 @@ export class ArticleFormEffects {
 	);
 	
 	
+	
+	importArticles$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(articleFormActions.importArticles),
+			withLatestFrom(
+				this.store.select(ngrxFormsQuery.selectData),
+				this.store.select(articleFormQuery.selectImporterOptions)
+			),
+			concatMap(([_, formData, importerOptions]: [Action, FormImportData, IOption[]]) => {
+				const importerName = this.getImporterNameById(formData.importerName, importerOptions);
+				if (importerName) {
+					const importRequest: ImportRequest = { importerName, filePath: formData.filePath };
+					return this.articlesService.importArticles(importRequest).pipe(
+						map((article) => articleFormActions.importArticlesSuccess({article})),
+						catchError((result) => of(articleFormActions.importArticlesFailure({ error: result.error }))),
+					);
+				} else {
+					return of(articleFormActions.importArticlesFailure({ error: "Invalid importer ID" }));
+				}
+			}),
+		)
+	);
+	
 	// SideEffect that shows toast if published article has offensive word
 	onPublishArticleSuccess$ =createEffect(() =>
 			this.actions$.pipe(ofType(articleFormActions.publishArticleSuccess),
@@ -37,7 +62,6 @@ export class ArticleFormEffects {
 			),
 		{dispatch: false}
 	)
-	
 	
 	onLoadImporterOptions$ = createEffect(() =>
 		this.actions$.pipe(
@@ -51,6 +75,11 @@ export class ArticleFormEffects {
 		),
 	);
 	
+	
+	private getImporterNameById(id: number, options : IOption[]): string | null {
+		const matchingOption = options.find(option => option.id === id);
+		return matchingOption ? matchingOption.description : null;
+	}
 	constructor(
 		private actions$: Actions,
 		private store: Store,

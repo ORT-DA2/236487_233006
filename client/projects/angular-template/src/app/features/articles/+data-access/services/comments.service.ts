@@ -48,7 +48,10 @@ export class CommentsService {
 	}
 	
 	
-	getUserNotifications(): Observable<number>{
-		return this.api.get<Comment[]>(`/users/activities`).pipe(map(comments => comments.length))
+	getUserNotifications(): Observable<number> {
+		return this.api.get<Comment[]>(`/users/activities`).pipe(
+			map(comments => comments.filter(comment => comment.isApproved && !comment.isRejected)),
+			map(comments => comments.length)
+		);
 	}
 }
