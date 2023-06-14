@@ -33,3 +33,14 @@ export enum TemplateOption{
 	TOP = 2,
 	TOP_AND_BOTTOM = 3
 }
+
+
+export interface ImportRequest{
+	importerName : string;
+	filePath : string
+}
+
+export interface FormImportData{
+	importerName : number;
+	filePath : string
+}

@@ -28,7 +28,7 @@ export default class MoreFormAuthorComponent implements OnInit ,OnDestroy{
   user$ = this.store.select(userQuery.selectData)
   loadingUser$ = this.store.select(userQuery.selectLoading)
   
-  private articles$ = this.store.select(articleListQuery.selectArticles)
+  private articles$ = this.store.select(articleListQuery.selectEntities)
   private loading$ = this.store.select(articleListQuery.selectLoading)
   private editing$ = this.store.select(articleListQuery.selectEditing)
   

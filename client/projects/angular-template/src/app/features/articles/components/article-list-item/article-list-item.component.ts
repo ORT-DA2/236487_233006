@@ -24,4 +24,5 @@ export class ArticleListItemComponent {
   @Output() deleted = new EventEmitter<number>()
   @Input() showFromAuthor = true
   @Input() words$ !: Observable<OffensiveWord[]>
+  @Input() canDelete = true;
 }

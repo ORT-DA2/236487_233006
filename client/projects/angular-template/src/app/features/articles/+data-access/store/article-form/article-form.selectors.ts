@@ -5,10 +5,12 @@ const {
 	selectLoaded,
 	selectLoading,
 	selectError,
+	selectImporterOptions
 } = articleFormFeature;
 
 export const articleFormQuery = {
 	selectLoaded,
 	selectLoading,
-	selectError
+	selectError,
+	selectImporterOptions
 };

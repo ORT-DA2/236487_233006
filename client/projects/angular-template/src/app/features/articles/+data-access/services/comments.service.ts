@@ -1,14 +1,14 @@
 import {Injectable} from "@angular/core";
-import {Article, Comment, MultipleCommentsResponse, NewReply, SingleCommentResponse} from "@shared/domain";
+import {Comment, CommentReply, MultipleCommentsResponse} from "@shared/domain";
 import {ApiService} from "@core";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable} from "rxjs";
 
 @Injectable({
 	providedIn: 'root',
 })
 export class CommentsService {
 	
-	showAddReply$ = new BehaviorSubject<number | null>(null)
+	userNotifications$ = new BehaviorSubject<string | null>(null)
 	
 	constructor(private api: ApiService) {}
 	
@@ -16,9 +16,6 @@ export class CommentsService {
 		return this.api.get<MultipleCommentsResponse>(`/articles/${articleId}/comments`);
 	}
 	
-	deleteComment(commentId: number, slug: string): Observable<void> {
-		return this.api.delete<void>(`/articles/${slug}/comments/${commentId}`);
-	}
 	
 	addComment(articleId: number, authorId : number, content = ''): Observable<Comment> {
 		const body ={
@@ -30,8 +27,8 @@ export class CommentsService {
 		return this.api.post<Comment,any>(`/comments/`, body );
 	}
 	
-	addReply(commentId : number, payload : NewReply): Observable<Comment> {
-		return this.api.post<Comment,any>(`/comments/${commentId}/reply`, payload );
+	addReply(commentId : number, commentReply : CommentReply): Observable<Comment> {
+		return this.api.post<Comment,any>(`/comments/${commentId}/reply`, commentReply );
 	}
 	
 	approveComment(commentId : number) : Observable<Comment>{
@@ -42,4 +39,19 @@ export class CommentsService {
 		return this.api.post<Comment, null>(`/comments/${commentId}/reject`);
 	}
 	
+	getMyComments() : Observable<Comment[]>{
+		return this.api.get<Comment[]>('/users/activities');
+	}
+	
+	getOffensiveComments() : Observable<Comment[]>{
+		return this.api.get<Comment[]>(`/comments?Isapproved=false&IsRejected=false`)
+	}
+	
+	
+	getUserNotifications(): Observable<number> {
+		return this.api.get<Comment[]>(`/users/activities`).pipe(
+			map(comments => comments.filter(comment => comment.isApproved && !comment.isRejected)),
+			map(comments => comments.length)
+		);
+	}
 }

@@ -1,13 +1,11 @@
 <ng-container *ngIf="this.vm$ | async as vm">
-  <div
-    *ngIf="vm.articles.length > 0; else noArticles"
-    class="article-list-container"
-  >
+  <div *ngIf="vm.articles.length > 0; else noArticles" class="article-list-container">
     <article-list-item
       *ngFor="let article of vm.articles"
       [words$]="words$"
       [article]="article"
       [editing]="vm.editing"
+      [canDelete]="canDelete"
       [showFromAuthor]="vm.showFromAuthor && !vm.editing"
       (deleted)="onDeleteRequest(article)"
     />

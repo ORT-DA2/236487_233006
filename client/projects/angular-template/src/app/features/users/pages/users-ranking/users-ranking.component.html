@@ -1,0 +1,47 @@
+<section class="private-page-container">
+    <h1>Most Active Users Ranking</h1>
+    <error-badge *ngIf="error$ | async as error" [error]="error" />
+
+    <dynamic-form
+            class="form"
+            [data$]="data$"
+            [structure$]="structure$"
+            (updateForm)="updateForm($event)"
+			#dynamicForm
+    />
+
+    <div>
+        <p-button
+                label="Filter"
+                [loading]="(loading$ | async) ?? false"
+                (click)="submit()"
+        />
+    </div>
+
+    <loading *ngIf="loading$ | async" />
+
+    <p-table
+            [value]="(users$ | async)!"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            styleClass="p-datatable-striped"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Name</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-u>
+            <tr>
+                <td>{{ $(u).username }}</td>
+                <td>{{ $(u).email }}</td>
+                <td>{{ $(u).firstName }} {{ $(u).lastName }}</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+</section>
+
+
+

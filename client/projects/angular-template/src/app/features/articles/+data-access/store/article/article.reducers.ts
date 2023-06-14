@@ -1,12 +1,10 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
 import {Article} from "@shared/domain";
+import {EntityState} from "@core";
 
-interface ArticleState {
-  data: Article | null;
-  loaded: boolean;
-  loading: boolean;
-  error: string | null;
+interface ArticleState extends EntityState<Article> {
+  openedReplyBox : number | null
 }
 
 export const articleInitialState: ArticleState = {
@@ -14,11 +12,12 @@ export const articleInitialState: ArticleState = {
   loaded: false,
   loading: false,
   error: null,
+  openedReplyBox : null
 };
 
 export const articleFeature = createFeature({
   name: 'article',
-  reducer: createReducer(
+  reducer: createReducer<ArticleState>(
     articleInitialState,
     on(articleActions.reset, () => articleInitialState),
     on(articleActions.loadArticle, (state) => {
@@ -46,7 +45,7 @@ export const articleFeature = createFeature({
         error
       };
     }),
-    on(articleActions.addComment, articleActions.addReply, (state) => ({
+    on(articleActions.addComment, articleActions.addReply, articleActions.approveArticle, articleActions.rejectArticle, articleActions.approveArticleComment, articleActions.rejectArticleComment, (state) => ({
       ...state,
       loading: true
     })),
@@ -57,6 +56,15 @@ export const articleFeature = createFeature({
     on(articleActions.addCommentFailure, articleActions.addReplyFailure, (state) => ({
       ...state,
       loading: false
+    })),
+    
+    on(articleActions.openReplyBox, (state, {commentId}) => ({
+      ...state,
+      openedReplyBox : commentId
+    })),
+    on(articleActions.closeReplyBox, (state) => ({
+      ...state,
+      openedReplyBox : null
     }))
   ),
 });

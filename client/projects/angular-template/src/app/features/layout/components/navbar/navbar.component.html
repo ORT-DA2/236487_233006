@@ -30,6 +30,7 @@
                    pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
                     <i class="pi pi-users mr-2"></i>
                     <span class="font-medium">Admin</span>
+<!--                    <p-badge value="3" class="ml-2"></p-badge>-->
                     <i class="pi pi-angle-down ml-auto lg:ml-3"></i>
                 </a>
                 <ul class="list-none py-0 pl-3 m-0 lg:px-0 lg:py-0 border-round shadow-0 lg:shadow-2 lg:border-1 border-50 lg:absolute surface-overlay hidden origin-top w-full lg:w-15rem cursor-pointer no-underline">
@@ -41,21 +42,34 @@
                            *requiredRoles="[roleType.Admin]"
                            (click)="this.showAdminOptions$.next(false)"
                         >
-                            <i class="pi pi-users mr-2"></i>
+
                             <span class="font-medium">Users</span>
                         </a>
                     </li>
 
                     <li *ngIf="(showAdminOptions$ | async)">
                         <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
-                           [routerLink]="'/private/users/article-management'"
+                           [routerLink]="'/private/users/offensive-articles'"
                            routerLinkActive="border-blue-500"
                            [routerLinkActiveOptions]="{ exact: true }"
                            *requiredRoles="[roleType.Admin]"
                            (click)="this.showAdminOptions$.next(false)"
                         >
-                            <i class="pi pi-users mr-2"></i>
-                            <span class="font-medium">Article Management</span>
+
+                            <span class="font-medium">Offensive Articles</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/offensive-comments'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Offensive Comments</span>
                         </a>
                     </li>
 
@@ -67,20 +81,38 @@
                            *requiredRoles="[roleType.Admin]"
                            (click)="this.showAdminOptions$.next(false)"
                         >
-                            <i class="pi pi-users mr-2"></i>
-                            <span class="font-medium">Offensive Words</span>
+
+                            <span class="font-medium">Set Offensive Words</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/articles/import'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+
+                            <span class="font-medium">Import Articles</span>
+                        </a>
+                    </li>
+
+                    <li *ngIf="(showAdminOptions$ | async)">
+                        <a pRipple class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 transition-colors transition-duration-150 no-underline"
+                           [routerLink]="'/private/users/ranking'"
+                           routerLinkActive="border-blue-500"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                           *requiredRoles="[roleType.Admin]"
+                           (click)="this.showAdminOptions$.next(false)"
+                        >
+                            <span class="font-medium">Users Ranking</span>
                         </a>
                     </li>
                 </ul>
             </li>
 
-            <li class="h-full">
-                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150 py-3 lg:py-0 px-3 no-underline">
-                    <span class="pi pi-comments mr-2"></span>
-                    <span class="font-medium">Messages</span>
-                    <p-badge value="3" class="ml-2"></p-badge>
-                </a>
-            </li>
         </ul>
     </div>
 
@@ -100,10 +132,18 @@
                 </a>
             </li>
             <li class="h-full">
-                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 py-3 lg:py-0 px-3 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150">
-                    <span class="pi pi-bell mr-2 lg:mr-0"></span>
-                    <span class="font-medium inline lg:hidden">Notifications</span>
-                    <p-badge value="3" class="ml-2"></p-badge>
+                <a pRipple class="cursor-pointer h-full inline-flex align-items-center text-600 py-3 lg:py-0 px-3 border-left-2 lg:border-left-none lg:border-bottom-2 border-transparent hover:border-500 transition-colors transition-duration-150 no-underline"
+                   [routerLink]="['/private', 'users', 'notifications']"
+                   routerLinkActive="border-blue-500"
+                   [routerLinkActiveOptions]="{ exact: true }"
+                >
+                    <span class="pi pi-bell mr-2"></span>
+                    <span class="font-medium inline ">Notifications</span>
+                    <p-badge
+                       *ngIf="commentsService.userNotifications$ | async as notifications"
+                      [value]="notifications"
+                      class="ml-2"
+                    />
                 </a>
             </li>
             <li class="h-full relative"  (click)="this.showUserOptions$.next(true)">

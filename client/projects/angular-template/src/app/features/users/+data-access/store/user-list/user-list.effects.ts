@@ -1,19 +1,38 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {catchError, concatMap, map, of} from 'rxjs';
 import {DialogService, DialogType} from "@core";
 import {tap} from "rxjs/operators";
 import {UserService} from "@users/+data-access/services/user.service";
 import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
+import {ngrxFormsQuery} from "@ui-components";
+import {Store} from "@ngrx/store";
 
 @Injectable()
 export class UserListEffects {
   
-  loadUsers = createEffect(() =>
+  loadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(userListActions.loadUsers),
       concatMap((action) =>
         this.userService.getAll().pipe(
+          map((users) =>
+            userListActions.loadUsersSuccess({users} )
+          ),
+          catchError((error) =>
+            of(userListActions.loadUsersFailure(error))
+          )
+        )
+      )
+    )
+  );
+  
+  loadUsersRanking$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userListActions.loadUsersRanking),
+      concatLatestFrom(() => this.store.select(ngrxFormsQuery.selectData)),
+      concatMap(([_ , {startDate, endDate}]) =>
+        this.userService.getUserRankings(startDate, endDate).pipe(
           map((users) =>
             userListActions.loadUsersSuccess({users} )
           ),
@@ -85,6 +104,7 @@ export class UserListEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly userService: UserService,
-    private readonly dialogService : DialogService
+    private readonly dialogService : DialogService,
+    private readonly store : Store
   ) {}
 }

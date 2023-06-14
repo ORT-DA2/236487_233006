@@ -1,0 +1,25 @@
+<div class="private-page-container">
+    <h1>User notifications</h1>
+    <ng-container *ngIf="comments$ | async as comments">
+
+        <ng-container *ngIf="comments.length > 0; else noComments" >
+        <error-badge *ngIf="error$ | async as error" [error]="error" />
+
+        <ng-container *ngFor="let comment of comments">
+        <article-comment
+                *ngIf="!comment.isRejected && comment.isApproved"
+                [comment]="comment"
+                [canReply]="true"
+                [openedReplyBox$]="openedReplyBox$"
+                (commentReplied)="onCommentReplied($event)"
+                (openedReplyBox)="onReplyBoxOpened($event)"
+                (closedReplyBox)="onReplyBoxClosed()"
+        />
+        </ng-container>
+    </ng-container>
+    <loading *ngIf="loading$ | async" />
+
+        <ng-template #noComments>
+            <div *ngIf="!(loading$ | async)" class="text-center">No comments here... yet.</div>
+        </ng-template>
+</div>

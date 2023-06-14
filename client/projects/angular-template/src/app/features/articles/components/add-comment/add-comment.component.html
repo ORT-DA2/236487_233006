@@ -1,4 +1,4 @@
-<div class="add-comment-container">
+<div class="add-comment-container" *ngIf="article.private ? isLoggedUserAuthor : true">
   <dynamic-form
     [data$]="data$"
     [structure$]="structure$"
@@ -7,6 +7,6 @@
 
 
   <p-button label="Post Comment"
-    (click)="submitComment.emit({ articleId: article.id, authorId: article.authorId! })"
+    (click)="addComment.emit({ articleId: article.id, authorId: article.authorId! })"
   />
 </div>

@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {ApiService, RoleType} from "@core";
-import {map} from "rxjs/operators";
-import {IOption} from "@ui-components";
 import {UserFormModel} from "@users/utils/types/user";
 import {Article, User} from "@shared/domain";
-
+import {Comment} from "@shared/domain";
 
 interface NewUserDTO {
   email: string;
@@ -48,6 +46,10 @@ export class UserService {
     return this.api.put<User, User>('/users/' + user.id, this.toUserDTO(user));
   }
   
+  
+  getUserRankings(startDate : Date , endDate : Date) : Observable<User[]>{
+    return this.api.get(`/users/ranking?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
+  }
   
   private toUserDTO(user: UserFormModel): User {
     return {

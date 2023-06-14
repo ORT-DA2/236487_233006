@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="" />
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Cosas finales ++">
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,6 +16,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
     <option name="recentBranches">
       <RecentBranches>
         <option name="branchesForRepo">
@@ -53,10 +59,24 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/dev/after90",
-    "nodejs_package_manager_path": "npm"
+    "last_opened_file_path": "D:/236487_233006/client/projects/angular-template/src/app/features/layout",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "D:\\236487_233006\\client\\node_modules\\typescript\\lib"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\layout" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\users\pages\user-notifications" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\articles\+data-access\store" />
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\shared\components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\236487_233006\client\projects\angular-template\src\app\features\users\pages\offensive-comments" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,11 +86,63 @@
       <option name="presentableId" value="Default" />
       <updated>1686264032507</updated>
       <workItem from="1686264034309" duration="305000" />
+      <workItem from="1686432550739" duration="7386000" />
+      <workItem from="1686449606751" duration="6156000" />
+      <workItem from="1686505757717" duration="2132000" />
+      <workItem from="1686513529178" duration="121000" />
+      <workItem from="1686513667831" duration="47000" />
+      <workItem from="1686608192086" duration="316000" />
+      <workItem from="1686611523388" duration="1410000" />
+      <workItem from="1686613024092" duration="7334000" />
+      <workItem from="1686623895943" duration="278000" />
+      <workItem from="1686626416188" duration="2372000" />
     </task>
+    <task id="LOCAL-00001" summary="Added comment approval">
+      <created>1686513613929</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686513613929</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added comment approval">
+      <created>1686513688794</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1686513688794</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added generic interfaces to describe store models">
+      <created>1686614072013</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686614072014</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Cosas finales">
+      <created>1686697137728</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1686697137728</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Cosas finales ++">
+      <created>1686764789460</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1686764789460</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="additionalRoots">
+      <list>
+        <option value="$PROJECT_DIR$/client/dist/core" />
+        <option value="$PROJECT_DIR$/client/dist/ui-components" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -82,5 +154,24 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added comment approval" />
+    <MESSAGE value="Added generic interfaces to describe store models" />
+    <MESSAGE value="Cosas finales" />
+    <MESSAGE value="Cosas finales ++" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cosas finales ++" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/components/article-list-item/article-list-item.component.ts</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

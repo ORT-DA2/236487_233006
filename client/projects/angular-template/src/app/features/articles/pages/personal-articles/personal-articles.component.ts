@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {articleListQuery} from "@articles/+data-access/store/article-list/article-list.selectors";
 import {combineLatest, Observable, of} from "rxjs";
 import {ArticleListVM} from "@shared/domain";
 import {catchError} from "rxjs/operators";
 import {Store} from "@ngrx/store";
-import {ActivatedRoute} from "@angular/router";
 import {articleListActions} from "@articles/+data-access/store/article-list/article-list.actions";
 import {FilterFrom} from "@core";
 import {authQuery} from "@auth/+data-access/store/auth.selectors";
@@ -22,7 +21,7 @@ import {FilterArticlesComponent} from "@articles/components/filter-articles/filt
 })
 export default class PersonalArticlesComponent implements OnInit{
   
-  private articles$ = this.store.select(articleListQuery.selectArticles)
+  private articles$ = this.store.select(articleListQuery.selectEntities)
   private loading$ = this.store.select(articleListQuery.selectLoading)
   private editing$ = this.store.select(articleListQuery.selectEditing)
   

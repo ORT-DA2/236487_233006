@@ -18,6 +18,12 @@ export interface NewComment {
 	createdAt: Date;
 }
 
+export interface CommentReply{
+	commentId : number
+	content : string
+	articleId?: number
+}
+
 export interface Comment {
 	id: number;
 	content: string;
@@ -34,10 +40,6 @@ export interface Comment {
 	reply ?: Reply | null;
 }
 
-export interface NewReply{
-	authorId : number;
-	content : string;
-}
 
 export interface Reply{
 	id : number
@@ -47,7 +49,6 @@ export interface Reply{
 	deletedAt : Date | null;
 	updatedAt : Date | null
 	isViewed : boolean
-	articleId: number
 	author: Author
 	isApproved: boolean
 	isRejected ?: boolean

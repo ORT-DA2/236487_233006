@@ -24,4 +24,10 @@
     [classToApply]="'offensive-word'"
     [innerHTML]="article.content"
   ></p>
+
+  <img
+    [src]="article.secondImage"
+    *ngIf="article.template === imagePosition.TopAndBottom"
+    alt="Article image"
+  />
 </div>
