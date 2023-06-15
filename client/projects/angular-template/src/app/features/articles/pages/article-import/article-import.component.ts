@@ -18,8 +18,24 @@ import {Validators} from "@angular/forms";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {ButtonModule} from "primeng/button";
 import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
+import {filter, Subject} from "rxjs";
 
+const structure: Field[] = [
+  {
+    type: FieldType.TEXT,
+    name: 'filePath',
+    label: 'Path',
+    placeholder: "Path to your importer",
+    validators: [Validators.required],
+  },
+  {
+    type: FieldType.SELECT,
+    name: 'importerName',
+    label: 'Importer',
+    validators: [Validators.required],
+    placeholder: "Select An importer",
+  },
+]
 
 @Component({
   selector: 'article-import',
@@ -44,11 +60,12 @@ export default class ArticleImportComponent implements OnInit, AfterViewInit, On
   
   ngOnInit() {
     this.store.dispatch(articleFormActions.loadImporterOptions())
-  }
-  
-  ngAfterViewInit() {
+    
     this.store
-      .select(articleFormQuery.selectImporterOptions).pipe(takeUntil(this.componentDestroyed$))
+      .select(articleFormQuery.selectImporterOptions).pipe(
+        takeUntil(this.componentDestroyed$),
+        filter(options => !!options.length)
+    )
       .subscribe((options) => {
         const structure: Field[] = [
           {
@@ -69,11 +86,16 @@ export default class ArticleImportComponent implements OnInit, AfterViewInit, On
             }
           },
         ]
-      
-        this.store.dispatch(formsActions.setStructure({
-          structure
-        }));
+
+
+          this.store.dispatch(formsActions.setStructure({
+            structure
+          }));
+
       });
+  }
+  
+  ngAfterViewInit() {
   }
   
   updateForm(state: FormState) {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostListener} from '@angular/core'
+import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output} from '@angular/core'
 import {CommonModule} from '@angular/common'
 import {DynamicFormModule} from '@ui-components'
 import {DialogService, DialogType} from '@core'
@@ -8,10 +8,8 @@ import {MessagesModule} from "primeng/messages";
 import {DialogModule} from "primeng/dialog";
 import {UserFormComponent} from "@users/components/user-form/user-form.component";
 import {UserFormModel} from "@users/utils/types/user";
-import {Store} from "@ngrx/store";
-import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
-import {userListQuery} from "@users/+data-access/store/user-list/user-list.selectors";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -28,21 +26,20 @@ export class UserDialogComponent {
     this.closeDialog()
   }
   
-  error$ = this.store.select(userListQuery.selectDialogError)
+  @Input() error$ !: Observable<string | null>
+  @Output() userEdited = new EventEmitter<UserFormModel>()
+  @Output() userCreated = new EventEmitter<UserFormModel>()
+  
   dialog$ = this.dialogService.dialog$
   
-  constructor(
-    private readonly store : Store,
-    public readonly dialogService : DialogService
-  ) {}
-  
+  constructor(public readonly dialogService : DialogService) {}
   
   closeDialog() {
     this.dialogService.closeDialog(DialogType.User)
   }
   
-  onUserSubmit(user : UserFormModel ){
-    if(this.dialogService.data.edit) this.store.dispatch(userListActions.editUser({user}))
-    else this.store.dispatch(userListActions.createNewUser({user}))
+  onUserSubmitted(user : UserFormModel ){
+    if(this.dialogService.data.edit) this.userEdited.emit(user)
+    else this.userCreated.emit(user)
   }
 }

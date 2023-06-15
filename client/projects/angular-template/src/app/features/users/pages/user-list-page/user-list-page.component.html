@@ -1,10 +1,16 @@
 <div class="private-page-container">
-    <div>
-        <p-button label="New User" (click)="onCreateRequested()" />
-    </div>
+  <p-button label="New User" (click)="onCreateRequested()"/>
 
-    <user-list (actionEvent)="onActionSelected($event)"/>
+  <user-list [vm$]="vm$" (actionEvent)="onActionSelected($event)"/>
+  <loading *ngIf="(vm$ | async)?.loading" />
 </div>
 
-<user-dialog />
-<delete-dialog (deleted)="onDeleteConfirmation($event)" />
+<user-dialog
+  [error$]="dialogError$"
+  (userCreated)="onUserCreated($event)"
+  (userEdited)="onUserEdited($event)"
+/>
+
+<delete-dialog
+  (deleted)="onDeleteConfirmation($event)"
+/>

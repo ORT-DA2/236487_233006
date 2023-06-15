@@ -1,5 +1,5 @@
 <p-dialog
-  *ngIf="(dialog$ | async)?.delete"
+  *ngIf="(dialogService.dialog$ | async)?.delete"
   [visible]="true"
   [modal]="true"
   [draggable]="false"
@@ -7,28 +7,40 @@
   [style]="{ maxWidth: '680px' }"
   [showHeader]="false"
 >
-  <article class="dialog-container">
-    <header>
+
+  <section role="dialog" aria-labelledby="dialogTitle" class="dialog-container" *ngIf="(dialogService.payload$ | async) as payload">
+    <header id="dialogTitle">
       <h1 class="color-main">{{ payload?.title }}</h1>
       <p-button
         icon="pi pi-times"
         class="close-dialog"
+        aria-label="Close dialog"
         styleClass="p-button-rounded p-button-outlined p-button-text p-button-sm"
         (click)="this.closeDialog()"
       />
     </header>
+
     <div class="body">
       <p>{{ payload?.text }}</p>
     </div>
+
     <footer>
-      <p-button icon="pi pi-times" styleClass="p-button-danger p-button-sm" label="Delete" (click)="onDelete()" />
+      <p-button
+        icon="pi pi-times"
+        label="Delete"
+        aria-label="Delete dialog"
+        styleClass="p-button-danger p-button-sm"
+        (click)="deleted.emit(payload.data)"
+      />
 
       <p-button
         icon="pi pi-times"
         label="Close"
+        aria-label="Delete dialog"
         styleClass="p-button p-button-outlined p-button-secondary p-button-sm"
         (click)="this.closeDialog()"
       />
     </footer>
-  </article>
+  </section>
+
 </p-dialog>

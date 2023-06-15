@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Field, FieldType, formsActions} from "@ui-components";
+import {Field, FieldType, formsActions, LoadingModule} from "@ui-components";
 import {
   DIALOG_ACTION,
   DialogActionValue,
@@ -18,7 +18,9 @@ import {ButtonModule} from "primeng/button";
 import {DeleteDialogComponent} from "@shared/components/delete-dialog/delete-dialog.component";
 import {UserDialogComponent} from "@users/components/user-dialog/user-dialog-component";
 import {Validators} from "@angular/forms";
-import {UserListComponent} from "@users/components/user-list/user-list.component";
+import {UserListComponent, UserListVM} from "@users/components/user-list/user-list.component";
+import {userListQuery} from "@users/+data-access/store/user-list/user-list.selectors";
+import {combineLatest, Observable, of} from "rxjs";
 
 const structure: Field[] = [
   {
@@ -77,12 +79,20 @@ const structure: Field[] = [
 @Component({
   selector: 'user-list-page',
   standalone: true,
-  imports: [CommonModule, DeleteDialogComponent, UserListPageComponent, ButtonModule, UserDialogComponent, UserListPageComponent, UserListComponent],
+  imports: [CommonModule, DeleteDialogComponent, UserListPageComponent, ButtonModule, UserDialogComponent, UserListPageComponent, UserListComponent, LoadingModule],
   templateUrl: './user-list-page.component.html',
   styleUrls: ['./user-list-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class UserListPageComponent implements OnInit, OnDestroy{
+  
+  vm$ : Observable<UserListVM> = combineLatest({
+    entities : this.store.select(userListQuery.selectEntities),
+    loading : this.store.select(userListQuery.selectLoading),
+    error : this.store.select(userListQuery.selectError)
+  })
+  
+  dialogError$ = this.store.select(userListQuery.selectDialogError)
   
   constructor(private store : Store, private dialogService : DialogService) {}
   
@@ -131,10 +141,13 @@ export default class UserListPageComponent implements OnInit, OnDestroy{
   onDeleteConfirmation(userId: number ){
     this.store.dispatch(userListActions.deleteUser({ userId }))
   }
+
+  onUserCreated(user : UserFormModel){
+    this.store.dispatch(userListActions.createNewUser({user}));
+  }
   
-  onUserSubmitted(user : UserFormModel){
-    if(user.id) this.store.dispatch(userListActions.editUser({user}));
-    else this.store.dispatch(userListActions.createNewUser({user}));
+  onUserEdited(user : UserFormModel){
+    this.store.dispatch(userListActions.editUser({user}));
   }
   
   ngOnDestroy() {

@@ -11,9 +11,15 @@ import {articleListActions} from "@articles/+data-access/store/article-list/arti
 import {ActivatedRoute} from "@angular/router";
 import {articleListQuery} from "@articles/+data-access/store/article-list/article-list.selectors";
 import {combineLatest, from, Observable, of} from "rxjs";
-import {ArticleListVM} from "@shared/domain";
+import {ArticleListVM, User} from "@shared/domain";
 import {catchError} from "rxjs/operators";
 import {FilterFrom} from "@core";
+
+export interface UserVM{
+  data : User | null;
+  loading : boolean
+  error : string | null
+}
 
 @Component({
   selector: 'more-from-author',
@@ -25,18 +31,18 @@ import {FilterFrom} from "@core";
 })
 export default class MoreFormAuthorComponent implements OnInit ,OnDestroy{
   
-  user$ = this.store.select(userQuery.selectData)
-  loadingUser$ = this.store.select(userQuery.selectLoading)
-  
-  private articles$ = this.store.select(articleListQuery.selectEntities)
-  private loading$ = this.store.select(articleListQuery.selectLoading)
-  private editing$ = this.store.select(articleListQuery.selectEditing)
-  
-  vm$: Observable<ArticleListVM> = combineLatest({
-    articles: this.articles$,
-    loading: this.loading$,
-    editing: this.editing$,
+  articles$: Observable<ArticleListVM> = combineLatest({
+    articles: this.store.select(articleListQuery.selectEntities),
+    loading: this.store.select(articleListQuery.selectLoading),
+    editing: this.store.select(articleListQuery.selectEditing),
     showFromAuthor : of(false)
+  }).pipe(catchError(this.handleError))
+  
+  
+  user$ : Observable<UserVM> = combineLatest({
+    data: this.store.select(userQuery.selectData),
+    loading : this.store.select(userQuery.selectLoading),
+    error : this.store.select(userQuery.selectError)
   }).pipe(catchError(this.handleError))
   
   constructor(private store : Store, private route : ActivatedRoute) {}
@@ -47,6 +53,13 @@ export default class MoreFormAuthorComponent implements OnInit ,OnDestroy{
     this.store.dispatch(articleListActions.loadUserArticles({ userId }));
   }
   
+  onArticleFiltered(filterBy : string, authorId : number){
+    const from = FilterFrom.AllArticles
+    filterBy = `${filterBy}&authorId=${authorId}`
+    
+    this.store.dispatch(articleListActions.filterArticlesBy({filterBy , from }))
+  }
+  
   private handleError(error: any): Observable<any> {
     console.log('[ArticleListVM - ERROR', error)
     return of(true)
@@ -54,14 +67,5 @@ export default class MoreFormAuthorComponent implements OnInit ,OnDestroy{
   
   ngOnDestroy() {
     this.store.dispatch(userActions.reset())
-  }
-  
-  onArticleFiltered(filterBy : string, authorId : number){
-    const from = FilterFrom.AllArticles
-    filterBy = `${filterBy}&authorId=${authorId}`
-    
-    this.store.dispatch(
-      articleListActions.filterArticlesBy({filterBy , from })
-    )
   }
 }

@@ -41,6 +41,4 @@ export const DEFAULT_ERROR_TYPES = [
   { type: 'usernameExists', message: 'Username already exists.', showOnSubmit : false },
   { type: 'emailExists', message: 'already exists.', showOnSubmit : false },
   { type: 'invalidCredentials', message: 'Invalid credentials.', showOnSubmit : true },
-
-
 ];

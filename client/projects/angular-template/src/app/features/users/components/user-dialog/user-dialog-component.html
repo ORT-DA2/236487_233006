@@ -7,17 +7,20 @@
   [style]="{maxWidth: '680px'}"
   [showHeader]="false"
 >
-  <article class="dialog-container">
-    <header>
+  <section role="dialog" aria-labelledby="dialogTitle" class="dialog-container">
+    <header id="dialogTitle">
       <h1 class="color-main">{{this.dialogService.payload?.title}}</h1>
+
       <p-button
         icon="pi pi-times"
+        aria-label="Close dialog"
         styleClass="p-button-rounded p-button-outlined p-button-text p-button-sm"
         (click)="closeDialog()"
       />
     </header>
 
     <error-badge *ngIf="error$ | async as error" [error]="error"/>
-    <user-form (submitted)="onUserSubmit($event)" />
-  </article>
+    <user-form (submitted)="onUserSubmitted($event)" />
+
+  </section>
 </p-dialog>

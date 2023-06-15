@@ -2,9 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, Output, Vie
 import {CommonModule} from '@angular/common';
 import {DynamicFormModule, formsActions, FormState, FormStatus, IDynamicForm, ngrxFormsQuery} from "@ui-components";
 import {UserForm, UserFormModel} from "@users/utils/types/user";
-import {DialogService} from "@core";
 import {Store} from "@ngrx/store";
-import {UserValidationService} from "@shared/services/user-validation.service";
 import {ToastrService} from "ngx-toastr";
 import {FormControlStatus} from "@angular/forms";
 import {take} from "rxjs/operators";
@@ -30,11 +28,8 @@ export class UserFormComponent implements  OnDestroy {
   
   constructor(
     private readonly store: Store,
-    private readonly registerService: UserValidationService,
     private readonly toast: ToastrService,
-    public readonly dialog: DialogService
   ) {}
-  
   
   get form(): UserForm {
     return this.dynamicForm.form as UserForm
@@ -81,5 +76,4 @@ export class UserFormComponent implements  OnDestroy {
     this.store.dispatch(formsActions.resetForm())
   }
   
-
 }

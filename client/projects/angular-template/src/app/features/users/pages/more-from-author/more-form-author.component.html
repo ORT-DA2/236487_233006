@@ -1,7 +1,6 @@
-<div class="private-page-container" *ngIf="user$ | async as user">
-  <user-header [user]="user"/>
-  <filter-articles (filtered)="onArticleFiltered($event, user.id)"/>
-  <article-list [vm$]="vm$"/>
-</div>
-
-<loading  *ngIf="loadingUser$ | async"/>
+<section class="private-page-container" *ngIf="user$ | async as user">
+  <user-header [user]="user.data"/>
+  <filter-articles (filtered)="onArticleFiltered($event, user.data?.id!)"/>
+  <article-list [vm$]="articles$"/>
+  <loading  *ngIf="user.loading || (articles$ | async)?.loading "/>
+</section>

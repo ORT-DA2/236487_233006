@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {UserFormComponent} from "@users/components/user-form/user-form.component";
 import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
 import {Store} from "@ngrx/store";
@@ -10,7 +10,6 @@ import {tap} from "rxjs/operators";
 import {Validators} from "@angular/forms";
 import {ValidateAlphanumeric, ValidateEmail, ValidateNoWhitespace} from "@core";
 import {userActions} from "@users/+data-access/store/user/user.actions";
-import {userListQuery} from "@users/+data-access/store/user-list/user-list.selectors";
 import {userQuery} from "@users/+data-access/store/user/user.selectors";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 

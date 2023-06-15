@@ -1,47 +1,36 @@
-<section class="private-page-container">
+<ng-container *ngIf="vm$ | async as vm">
+  <section class="private-page-container">
     <h1>Most Active Users Ranking</h1>
-    <error-badge *ngIf="error$ | async as error" [error]="error" />
 
-    <dynamic-form
-            class="form"
-            [data$]="data$"
-            [structure$]="structure$"
-            (updateForm)="updateForm($event)"
-			#dynamicForm
-    />
-
-    <div>
-        <p-button
-                label="Filter"
-                [loading]="(loading$ | async) ?? false"
-                (click)="submit()"
-        />
-    </div>
-
-    <loading *ngIf="loading$ | async" />
+    <error-badge *ngIf="vm.error" [error]="vm.error" />
+    <user-form (submitted)="onSubmit()" />
+    <loading *ngIf="vm.loading" />
 
     <p-table
-            [value]="(users$ | async)!"
-            [tableStyle]="{ 'min-width': '50rem' }"
-            styleClass="p-datatable-striped"
+      [value]="vm.entities!"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      styleClass="p-datatable-striped"
     >
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Name</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-u>
-            <tr>
-                <td>{{ $(u).username }}</td>
-                <td>{{ $(u).email }}</td>
-                <td>{{ $(u).firstName }} {{ $(u).lastName }}</td>
-
-            </tr>
-        </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Name</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-u>
+        <ng-container *ngIf="!vm.entities.length; else noUsers">
+          <tr>
+            <td>{{ $(u).username }}</td>
+            <td>{{ $(u).email }}</td>
+            <td>{{ $(u).firstName }} {{ $(u).lastName }}</td>
+          </tr>
+        </ng-container>
+      </ng-template>
     </p-table>
-</section>
+  </section>
 
-
-
+  <ng-template #noUsers>
+    <p *ngIf="!vm.loading" class="text-center">No users available.</p>
+  </ng-template>
+</ng-container>

@@ -1,33 +1,38 @@
-<p-table
-  [value]="(users$ | async)!"
-  [tableStyle]="{ 'min-width': '50rem' }"
-  styleClass="p-datatable-striped"
->
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Name</th>
-      <th>Role</th>
-      <th>Actions</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-u>
-    <tr>
-      <td>{{ $(u).username }}</td>
-      <td>{{ $(u).email }}</td>
-      <td>{{ $(u).firstName }} {{ $(u).lastName }}</td>
-      <td>
-        <p-tag
-          [value]="this.isAdmin($(u))"
-          [severity]="this.isAdmin($(u)) === 'admin' ? 'primary' : 'warning'"
-        />
-      </td>
-      <td>
-        <user-list-actions (actionSelected)="onActionSelected($event, $(u))" />
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+<ng-container *ngIf="vm$ | async as vm">
 
-<loading *ngIf="this.loading$ | async" />
+  <error-badge *ngIf="vm.error" [error]="vm.error" />
+  <p-table
+    [value]="vm.entities"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    styleClass="p-datatable-striped"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-u>
+      <ng-container *ngIf="vm.entities?.length; else noUsers">
+        <tr>
+          <td>{{ $(u).username }}</td>
+          <td>{{ $(u).email }}</td>
+          <td>{{ $(u).firstName }} {{ $(u).lastName }}</td>
+          <td> <p-tag  [value]="this.isAdmin($(u))" [severity]="this.isAdmin($(u)) === 'admin' ? 'primary' : 'warning'"/></td>
+          <td><user-list-actions (actionSelected)="onActionSelected($event, $(u))" /></td>
+        </tr>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #noUsers>
+      <p *ngIf="!vm.loading">No users available.</p>
+    </ng-template>
+
+  </p-table>
+
+</ng-container>

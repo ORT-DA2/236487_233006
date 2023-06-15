@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DialogPayload, DialogService, DialogType} from "@core";
+import {DialogService, DialogType} from "@core";
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
-import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'delete-dialog',
@@ -13,29 +12,15 @@ import {tap} from "rxjs/operators";
   styleUrls: ['./delete-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeleteDialogComponent implements OnInit{
-  @Output() deleted = new EventEmitter<any>();
-  
+export class DeleteDialogComponent {
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     this.closeDialog()
   }
-  dialog$ = this.dialogService.dialog$.pipe(
-    tap(() => this.payload = this.dialogService.payload),
-  )
   
-  payload : DialogPayload | null = null
+  @Output() deleted = new EventEmitter<any>();
   
-  constructor(private dialogService : DialogService)  {}
-  
-  
-  ngOnInit() {
- 
-  }
-  
-  onDelete(){
-    this.deleted.emit(this.payload?.data)
-  }
+  constructor(public dialogService : DialogService)  {}
   
   closeDialog(){
     this.dialogService.closeDialog(DialogType.Delete)
