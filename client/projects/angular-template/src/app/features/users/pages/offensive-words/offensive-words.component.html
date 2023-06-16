@@ -1,7 +1,7 @@
-<section class="private-page-container">
+<section class="private-page-container" >
   <h1>Offensive Word Management</h1>
-  <div class="inline-block m-auto">
-    <error-badge *ngIf="error$ | async as error" [error]="error" />
+  <div class="inline-block m-auto" *ngIf="words$ | async as words">
+    <error-badge *ngIf="words.error" [error]="words.error" />
     <div class="form-container">
       <dynamic-form
         class="form"
@@ -12,7 +12,7 @@
       />
       <p-button label="Add" (click)="submit()" />
     </div>
-    <p-listbox [options]="(words$ | async) ?? []">
+    <p-listbox [options]="words.entities">
       <ng-template let-ctx pTemplate="item">
         <div class="flex align-items-center justify-content-between gap-2 w-100">
           <p class="word">{{ w$(ctx).word }}</p>
@@ -25,7 +25,7 @@
         </div>
       </ng-template>
     </p-listbox>
-  </div>
 
-  <loading *ngIf="this.loading$ | async" />
+    <loading *ngIf="words.loading" />
+  </div>
 </section>

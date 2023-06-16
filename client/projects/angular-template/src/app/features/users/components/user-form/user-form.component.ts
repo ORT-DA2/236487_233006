@@ -20,7 +20,6 @@ import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.
 })
 export class UserFormComponent implements  OnDestroy {
   @ViewChild('dynamicForm', { static: true }) dynamicForm!: IDynamicForm
-  
   @Output() submitted = new EventEmitter<UserFormModel>()
   
   structure$ = this.store.select(ngrxFormsQuery.selectStructure)

@@ -1,10 +1,15 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
-import {OffensiveWord, User} from "@shared/domain";
+import {OffensiveWord} from "@shared/domain";
 import {wordsActions} from "@users/+data-access/store/offensive-words/offensive-words.actions";
 import {EntityListState} from "@core";
 
 interface OffensiveWordsState extends EntityListState<OffensiveWord> {}
 
+export interface OffensiveWordsVM {
+  entities: OffensiveWord[]
+  loading: boolean
+  error : string | null
+}
 
 export const offensiveWordsInitialState: OffensiveWordsState = {
   entities: [],

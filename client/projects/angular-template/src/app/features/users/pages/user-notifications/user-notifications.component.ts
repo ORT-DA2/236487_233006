@@ -9,6 +9,8 @@ import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.
 import {CommentsService} from "@articles/+data-access/services/comments.service";
 import {Observable} from "rxjs";
 import {CommentListItemComponent} from "@articles/components/comment-list-item/comment-list-item.component";
+import {combineLatest} from "rxjs";
+import {CommentsVM} from "@articles/+data-access/store/comment-list/comment-list.reducers";
 
 @Component({
   selector: 'reply-to-comments',
@@ -20,10 +22,13 @@ import {CommentListItemComponent} from "@articles/components/comment-list-item/c
 })
 export default class UserNotificationsComponent  implements OnInit, OnDestroy{
   
-  comments$ : Observable<Comment[]> = this.store.select(commentListQuery.selectEntities)
-  loading$ = this.store.select(commentListQuery.selectLoading)
-  error$ = this.store.select(commentListQuery.selectError)
   openedReplyBox$ = this.store.select(commentListQuery.selectOpenedReplyBox)
+  
+  comments$ : Observable<CommentsVM> = combineLatest({
+    entities : this.store.select(commentListQuery.selectEntities),
+    loading : this.store.select(commentListQuery.selectLoading),
+    error : this.store.select(commentListQuery.selectError),
+  })
   
   constructor(private store: Store, private commentsService: CommentsService) {}
   

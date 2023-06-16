@@ -1,12 +1,17 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {EntityListState} from "@core";
 import {commentListActions} from "@articles/+data-access/store/comment-list/comment-list.actions";
-import {Comment} from "@shared/domain";
+import {Comment, OffensiveWord} from "@shared/domain";
 
 interface CommentListState extends EntityListState<Comment> {
   openedReplyBox : number | null
 }
 
+export interface CommentsVM {
+  entities: Comment[]
+  loading: boolean
+  error : string | null
+}
 export const commentListInitialState: CommentListState = {
   entities: [],
   loaded: false,

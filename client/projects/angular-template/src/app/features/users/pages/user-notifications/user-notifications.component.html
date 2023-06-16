@@ -1,10 +1,10 @@
 <div class="private-page-container">
   <h1>User notifications</h1>
   <ng-container *ngIf="comments$ | async as comments">
-    <error-badge *ngIf="error$ | async as error" [error]="error" />
+    <error-badge *ngIf="comments.error" [error]="comments.error" />
 
-    <ng-container *ngIf="comments.length > 0; else noComments">
-      <ng-container *ngFor="let comment of comments">
+    <ng-container *ngIf="comments.entities.length > 0; else noComments">
+      <ng-container *ngFor="let comment of comments.entities">
         <comment-list-item
           *ngIf="!comment.isRejected && comment.isApproved"
           [comment]="comment"
@@ -16,14 +16,15 @@
         />
       </ng-container>
     </ng-container>
+
+    <ng-template #noComments>
+      <div *ngIf="!comments.loading" class="text-center">
+        No comments here... yet.
+      </div>
+    </ng-template>
+
+
+    <loading *ngIf="comments.loading" />
   </ng-container>
 
-  <ng-template #noComments>
-    <div *ngIf="!(loading$ | async)" class="text-center">
-      No comments here... yet.
-    </div>
-  </ng-template>
-
-
-  <loading *ngIf="loading$ | async" />
 </div>
