@@ -1,0 +1,15 @@
+<dynamic-form
+  class="form"
+  [data$]="data$"
+  [structure$]="structure$"
+  (updateForm)="updatedForm.emit($event)"
+  #dynamicForm
+/>
+
+<div>
+  <p-button
+    [label]="buttonLabel"
+    [loading]="(buttonSpinner$ | async) ?? false"
+    (click)="submit()"
+  />
+</div>

@@ -10,13 +10,13 @@ import {articleListActions} from "@articles/+data-access/store/article-list/arti
 import {ActivatedRoute} from "@angular/router";
 import {articleListQuery} from "@articles/+data-access/store/article-list/article-list.selectors";
 import {combineLatest, Observable, of} from "rxjs";
-import {ArticleListVM} from "@shared/domain";
 import {catchError} from "rxjs/operators";
 import {FilterFrom} from "@core";
 import {ArticleListItemComponent} from "@articles/components/article-list-item/article-list-item.component";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
-import {UserVM} from "@users/utils/types/user";
+import {ArticleListVM} from "@articles/+data-access/store/article-list/article-list.reducers";
+import {UserVM} from "@users/+data-access/store/user/user.reducers";
 
 
 @Component({

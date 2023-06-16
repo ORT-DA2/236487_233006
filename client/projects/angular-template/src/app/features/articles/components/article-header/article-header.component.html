@@ -17,7 +17,7 @@
         </div>
 
 
-        <div class="actions-container" *ngIf="hasAdminPrivileges || isLoggedUserAuthor" >
+        <div class="actions-container" *ngIf="canApproveReject || isLoggedUserAuthor" >
             <!-- Badge -->
             <div class="flex justify-content-end">
                 <span [ngClass]="articleStatus" class="chip capitalize">{{articleStatus}}</span>

@@ -5,11 +5,11 @@ import {articleListActions} from "@articles/+data-access/store/article-list/arti
 import {combineLatest, Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {articleListQuery} from "@articles/+data-access/store/article-list/article-list.selectors";
-import {ArticleListVM} from "@shared/domain";
 import {LoadingModule} from "@ui-components";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {ArticleListItemComponent} from "@articles/components/article-list-item/article-list-item.component";
 import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
+import {ArticleListVM} from "@articles/+data-access/store/article-list/article-list.reducers";
 
 @Component({
   selector: 'article-management',

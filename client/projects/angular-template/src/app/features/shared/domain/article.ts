@@ -30,20 +30,6 @@ export interface Author {
   email: string
 }
 
-
-export interface ArticleListVM {
-  entities: Article[]
-  loading: boolean
-  error : string | null
-}
-
-export interface ArticleVM {
-  article: Article | null
-  loading: boolean
-  error: string | null
-}
-
-
 export interface OffensiveWord{
   id : number;
   word : string;

@@ -11,7 +11,7 @@ import ArticleListComponent from "@articles/pages/article-list/article-list.comp
 
 export default [
   {
-    path: '', //              -> /articles
+    path: '', //  /articles
     component: ArticleListComponent,
   },
   {
@@ -19,25 +19,25 @@ export default [
     component: PersonalArticlesComponent,
   },
   {
-    path: 'import',
+    path: 'import', // Import
     loadComponent: () => import('@articles/pages/article-import/article-import.component'),
     providers: [provideState(articleFormFeature), provideEffects(ArticleFormEffects)],
   },
   // ------------------------ FORMS  ------------------------ //
   {
-    path: 'new', //           Publish new article Form
-    loadComponent: () => import('@articles/pages/article-form/article-form.component'),
+    path: 'new', // New
+    loadComponent: () => import('@articles/pages/article-edit/article-edit.component'),
     providers: [provideState(articleFormFeature), provideEffects(ArticleFormEffects)],
   },
   {
-    path: ':articleId', //  Article
+    path: ':articleId', //  Detail
     loadComponent: () => import('@articles/pages/article/article.component'),
     providers: [provideState(userFeature), provideEffects(UserEffects)],
     canActivate: [LoadArticleGuard]
   },
   {
-    path: ':articleId/edit', // Publish edited article Form
-    loadComponent: () => import('@articles/pages/article-form/article-form.component'),
+    path: ':articleId/edit', // Edit
+    loadComponent: () => import('@articles/pages/article-edit/article-edit.component'),
     providers: [provideState(articleFormFeature), provideEffects(ArticleFormEffects)],
     canActivate: [LoadArticleGuard]
   },

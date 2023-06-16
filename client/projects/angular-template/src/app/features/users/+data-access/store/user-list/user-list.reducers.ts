@@ -1,11 +1,17 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {articleListActions} from "@articles/+data-access/store/article-list/article-list.actions";
 import {userListActions} from "@users/+data-access/store/user-list/user-list.actions";
-import {User} from "@shared/domain";
+import {Article, User} from "@shared/domain";
 import {EntityListState} from "@core";
 
 interface UserListState extends EntityListState<User> {
   dialogError: string | null;
+}
+
+export interface ArticleVM {
+  article: Article | null
+  loading: boolean
+  error: string | null
 }
 
 export const userListInitialState: UserListState = {

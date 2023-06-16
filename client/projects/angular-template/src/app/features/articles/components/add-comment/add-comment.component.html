@@ -5,8 +5,8 @@
     (updateForm)="updateForm.emit($event)"
   />
 
-
-  <p-button label="Post Comment"
+  <p-button
+    label="Post Comment"
     (click)="addComment.emit({ articleId: article.id, authorId: article.authorId! })"
   />
 </div>

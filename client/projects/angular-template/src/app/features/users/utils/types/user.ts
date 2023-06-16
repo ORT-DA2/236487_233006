@@ -22,9 +22,3 @@ export interface UserFormModel {
 	roles : RoleType;
 	id : number;
 }
-
-export interface UserVM{
-	data : User | null;
-	loading : boolean
-	error : string | null
-}

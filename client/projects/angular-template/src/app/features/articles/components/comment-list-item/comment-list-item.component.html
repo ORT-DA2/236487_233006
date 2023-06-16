@@ -15,7 +15,7 @@
                     <span class="mr-2"><b class="color-main">{{comment.author?.firstName}} {{comment.author?.lastName}}</b></span>
                     <span class="text-500 text-sm">{{comment.updatedAt ? (comment.updatedAt | ago) : comment.createdAt | ago}}</span>
                 </div>
-                <div class="button-bar" *ngIf="!comment.isApproved && !comment.isRejected && hasAdminPrivileges">
+                <div class="button-bar" *ngIf="!comment.isApproved && !comment.isRejected && canApproveAndReject">
                     <p-button
                             styleClass="p-button-outlined p-button-success p-button-sm "
                             [label]="'Approve'"
@@ -70,7 +70,7 @@
 
             <!-- Reply            -->
             <ng-container *ngIf="comment.reply as reply">
-            <div  class="mb-5 mt-2 flex ml-n-16" *ngIf="reply.isApproved || hasAdminPrivileges">
+            <div  class="mb-5 mt-2 flex ml-n-16" *ngIf="reply.isApproved || canApproveAndReject">
                 <div class="flex flex-column align-items-center" style="width:2rem">
                     <div class="h-full bg-orange-500" style="width: 2px; min-height: 4rem"></div>
                 </div>
@@ -82,7 +82,7 @@
                         <span class="text-500 text-sm">{{reply.updatedAt ? (reply.updatedAt | ago) : reply.createdAt | ago}}</span>
                     </div>
 
-                    <div class="button-bar" *ngIf="!reply.isApproved && !reply.isRejected && hasAdminPrivileges">
+                    <div class="button-bar" *ngIf="!reply.isApproved && !reply.isRejected && canApproveAndReject">
                         <p-button
                                 styleClass="p-button-outlined p-button-success p-button-sm "
                                 [label]="'Approve'"

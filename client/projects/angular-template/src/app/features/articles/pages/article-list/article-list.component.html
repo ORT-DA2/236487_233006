@@ -7,21 +7,22 @@
 
     <div *ngIf="articles.entities.length > 0; else noArticles" class="article-list-container">
       <article-list-item
-              *ngFor="let article of articles.entities"
-              [article]="article"
-              [words$]="words$"
-              [canEdit]="false"
-              [canDelete]="false"
-              [showFromAuthor]="true"
-              [showReadMore]="true"
-              (deleted)="onDeleteRequest(article)"
+        *ngFor="let article of articles.entities"
+        [article]="article"
+        [words$]="words$"
+        [canEdit]="false"
+        [canDelete]="false"
+        [showFromAuthor]="true"
+        [showReadMore]="true"
+        (deleted)="onDeleteRequest(article)"
       />
     </div>
+
     <ng-template #noArticles>
       <div *ngIf="!articles.loading">No articles are here... yet.</div>
     </ng-template>
 
-    <loading *ngIf="articles.loading"/>
+    <loading *ngIf="articles.loading" />
     <delete-dialog (deleted)="onDeleteConfirmation($event)" />
   </ng-container>
 </article>

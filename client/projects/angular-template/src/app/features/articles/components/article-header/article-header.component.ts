@@ -18,10 +18,11 @@ import {ButtonModule} from "primeng/button";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleHeaderComponent {
-  @Input() hasAdminPrivileges  = false
-  @Input() isLoggedUserAuthor = false
-  @Input() author : User | null = null
   @Input() article !: Article
+  @Input() author : User | null = null
+  
+  @Input() canApproveReject  = false
+  @Input() isLoggedUserAuthor = false
   
   @Output() articleApproved = new EventEmitter<number>()
   @Output() articleRejected = new EventEmitter<number>()

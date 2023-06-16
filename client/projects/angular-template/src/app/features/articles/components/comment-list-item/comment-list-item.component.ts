@@ -19,10 +19,10 @@ import {HighlightDirective} from "@shared/highlight-directive";
 export class CommentListItemComponent {
   @Input() comment!: Comment
   @Input() openedReplyBox$ !: Observable<number | null>
-  @Input() canReply = false
   @Input() words$ !: Observable<OffensiveWord[]>
   
-  @Input() hasAdminPrivileges : boolean = false
+  @Input() canReply = false
+  @Input() canApproveAndReject = false
   
   @Output() commentApproved = new EventEmitter<number>()
   @Output() commentRejected = new EventEmitter<number>()

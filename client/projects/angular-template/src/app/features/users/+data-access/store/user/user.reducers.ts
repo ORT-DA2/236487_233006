@@ -5,6 +5,13 @@ import {EntityState} from "@core";
 
 interface UserState extends EntityState<User> {}
 
+export interface UserVM{
+  data : User | null;
+  loading : boolean
+  error : string | null
+}
+
+
 export const userInitialState: UserState = {
   data: null,
   loaded: false,

@@ -8,6 +8,12 @@ interface ArticleListState extends EntityListState<Article> {
   editing: boolean;
 }
 
+export interface ArticleListVM {
+  entities: Article[]
+  loading: boolean
+  error : string | null
+}
+
 export const articleListInitialState: ArticleListState = {
   entities: [],
   count : 0,

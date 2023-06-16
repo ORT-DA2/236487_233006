@@ -1,0 +1,13 @@
+<section class="private-page-container">
+  <h1>Publish Article</h1>
+  <error-badge *ngIf="error$ | async as error" [error]="error" />
+
+  <article-form
+     [structure$]="structure$"
+     [data$]="data$"
+     [buttonLabel]="'Publish Article'"
+     [buttonSpinner$]="loading$"
+     (updatedForm)="onUpdate($event)"
+     (submitted)="onSubmit()"
+  />
+</section>
