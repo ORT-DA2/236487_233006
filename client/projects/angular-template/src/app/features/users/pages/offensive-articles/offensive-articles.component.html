@@ -1,5 +1,25 @@
-<div class="private-page-container">
-    <h1>Article Management</h1>
-    <article-list [vm$]="vm$" [canDelete]="false"/>
-    <loading *ngIf="this.loading$ | async" />
-</div>
+<article class="private-page-container">
+    <h1>Article list</h1>
+
+    <ng-container *ngIf="this.articles$ | async as articles">
+        <error-badge *ngIf="articles.error" [error]="articles.error" />
+
+        <div *ngIf="articles.entities.length > 0; else noArticles" class="article-list-container">
+            <article-list-item
+                    *ngFor="let article of articles.entities"
+                    [article]="article"
+                    [words$]="words$"
+                    [canEdit]="true"
+                    [canDelete]="false"
+                    [showFromAuthor]="true"
+                    [showReadMore]="true"
+            />
+        </div>
+        <ng-template #noArticles>
+            <div *ngIf="!articles.loading">No articles are here... yet.</div>
+        </ng-template>
+
+
+        <loading *ngIf="articles.loading"/>
+    </ng-container>
+</article>

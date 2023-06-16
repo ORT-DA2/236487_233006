@@ -79,9 +79,9 @@ const structure: Field[] = [
 @Component({
   selector: 'user-list-page',
   standalone: true,
-  imports: [CommonModule, DeleteDialogComponent, UserListPageComponent, ButtonModule, UserDialogComponent, UserListPageComponent, UserListComponent, LoadingModule],
-  templateUrl: './user-list-page.component.html',
-  styleUrls: ['./user-list-page.component.scss'],
+  imports: [CommonModule, DeleteDialogComponent, UserListComponent, ButtonModule, UserDialogComponent, UserListComponent, UserListComponent, LoadingModule],
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class UserListPageComponent implements OnInit, OnDestroy{

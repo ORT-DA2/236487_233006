@@ -1,5 +1,5 @@
 import {Route} from "@angular/router";
-import UserListPageComponent from "@users/pages/user-list-page/user-list-page.component";
+import UserListPageComponent from "@users/pages/user-list/user-list-page.component";
 import {LoadUsersResolver} from "@users/utils/resolvers/load-users.resolver";
 import {RoleType} from "@core";
 import {RoleGuard} from "@auth/utils/guards/role.guard";

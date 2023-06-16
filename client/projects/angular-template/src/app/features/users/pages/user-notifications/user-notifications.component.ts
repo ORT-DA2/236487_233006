@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ArticleCommentComponent} from "@articles/components/article-comment/article-comment.component";
 import {Store} from "@ngrx/store";
 import {commentListQuery} from "@articles/+data-access/store/comment-list/comment-list.selectors";
 import {Comment, CommentReply} from "@shared/domain";
@@ -9,11 +8,12 @@ import {LoadingModule} from "@ui-components";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {CommentsService} from "@articles/+data-access/services/comments.service";
 import {Observable} from "rxjs";
+import {CommentListItemComponent} from "@articles/components/comment-list-item/comment-list-item.component";
 
 @Component({
   selector: 'reply-to-comments',
   standalone: true,
-  imports: [CommonModule, ArticleCommentComponent, LoadingModule, ErrorBadgeComponent],
+  imports: [CommonModule, CommentListItemComponent, LoadingModule, ErrorBadgeComponent, CommentListItemComponent],
   templateUrl: './user-notifications.component.html',
   styleUrls: ['./user-notifications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

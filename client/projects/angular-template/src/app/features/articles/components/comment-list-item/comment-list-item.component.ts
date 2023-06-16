@@ -9,14 +9,14 @@ import {Observable} from "rxjs";
 import {HighlightDirective} from "@shared/highlight-directive";
 
 @Component({
-  selector: 'article-comment',
+  selector: 'comment-list-item',
   standalone: true,
   imports: [CommonModule, AgoPipe, AvatarModule, ButtonModule, AddReplyComponent, HighlightDirective],
-  templateUrl: './article-comment.component.html',
-  styleUrls: ['./article-comment.component.scss'],
+  templateUrl: './comment-list-item.component.html',
+  styleUrls: ['./comment-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArticleCommentComponent {
+export class CommentListItemComponent {
   @Input() comment!: Comment
   @Input() openedReplyBox$ !: Observable<number | null>
   @Input() canReply = false

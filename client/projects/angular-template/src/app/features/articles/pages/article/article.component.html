@@ -25,7 +25,7 @@
     />
 
     <ng-container *ngFor="let comment of vm.article.comments">
-    <article-comment
+    <comment-list-item
       *ngIf="comment.isApproved || this.isAdmin(vm.loggedUser!)"
       [comment]="comment"
       [words$]="words$"

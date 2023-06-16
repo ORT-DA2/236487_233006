@@ -2,38 +2,35 @@
   <div class="card__publication">
     <img [src]="article.firstImage" [alt]="article.title + ' image'" />
   </div>
+
   <div class="card__info">
-    <span class="button-bar" *ngIf="this.editing">
+    <span class="button-bar" *ngIf="canEdit || canDelete">
       <p-button
-        styleClass="p-button-outlined p-button-rounded  p-button-text p-button-sm "
-        class="edit-button"
+        *ngIf="canEdit"
         icon="pi pi-pencil"
+        class="edit-button"
+        styleClass="p-button-outlined p-button-rounded  p-button-text p-button-sm "
         [routerLink]="['/private', 'articles', article.id, 'edit']"
       />
-      <p-button *ngIf="canDelete"
-        styleClass="p-button-outlined p-button-rounded p-button-danger p-button-text p-button-sm "
-        class="delete-button"
+      <p-button
+        *ngIf="canDelete"
         icon="pi pi-times"
+        class="delete-button"
+        styleClass="p-button-outlined p-button-rounded p-button-danger p-button-text p-button-sm "
         (click)="this.deleted.emit(article.id)"
       />
     </span>
 
-    <div class="">
+    <div>
       <span class="text-500 text-sm">Posted </span>
       <ng-container *ngIf="article.author">
         <span class="text-500 text-sm">by </span>
-        <span class="text-500 text-sm"
-          >{{ article.author.firstName }} {{ article.author.lastName }}</span
-        >
+        <span class="text-500 text-sm">{{ article.author.firstName }} {{ article.author.lastName }}</span>
       </ng-container>
-      <span class="text-500 text-sm">
-        {{
-          article.updatedAt
-            ? (article.updatedAt | ago)
-            : (article.createdAt | ago)
-        }}</span
-      >
+      <span class="text-500 text-sm">{{ article.updatedAt ? (article.updatedAt | ago) : (article.createdAt | ago)}}</span>
     </div>
+
+
     <h2
       class="card__title"
       [highlight]="(words$ | async) ?? []"
@@ -51,16 +48,10 @@
     >
       {{ article.content | truncate : 285 : true }}
     </p>
+
     <div class="read-more-container">
-      <a [routerLink]="['/private/articles/', article.id]" class="card__cta">
-        Read more <span>&rarr;</span>
-      </a>
-      <a
-        [routerLink]="['/private/users/', article.author?.id]"
-        class="card__cta "
-        *ngIf="showFromAuthor"
-        >More from Author!</a
-      >
+      <a *ngIf="showReadMore" class="card__cta" [routerLink]="['/private/articles/', article.id]">Read more <span>&rarr;</span></a>
+      <a *ngIf="showFromAuthor" class="card__cta " [routerLink]="['/private/users/', article.author ? article.author.id : article.authorId]">More from Author!</a>
     </div>
   </div>
 </article>

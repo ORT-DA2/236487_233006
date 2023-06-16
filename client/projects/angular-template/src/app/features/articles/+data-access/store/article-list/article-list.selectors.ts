@@ -7,7 +7,8 @@ const {
   selectEntities,
   selectLoaded,
   selectLoading,
-  selectEditing
+  selectError,
+  selectEditing,
 } = articleListFeature;
 
 // This object will represent the public interface of the selectors, this improves when we try to
@@ -17,5 +18,6 @@ export const articleListQuery = {
   selectEntities,
   selectLoaded,
   selectLoading,
-  selectEditing
+  selectError,
+  selectEditing,
 };

@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ArticleListComponent} from "@articles/components/article-list/article-list.component";
 import {FilterArticlesComponent} from "@articles/components/filter-articles/filter-articles.component";
 import {UserHeaderComponent} from "@users/components/user-header/user-header.component";
 import {Store} from "@ngrx/store";
@@ -14,6 +13,9 @@ import {combineLatest, from, Observable, of} from "rxjs";
 import {ArticleListVM, User} from "@shared/domain";
 import {catchError} from "rxjs/operators";
 import {FilterFrom} from "@core";
+import {ArticleListItemComponent} from "@articles/components/article-list-item/article-list-item.component";
+import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
+import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
 
 export interface UserVM{
   data : User | null;
@@ -24,18 +26,19 @@ export interface UserVM{
 @Component({
   selector: 'more-from-author',
   standalone: true,
-  imports: [CommonModule, ArticleListComponent, FilterArticlesComponent, UserHeaderComponent, LoadingModule],
+  imports: [CommonModule, FilterArticlesComponent, UserHeaderComponent, LoadingModule, ArticleListItemComponent, ErrorBadgeComponent],
   templateUrl: './more-form-author.component.html',
   styleUrls: ['./more-form-author.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class MoreFormAuthorComponent implements OnInit ,OnDestroy{
   
+  words$ = this.store.select(wordsQuery.selectEntities)
+  
   articles$: Observable<ArticleListVM> = combineLatest({
-    articles: this.store.select(articleListQuery.selectEntities),
+    entities: this.store.select(articleListQuery.selectEntities),
     loading: this.store.select(articleListQuery.selectLoading),
-    editing: this.store.select(articleListQuery.selectEditing),
-    showFromAuthor : of(false)
+    error : this.store.select(articleListQuery.selectError),
   }).pipe(catchError(this.handleError))
   
   
@@ -67,5 +70,6 @@ export default class MoreFormAuthorComponent implements OnInit ,OnDestroy{
   
   ngOnDestroy() {
     this.store.dispatch(userActions.reset())
+    this.store.dispatch(articleListActions.reset())
   }
 }

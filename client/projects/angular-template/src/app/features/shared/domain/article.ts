@@ -31,11 +31,11 @@ export interface Author {
 
 
 export interface ArticleListVM {
-  articles: Article[]
-  editing: boolean
+  entities: Article[]
   loading: boolean
-  showFromAuthor : boolean
+  error : string | null
 }
+
 
 export interface OffensiveWord{
   id : number;

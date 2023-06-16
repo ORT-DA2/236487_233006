@@ -18,11 +18,15 @@ import {Observable} from "rxjs";
   styleUrls: ['./article-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleListItemComponent {
+export class ArticleListItemComponent  {
   @Input() article !: Article;
-  @Input() editing = false
-  @Output() deleted = new EventEmitter<number>()
-  @Input() showFromAuthor = true
   @Input() words$ !: Observable<OffensiveWord[]>
-  @Input() canDelete = true;
+  
+  @Input() canEdit = false
+  @Input() canDelete = false;
+  @Input() showFromAuthor = false;
+  @Input() showReadMore = true;
+  
+  @Output() deleted = new EventEmitter<number>()
+  
 }

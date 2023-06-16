@@ -5,7 +5,7 @@
         <ng-container *ngIf="comments.length > 0; else noComments" >
         <error-badge *ngIf="error$ | async as error" [error]="error" />
 
-        <article-comment
+        <comment-list-item
                 *ngFor="let comment of comments"
                 [comment]="comment"
                 [canReply]="false"

@@ -6,13 +6,13 @@ import {articleFormFeature} from "@articles/+data-access/store/article-form/arti
 import {LoadArticleGuard} from "@articles/load-article.guard";
 import {userFeature} from "@users/+data-access/store/user/user.reducers";
 import {UserEffects} from "@users/+data-access/store/user/user.effects";
-import {HomeComponent} from "@articles/pages/home/home.component";
 import PersonalArticlesComponent from "@articles/pages/personal-articles/personal-articles.component";
+import ArticleListComponent from "@articles/pages/article-list/article-list.component";
 
 export default [
   {
     path: '', //              -> /articles
-    component: HomeComponent,
+    component: ArticleListComponent,
   },
   {
     path: 'personal',
@@ -23,7 +23,6 @@ export default [
     loadComponent: () => import('@articles/pages/article-import/article-import.component'),
     providers: [provideState(articleFormFeature), provideEffects(ArticleFormEffects)],
   },
-
   // ------------------------ FORMS  ------------------------ //
   {
     path: 'new', //           Publish new article Form

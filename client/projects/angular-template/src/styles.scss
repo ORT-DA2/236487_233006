@@ -246,3 +246,10 @@ $color-red-border: #f4a1a3;
   padding: 0rem 0.7rem;
   border-radius: 5px;
 }
+
+.article-list-container{
+  display: flex;
+  flex-direction: column;
+  column-gap: 10px ;
+  row-gap: 25px;
+}

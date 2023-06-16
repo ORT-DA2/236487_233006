@@ -1,5 +1,27 @@
-<div class="private-page-container" *ngIf="user$ | async as u">
-    <h1>{{u.firstName}}'s Article list</h1>
-    <filter-articles (filtered)="onArticleFiltered($event, u.id)" />
-    <article-list [vm$]="vm$" />
-</div>
+<section class="private-page-container" *ngIf="user$ | async as user">
+    <h1>{{user.firstName}}'s Article list</h1>
+    <filter-articles (filtered)="onArticleFiltered($event, user.id!)"/>
+
+    <ng-container *ngIf="this.articles$ | async as articles">
+        <error-badge *ngIf="articles.error" [error]="articles.error" />
+
+        <div *ngIf="articles.entities.length > 0; else noArticles" class="article-list-container">
+            <article-list-item
+                    *ngFor="let article of articles.entities"
+                    [article]="article"
+                    [words$]="words$"
+                    [canEdit]="true"
+                    [canDelete]="true"
+                    [showFromAuthor]="true"
+                    [showReadMore]="true"
+            />
+        </div>
+
+        <ng-template #noArticles>
+            <div *ngIf="!articles.loading">No articles are here... yet.</div>
+        </ng-template>
+
+
+        <loading *ngIf="articles.loading"/>
+    </ng-container>
+</section>

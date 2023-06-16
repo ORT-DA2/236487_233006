@@ -1,6 +1,6 @@
-<section class="private-page-container" *ngIf="user$ | async as user">
-  <user-header [user]="user.data"/>
-  <filter-articles (filtered)="onArticleFiltered($event, user.data?.id!)"/>
+<article class="private-page-container">
+  <h1>Article list</h1>
+  <filter-articles (filtered)="onArticleFiltered($event)" />
 
   <ng-container *ngIf="this.articles$ | async as articles">
     <error-badge *ngIf="articles.error" [error]="articles.error" />
@@ -12,16 +12,16 @@
               [words$]="words$"
               [canEdit]="false"
               [canDelete]="false"
-              [showFromAuthor]="false"
+              [showFromAuthor]="true"
               [showReadMore]="true"
+              (deleted)="onDeleteRequest(article)"
       />
     </div>
-
     <ng-template #noArticles>
       <div *ngIf="!articles.loading">No articles are here... yet.</div>
     </ng-template>
 
-
-    <loading *ngIf="articles.loading || user.loading"/>
+    <loading *ngIf="articles.loading"/>
+    <delete-dialog (deleted)="onDeleteConfirmation($event)" />
   </ng-container>
-</section>
+</article>

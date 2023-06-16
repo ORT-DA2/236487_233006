@@ -6,7 +6,8 @@
         <error-badge *ngIf="error$ | async as error" [error]="error" />
 
         <ng-container *ngFor="let comment of comments">
-        <article-comment
+
+        <comment-list-item
                 *ngIf="!comment.isRejected && comment.isApproved"
                 [comment]="comment"
                 [canReply]="true"

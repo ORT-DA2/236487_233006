@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ArticleCommentComponent} from "@articles/components/article-comment/article-comment.component";
 import {Store} from "@ngrx/store";
 import {commentListQuery} from "@articles/+data-access/store/comment-list/comment-list.selectors";
 import {commentListActions} from "@articles/+data-access/store/comment-list/comment-list.actions";
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {LoadingModule} from "@ui-components";
+import {CommentListItemComponent} from "@articles/components/comment-list-item/comment-list-item.component";
 
 @Component({
   selector: 'offensive-comments',
   standalone: true,
-  imports: [CommonModule, ArticleCommentComponent, ErrorBadgeComponent, LoadingModule],
+  imports: [CommonModule, CommentListItemComponent, ErrorBadgeComponent, LoadingModule],
   templateUrl: './offensive-comments.component.html',
   styleUrls: ['./offensive-comments.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

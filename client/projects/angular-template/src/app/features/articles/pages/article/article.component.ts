@@ -13,12 +13,13 @@ import {take} from "rxjs/operators";
 import {userQuery} from "@users/+data-access/store/user/user.selectors";
 import {UserHeaderComponent} from "@users/components/user-header/user-header.component";
 import {ArticleHeaderComponent} from "@articles/components/article-header/article-header.component";
-import {ArticleCommentComponent} from "@articles/components/article-comment/article-comment.component";
 import {ArticleBodyComponent} from "@articles/components/article-body/article-body.component";
 import {wordsQuery} from "@users/+data-access/store/offensive-words/offensive-words.selectors";
 import {RippleModule} from "primeng/ripple";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {isAdmin} from "@users/utils/helpers/is-admin";
+import {ArticleListItemComponent} from "@articles/components/article-list-item/article-list-item.component";
+import {CommentListItemComponent} from "@articles/components/comment-list-item/comment-list-item.component";
 
 interface ArticleVM {
   article: Article | null
@@ -40,7 +41,7 @@ const structure: Field[] = [
 @Component({
   selector: 'article-page',
   standalone: true,
-  imports: [CommonModule, AddCommentComponent, LoadingModule, UserHeaderComponent, ArticleHeaderComponent, ArticleCommentComponent, ArticleBodyComponent, RippleModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, AddCommentComponent, LoadingModule, UserHeaderComponent, ArticleHeaderComponent, CommentListItemComponent, ArticleBodyComponent, RippleModule, RouterLink, RouterLinkActive, ArticleListItemComponent, CommentListItemComponent],
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
