@@ -1,5 +1,6 @@
 import {FormControl, FormGroup} from "@angular/forms";
 import {RoleType} from "@core";
+import {User} from "@shared/domain";
 
 export interface UserForm extends FormGroup {
 	controls: {
@@ -22,3 +23,8 @@ export interface UserFormModel {
 	id : number;
 }
 
+export interface UserVM{
+	data : User | null;
+	loading : boolean
+	error : string | null
+}

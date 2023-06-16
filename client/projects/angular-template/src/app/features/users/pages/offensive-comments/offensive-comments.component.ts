@@ -6,6 +6,10 @@ import {commentListActions} from "@articles/+data-access/store/comment-list/comm
 import {ErrorBadgeComponent} from "@shared/components/backend-error/error-badge.component";
 import {LoadingModule} from "@ui-components";
 import {CommentListItemComponent} from "@articles/components/comment-list-item/comment-list-item.component";
+import {combineLatest, Observable, of} from "rxjs";
+import {catchError} from "rxjs/operators";
+
+
 
 @Component({
   selector: 'offensive-comments',
@@ -16,9 +20,12 @@ import {CommentListItemComponent} from "@articles/components/comment-list-item/c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class OffensiveCommentsComponent implements OnDestroy{
-  comments$  = this.store.select(commentListQuery.selectEntities)
-  loading$ = this.store.select(commentListQuery.selectLoading)
-  error$ = this.store.select(commentListQuery.selectError)
+  comments$ = combineLatest({
+    entities  : this.store.select(commentListQuery.selectEntities),
+    loading : this.store.select(commentListQuery.selectLoading),
+    error : this.store.select(commentListQuery.selectError),
+  }).pipe(catchError(this.handleError))
+  
   openedReplyBox$ = this.store.select(commentListQuery.selectOpenedReplyBox)
   
   constructor(private store: Store  ) {}
@@ -37,6 +44,11 @@ export default class OffensiveCommentsComponent implements OnDestroy{
   
   onReplyBoxClosed(){
     this.store.dispatch(commentListActions.closeReplyBox())
+  }
+  
+  private handleError(error: any): Observable<any> {
+    console.log('[ArticleListVM - ERROR', error)
+    return of(true)
   }
   
   ngOnDestroy() {

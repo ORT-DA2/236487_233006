@@ -1,4 +1,5 @@
 import {Comment} from "./comments"
+import {User} from "@shared/domain/user";
 
 export interface Article{
   id: number
@@ -34,6 +35,12 @@ export interface ArticleListVM {
   entities: Article[]
   loading: boolean
   error : string | null
+}
+
+export interface ArticleVM {
+  article: Article | null
+  loading: boolean
+  error: string | null
 }
 
 

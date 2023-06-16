@@ -6,7 +6,7 @@ import {combineLatest, map, Observable} from "rxjs";
 import {Field, FieldType, formsActions, FormState, LoadingModule, ngrxFormsQuery} from "@ui-components";
 import {Store} from "@ngrx/store";
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
-import {Article, CommentReply, User} from "@shared/domain";
+import {Article, ArticleVM, CommentReply, User} from "@shared/domain";
 import {AddCommentComponent} from "@articles/components/add-comment/add-comment.component";
 import {userActions} from "@users/+data-access/store/user/user.actions";
 import {take} from "rxjs/operators";
@@ -21,13 +21,6 @@ import {isAdmin} from "@users/utils/helpers/is-admin";
 import {ArticleListItemComponent} from "@articles/components/article-list-item/article-list-item.component";
 import {CommentListItemComponent} from "@articles/components/comment-list-item/comment-list-item.component";
 
-interface ArticleVM {
-  article: Article | null
-  loading: boolean
-  error: string | null
-  loggedUser : User | null
-  author : User | null
-}
 
 const structure: Field[] = [
   {
@@ -37,6 +30,10 @@ const structure: Field[] = [
   },
 ];
 
+interface ArticleCmp extends ArticleVM{
+  loggedUser : User | null
+  author : User | null
+}
 
 @Component({
   selector: 'article-page',
@@ -55,7 +52,7 @@ export default class ArticleComponent implements OnInit, OnDestroy{
   private author$ = this.store.select(userQuery.selectData);
   
   
-  vm$: Observable<ArticleVM> = combineLatest({
+  vm$: Observable<ArticleCmp> = combineLatest({
     article: this.article$,
     loading: this.loading$,
     error: this.error$,

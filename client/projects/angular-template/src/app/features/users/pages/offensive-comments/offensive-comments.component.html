@@ -1,12 +1,12 @@
-<div class="private-page-container">
+<section class="private-page-container">
     <h1>Offensive Comments</h1>
     <ng-container *ngIf="comments$ | async as comments">
 
         <ng-container *ngIf="comments.length > 0; else noComments" >
-        <error-badge *ngIf="error$ | async as error" [error]="error" />
+        <error-badge *ngIf="comments.error" [error]="comments.error" />
 
         <comment-list-item
-                *ngFor="let comment of comments"
+                *ngFor="let comment of comments.entities"
                 [comment]="comment"
                 [canReply]="false"
                 [hasAdminPrivileges]="true"
@@ -17,11 +17,12 @@
                 (closedReplyBox)="onReplyBoxClosed()"
         />
         </ng-container>
+
+        <ng-template #noComments>
+            <div *ngIf="!comments.loading" class="text-center">No comments here... yet.</div>
+        </ng-template>
+
+        <loading *ngIf="comments.loading" />
+
     </ng-container>
-    <loading *ngIf="loading$ | async" />
-
-
-    <ng-template #noComments>
-        <div *ngIf="!(loading$ | async)" class="text-center">No comments here... yet.</div>
-    </ng-template>
-</div>
+</section>
