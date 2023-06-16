@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { FieldType } from '../constants';
 import { IOption } from '../../../select-field/select-field.component';
+import {Observable} from "rxjs";
 
 export interface Field {
   type: FieldType; // type=""
@@ -33,7 +34,8 @@ export interface Field {
 
 
 export interface SelectField{
-  options : IOption[];
+  options ?: IOption[];
+	options$ ?: Observable<IOption[]>
   showClear ?: boolean
 }
 export interface FileField{

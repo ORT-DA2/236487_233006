@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="further improvments">
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Added more vm$">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/comment-list/comment-list.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/comment-list/comment-list.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/+data-access/store/offensive-words/offensive-words.reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/components/user-form/user-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/components/user-form/user-form.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/offensive-words/offensive-words.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/users/pages/user-notifications/user-notifications.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article-import/article-import.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article-import/article-import.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/dynamic-form/dynamic-form.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/dynamic-form/dynamic-form.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/shared/model/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/shared/model/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +118,7 @@
       <workItem from="1686863276749" duration="9020000" />
       <workItem from="1686891543212" duration="635000" />
       <workItem from="1686921448579" duration="6422000" />
-      <workItem from="1686929265132" duration="999000" />
+      <workItem from="1686929265132" duration="11556000" />
     </task>
     <task id="LOCAL-00001" summary="Added comment approval">
       <created>1686513613929</created>
@@ -199,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686927973323</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added more vm$">
+      <created>1686930604610</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1686930604610</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,6 +238,7 @@
     <MESSAGE value="Mejoras en nomenclatura y en smart components" />
     <MESSAGE value="fixed reference to vms" />
     <MESSAGE value="further improvments" />
-    <option name="LAST_COMMIT_MESSAGE" value="further improvments" />
+    <MESSAGE value="Added more vm$" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more vm$" />
   </component>
 </project>

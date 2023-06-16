@@ -81,7 +81,7 @@
               this.form.controls[field.name].invalid &&
               this.form.controls[field.name].touched
             "
-            [options]="field.select?.options ?? []"
+            [options]="(field.select?.options$ | async) || field.select?.options?? []"
             [showClear]="field.select?.showClear ?? false"
             [readonly]="field.readonly || formReadOnly"
             class="form-group__input"
@@ -112,13 +112,13 @@
         <!-- ------------ File Field Starts ------------ -->
         <ng-container *ngSwitchCase="fieldType.FILE_UPLOAD">
           <custom-file-upload
-                  [class.error]="
-                      this.form.controls[field.name].invalid &&
-                      this.form.controls[field.name].touched"
-                  class="form-group__input"
-                  [formControlName]="field.name"
-                  [accept]="field.file?.accept!"
-                  [placeholder]="field.placeholder!"
+            [class.error]="
+                this.form.controls[field.name].invalid &&
+                this.form.controls[field.name].touched"
+            class="form-group__input"
+            [formControlName]="field.name"
+            [accept]="field.file?.accept!"
+            [placeholder]="field.placeholder!"
           ></custom-file-upload>
         </ng-container>
         <!-- ------------ File Field Ends ------------ -->
