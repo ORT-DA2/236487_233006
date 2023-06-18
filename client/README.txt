@@ -108,3 +108,6 @@ https://itnext.io/bind-route-info-to-component-inputs-new-router-feature-1d747e5
 
 // FileUpload
 https://netbasal.com/how-to-implement-file-uploading-in-angular-reactive-forms-89a3fffa1a03
+
+// FormArray
+https://netbasal.com/angular-reactive-forms-the-ultimate-guide-to-formarray-3adbe6b0b61a
