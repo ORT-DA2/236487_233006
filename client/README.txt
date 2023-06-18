@@ -40,6 +40,9 @@ Our smart components responsabilities :
   (Is Responsible for triggering the get request, form route url params)
 
   The canActivate guard is responsible for fetching the required data for the smart component.
+  We will use canActivate guards for asking data for pages that should only be rendererd
+  if data is loaded. Mostly in single Entity pages.
+
   e.g :
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
       const articleId = route.params['articleId'];
@@ -74,3 +77,30 @@ Our dumb components:
 
 // A reducer is a pureFunction, that upon a given action it generates a new state
 // (it copies old state, mutates it, and returns new state)
+
+
+
+// New way to unsubscribe:
+// .pipe(takeUntilDestroyed())
+
+// Required input
+@Input({ required: true }) elementId: string;
+
+// Transforrm input value:
+function toBoolean(value: string | boolean): boolean {
+  return value !== null && `${value}` !== 'false';
+};
+
+@Component({ selector: 'app-expand' })
+export class ExpandComponent {
+  @Input({ transform: toBoolean }) expanded = false;
+}
+
+// Provided in @angular/core
+@Input({ transform: booleanAttribute }) show: boolean = false;
+@Input({ transform: numberAttribute }) count: number = 0;
+
+
+
+// RoutingInputs Explained:
+https://itnext.io/bind-route-info-to-component-inputs-new-router-feature-1d747e559dc4
