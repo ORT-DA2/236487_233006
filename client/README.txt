@@ -104,3 +104,7 @@ export class ExpandComponent {
 
 // RoutingInputs Explained:
 https://itnext.io/bind-route-info-to-component-inputs-new-router-feature-1d747e559dc4
+
+
+// FileUpload
+https://netbasal.com/how-to-implement-file-uploading-in-angular-reactive-forms-89a3fffa1a03
