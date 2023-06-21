@@ -15,7 +15,9 @@ import {
   // All the dependencies of our componentes are going to be loaded in the imports array
   imports: [RouterOutlet, LoadingModule, AdminNotificationDialogComponent],
   template: `
-    <router-outlet/>
+    <main>
+      <router-outlet/>
+    </main>
     <loading [detectRoutingOnGoing]="true" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
