@@ -16,7 +16,9 @@ public class ArticleRepository : BaseRepository<Article>
          .Include(a => a.Author)
          .Include(a => a.Comments)
              .ThenInclude(c => c.Reply)
-             .Include(c => c.Author)
+                .ThenInclude(r => r.Author)
+          .Include(a => a.Comments)
+            .ThenInclude(c => c.Author)
          .ToList();
 
         return articles.Select(a =>
