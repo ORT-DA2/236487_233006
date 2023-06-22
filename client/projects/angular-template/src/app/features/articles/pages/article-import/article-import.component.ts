@@ -44,7 +44,7 @@ export default class ArticleImportComponent implements OnInit, OnDestroy {
   
   private componentDestroyed$ = new Subject<void>()
 
-  constructor(private store: Store, private articleService : ArticleService ) {}
+  constructor(private store: Store) {}
   
   ngOnInit() {
     this.store.dispatch(articleFormActions.loadImporterOptions())

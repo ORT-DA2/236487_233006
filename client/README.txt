@@ -12,6 +12,8 @@ Our smart components are going to be pulling information from the data-access fo
 that smart components having that data already pulled are going to pass it to some
 presentational ui component to actually display it on the browser.
 
+SmartComponents : 1) EntityList -> Fetches data on init
+                  2) Entity     -> Fetches required on guards
 
 Structuring code this way
 1) Follow this approach tends to encourage good application architecture
@@ -22,24 +24,24 @@ Structuring code this way
 Our smart components responsabilities :
   1) Dispatch actions
   2) Defines vm$ with the required selectors
-      - Retrieves the necessary state from store (using private selectors)
+      - Retrieves the necessary state FROM STORE (using private selectors)
   3) Provide ui logic for when we are fetching data (spinner or skeleton ui)
   4) Provide ui logic for when fetching data fails (when it errors)
 
-  5) Provide actions (navigate to another place) if fetching fails
+  5) Provide actions (navigate to another place) via routerLink
   6) Handle Asynchronous operations
 
-  Every component will have its own state (its own slice of the store).
+  Every entity will have its own state (its own slice of the store).
 
   We divide stores in two type of stores
     A) EntityState
     B) EntityListSate
 
-  Every smart component will have its own canActivate guard. The canActivate guard will
+  Every EntityState will have its own canActivate guard. The canActivate guard will
   be used to decouple the logic of initializing the component data.
-  (Is Responsible for triggering the get request, form route url params)
+  (Is Responsible for triggering the get request, form route url params).
 
-  The canActivate guard is responsible for fetching the required data for the smart component.
+  The canActivate guard is responsible for fetching the required data for the EntityState SmartComponent.
   We will use canActivate guards for asking data for pages that should only be rendererd
   if data is loaded. Mostly in single Entity pages.
 
@@ -60,7 +62,7 @@ Our smart components responsabilities :
 
 
 Our dumb components:
-  1) Only synchronous data || [property]="value | async"
+  1) Recieve Only synchronous data || [property]="value | async"
 
 
 

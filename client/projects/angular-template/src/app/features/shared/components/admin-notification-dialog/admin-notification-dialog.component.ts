@@ -28,7 +28,6 @@ export class AdminNotificationDialogComponent  {
     this.dialogService.closeDialog(DialogType.AdminNotification)
   }
   
-  
   goToOffensiveArticles(){
     this.router.navigate(['/private','users', 'offensive-articles'])
     this.closeDialog()

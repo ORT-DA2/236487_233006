@@ -69,6 +69,7 @@ interface ArticleCmp extends ArticleVM {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ArticleComponent implements OnInit, OnDestroy {
+  
   vm$: Observable<ArticleCmp> = combineLatest({
     article: this.store.select(articleQuery.selectData),
     loading: this.store.select(articleQuery.selectLoading),
