@@ -12,13 +12,41 @@ import {
 import {articleFormQuery} from '@articles/+data-access/store/article-form/article-form.selectors'
 import {Store} from '@ngrx/store'
 import {articleFormActions} from '@articles/+data-access/store/article-form/article-form.actions'
-import {Validators} from '@angular/forms'
 import {ErrorBadgeComponent} from '@shared/components/backend-error/error-badge.component'
 import {ButtonModule} from 'primeng/button'
-import {map, Observable, of, Subject} from 'rxjs'
+import {Subject} from 'rxjs'
 import {ArticleFormComponent} from "@articles/components/article-form/article-form.component";
-import {ArticleService} from "@articles/+data-access/services/article.service";
+import {Validators} from "@angular/forms";
 
+
+const structure: Field[] = [
+  {
+    type: FieldType.TEXT,
+    name: 'filePath',
+    label: 'Path',
+    placeholder: 'Path to your importer',
+    validators: [Validators.required],
+  },
+  {
+    type: FieldType.SELECT,
+    name: 'importer2',
+    label: 'importer1',
+    validators: [Validators.required],
+    placeholder: 'Select Importer 1 options',
+    select: {
+      // This works
+      options: [{id: 1, description: "hehe 1"}, {id: 2, description: "hehe 2"}]
+    },
+  },
+  
+  {
+    type: FieldType.SELECT,
+    name: 'importer1',
+    label: 'importer1',
+    validators: [Validators.required],
+    placeholder: 'Select Importer 1 options',
+  },
+]
 
 @Component({
   selector: 'article-import',
@@ -48,26 +76,6 @@ export default class ArticleImportComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.store.dispatch(articleFormActions.loadImporterOptions())
-    const structure: Field[] = [
-      {
-        type: FieldType.TEXT,
-        name: 'filePath',
-        label: 'Path',
-        placeholder: 'Path to your importer',
-        validators: [Validators.required],
-      },
-      {
-        type: FieldType.SELECT,
-        name: 'importerName',
-        label: 'Importer',
-        validators: [Validators.required],
-        placeholder: 'Select An importer',
-        select: {
-          options$: this.store.select(articleFormQuery.selectImporterOptions)
-        },
-      },
-    ]
-    
     this.store.dispatch(formsActions.setStructure({structure}))
   }
   

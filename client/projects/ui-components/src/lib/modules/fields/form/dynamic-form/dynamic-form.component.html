@@ -76,12 +76,13 @@
 
         <!-- ------------ Select Field Starts ------------ -->
         <ng-container *ngSwitchCase="fieldType.SELECT">
+          <ng-container *ngIf="options$ | async as optionsArray">
           <custom-select-field
             [class.error]="
               this.form.controls[field.name].invalid &&
               this.form.controls[field.name].touched
             "
-            [options]="(field.select?.options$ | async) || field.select?.options?? []"
+            [options]="field.select?.options || getOptionsForKey(optionsArray, field.name)"
             [showClear]="field.select?.showClear ?? false"
             [readonly]="field.readonly || formReadOnly"
             class="form-group__input"
@@ -89,23 +90,26 @@
             [inputId]="field.name"
             [placeholder]="field.placeholder!"
           ></custom-select-field>
+          </ng-container>
         </ng-container>
         <!-- ------------ Select Field Ends ------------ -->
 
         <!-- ------------ Multi Select Field Starts ------------ -->
         <ng-container *ngSwitchCase="fieldType.MULTI_SELECT">
+          <ng-container *ngIf="options$ | async as optionsArray">
           <custom-select-field
             [class.error]="
               this.form.controls[field.name].invalid &&
               this.form.controls[field.name].touched"
             [readonly]="field.readonly || formReadOnly"
             class="form-group__input"
-            [options]="field.select?.options ?? []"
+            [options]="field.select?.options || getOptionsForKey(optionsArray, field.name)"
             [formControlName]="field.name"
             [inputId]="field.name"
             [multiSelect]="true"
             [placeholder]="field.placeholder!"
           ></custom-select-field>
+          </ng-container>
         </ng-container>
         <!-- ------------ Multi Select Field Ends ------------ -->
 

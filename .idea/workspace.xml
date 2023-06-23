@@ -4,9 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="Solved options$ issue">
+    <list default="true" id="f43a52e1-0427-45be-b9ce-24dfa9c36164" name="Changes" comment="updated readme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/client/README.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/services/article.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/services/article.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-form/article-form.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/+data-access/store/article-form/article-form.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article-import/article-import.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/angular-template/src/app/features/articles/pages/article-import/article-import.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/dynamic-form/dynamic-form.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/dynamic-form/dynamic-form.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/dynamic-form/dynamic-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/dynamic-form/dynamic-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/shared/model/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/shared/model/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/state/form-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/store/form.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/state/forms.actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/store/forms.actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/state/forms.effects.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/store/forms.effects.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/state/forms.reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/store/forms.reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/state/forms.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/store/forms.selectors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/state/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/projects/ui-components/src/lib/modules/fields/form/store/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +39,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1686860031" />
+                    <option name="lastUsedInstant" value="1687524275" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/entrega-2" />
@@ -118,6 +130,7 @@
       <workItem from="1686929265132" duration="11861000" />
       <workItem from="1687023976171" duration="11000" />
       <workItem from="1687127748297" duration="578000" />
+      <workItem from="1687542387241" duration="6511000" />
     </task>
     <task id="LOCAL-00001" summary="Added comment approval">
       <created>1686513613929</created>
@@ -218,7 +231,6 @@
     <option name="additionalRoots">
       <list>
         <option value="$PROJECT_DIR$/client/dist/core" />
-        <option value="$PROJECT_DIR$/client/dist/ui-components" />
       </list>
     </option>
   </component>

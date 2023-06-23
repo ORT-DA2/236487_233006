@@ -22,7 +22,10 @@ import {
   tap,
 } from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {FormService} from "../state/form-service";
+import {FormService} from "../store/form.service";
+import {Store} from "@ngrx/store";
+import {ngrxFormsQuery, OptionsState} from "../store";
+import {IOption} from "../../select-field/select-field.component";
 
 export enum FormStatus{
   INVALID = 'INVALID',
@@ -53,14 +56,25 @@ export class DynamicFormComponent implements IDynamicForm, OnInit, OnDestroy, Co
   formDestroyed$ = new Subject<void>();
 
   @Output() formInitialized = new EventEmitter<FormGroup>();
+  
+  options$ = this.store.select(ngrxFormsQuery.selectOptions)
 
-  constructor(private readonly fb: FormBuilder, private changeDetector: ChangeDetectorRef, private formService : FormService ) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly formService : FormService,
+    private readonly store : Store
+  ) {}
 
   ngOnInit() {
     this.watchForFormBuild();
   
     this.formService.resetForm$.pipe(takeUntil(this.formDestroyed$)).subscribe(() => {
       this.form?.reset();
+    });
+  
+    this.formService.formSubmitted$.pipe(takeUntil(this.formDestroyed$)).subscribe(() => {
+      this.submitted()
     });
   }
 
@@ -77,6 +91,11 @@ export class DynamicFormComponent implements IDynamicForm, OnInit, OnDestroy, Co
     return this.form.controls[control].hasValidator(Validators.required) || this.form.controls[control].hasValidator(Validators.requiredTrue)
   }
   
+  getOptionsForKey(optionsArray: OptionsState[], key: string): IOption[] {
+    const foundOption = optionsArray.find(option => option.key === key);
+    return foundOption ? foundOption.data : [];
+  }
+  
   // Subscribes to structure$ and then to data$ observables to build and patch the form.
   // They are also responsible for handling form patching and resetting based on structure and data.
   private watchForFormBuild(){
@@ -91,8 +110,6 @@ export class DynamicFormComponent implements IDynamicForm, OnInit, OnDestroy, Co
     
   }
   
-  
-
   // Initializes the form group property and sets up listeners for form changes.
   // Context is shared by JS, thats why I have access to FormGroup instance.
   private initializeForm = (form: FormGroup) => {

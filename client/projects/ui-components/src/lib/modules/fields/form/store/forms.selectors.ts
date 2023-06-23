@@ -1,6 +1,6 @@
 import { ngrxFormsFeature } from './forms.reducer';
 
-const { selectNgrxFormsState, selectData, selectStructure, selectTouched, selectValid } =
+const { selectNgrxFormsState, selectData, selectStructure, selectTouched, selectValid, selectOptions } =
   ngrxFormsFeature;
 
 export const ngrxFormsQuery = {
@@ -9,4 +9,5 @@ export const ngrxFormsQuery = {
   selectStructure,
   selectTouched,
   selectValid,
+  selectOptions
 };

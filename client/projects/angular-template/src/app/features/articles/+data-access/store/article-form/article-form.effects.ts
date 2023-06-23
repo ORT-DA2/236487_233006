@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
-import {of, withLatestFrom} from 'rxjs';
+import {from, mergeMap, of, withLatestFrom} from 'rxjs';
 import {catchError, concatMap, map, tap} from 'rxjs/operators';
 import {ArticleService} from '../../services/article.service';
 import {Action, Store} from '@ngrx/store';
 import {articleFormActions} from "@articles/+data-access/store/article-form/article-form.actions";
-import {IOption, ngrxFormsQuery} from "@ui-components";
+import {formsActions, IOption, ngrxFormsQuery} from "@ui-components";
 import {articleActions} from "@articles/+data-access/store/article/article.actions";
 import {ToastrService} from "ngx-toastr";
 import {FormImportData, ImportRequest} from "@articles/utils/types/article-form";
@@ -68,7 +68,25 @@ export class ArticleFormEffects {
 			ofType(articleFormActions.loadImporterOptions),
 			concatMap(() =>
 				this.articlesService.getImporterOptions().pipe(
-					map((options) => articleFormActions.loadImporterOptionsSuccess({options})),
+					mergeMap((options) => from([
+						articleFormActions.loadImporterOptionsSuccess({options}),
+						formsActions.setOptions({key: 'importer1', options})
+					])),
+					catchError((result) => of(articleFormActions.loadImporterOptionsFailure({ error: result.error }))),
+				),
+			),
+		),
+	);
+	
+	aux = createEffect(() =>
+		this.actions$.pipe(
+			ofType(articleFormActions.loadImporterOptions),
+			concatMap(() =>
+				this.articlesService.getFakeOption1().pipe(
+					mergeMap((options) => from([
+						articleFormActions.loadImporterOptionsSuccess({options}),
+						formsActions.setOptions({key: 'importer2', options})
+					])),
 					catchError((result) => of(articleFormActions.loadImporterOptionsFailure({ error: result.error }))),
 				),
 			),

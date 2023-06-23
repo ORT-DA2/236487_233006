@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {forkJoin, map, Observable} from 'rxjs'
+import {delay, forkJoin, map, Observable, of} from 'rxjs'
 import {ApiService, FilterFrom} from '@core'
 
 import {Store} from '@ngrx/store'
@@ -160,5 +160,20 @@ export class ArticleService {
   
   importArticles(data : ImportRequest) {
     return this.api.post<any, ImportRequest>(`/importers/import`, data);
+  }
+  
+  
+  getFakeOption1() : Observable<IOption[]> {
+    return of([
+      {id: 1, description : "fake 11"},
+      {id: 2, description : "fake 12"},
+    ]).pipe(delay(10000))
+  }
+  
+  getFakeOption2() : Observable<IOption[]> {
+    return of([
+      {id: 1, description : "fake 21"},
+      {id: 2, description : "fake 22"},
+    ])
   }
 }
